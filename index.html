@@ -272,6 +272,35 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 
 @media(max-width:900px){.srv-grid,.ap-grid{grid-template-columns:1fr 1fr}.stack-grid{grid-template-columns:repeat(2,1fr)}.demo-grid{grid-template-columns:1fr;gap:12px}.darr{transform:rotate(90deg);padding:4px}.nav-links{display:none}.bento{grid-template-columns:repeat(6,1fr)}.bento-item.b1{grid-column:span 6}.bento-item.b2,.bento-item.b3,.bento-item.b4,.bento-item.b5,.bento-item.b6{grid-column:span 3}.creators-row{gap:12px}.phone{width:140px}.phone.tall{height:280px}.phone.med{height:250px}.phone.short{height:230px}.creator-services{grid-template-columns:1fr 1fr}}
 @media(max-width:600px){.container{padding:0 16px}nav{padding:12px 16px}section{padding:64px 0}.hero-cta{flex-direction:column;gap:10px}.cta-btns{flex-direction:column}.cta-links{flex-direction:column;align-items:center}.hire-steps{flex-direction:column;gap:20px}.hire-step::after{display:none}.bento{grid-template-columns:1fr}.bento-item.b1,.bento-item.b2,.bento-item.b3,.bento-item.b4,.bento-item.b5,.bento-item.b6{grid-column:span 1;grid-row:span 1}}
+
+/* WHO I WORK WITH */
+.who{border-top:1px solid var(--brd)}.who-body{max-width:640px;margin-top:32px}.who-body p{font-size:15px;line-height:1.8;color:var(--txt-d);font-weight:300;margin-bottom:16px}
+
+/* CASE STUDIES */
+.work{border-top:1px solid var(--brd)}.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+@media(max-width:900px){.work-grid{grid-template-columns:1fr}}
+.case-card{padding:28px 24px;border-radius:var(--r);background:var(--bg-c);border:1px solid var(--brd);position:relative;overflow:hidden;transition:all .4s;display:flex;flex-direction:column;gap:14px}
+.case-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px}
+.case-card:nth-child(1)::before{background:linear-gradient(90deg,var(--cy),transparent)}
+.case-card:nth-child(2)::before{background:linear-gradient(90deg,var(--mg),transparent)}
+.case-card:nth-child(3)::before{background:linear-gradient(90deg,var(--yl),transparent)}
+.case-card:hover{border-color:var(--brd-h);background:var(--bg-h);transform:translateY(-3px)}
+.case-num{font-family:var(--mono);font-size:10px;color:var(--txt-g)}
+.case-name{font-size:17px;font-weight:600;color:var(--txt-b);line-height:1.25}
+.case-desc{font-size:13px;line-height:1.7;color:var(--txt-d);font-weight:300;flex:1}
+.case-stats{font-family:var(--mono);font-size:10px;color:var(--cy);letter-spacing:.5px}
+.case-tags{display:flex;gap:5px;flex-wrap:wrap}
+.case-tag{padding:2px 9px;border-radius:4px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;background:var(--cy-d);color:var(--cy);border:1px solid var(--cy-b)}
+
+/* CLIENT TESTIMONIALS */
+.clients{border-top:1px solid var(--brd)}.clients-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+@media(max-width:900px){.clients-grid{grid-template-columns:1fr}}
+.testimonial{padding:28px 24px;border-radius:var(--r);background:var(--bg-c);border:1px solid var(--brd);transition:all .4s;position:relative}
+.testimonial:hover{border-color:var(--brd-h);transform:translateY(-3px)}
+.testimonial::before{content:'"';position:absolute;top:16px;right:20px;font-size:48px;font-family:Georgia,serif;color:var(--txt-g);line-height:1;opacity:.4}
+.t-quote{font-size:14px;line-height:1.75;color:var(--txt);font-style:italic;margin-bottom:18px;font-weight:300}
+.t-meta{font-family:var(--mono);font-size:9px;color:var(--txt-g);letter-spacing:.5px}
+.t-stars{color:var(--cy);font-size:10px;margin-top:4px}
 </style>
 </head>
 <body>
@@ -280,7 +309,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <nav>
   <div class="nav-left"><a href="#" class="nav-logo">VM_<span>studio</span></a><div class="nav-status">ONLINE</div></div>
   <div class="nav-right">
-    <div class="nav-links"><a href="#services">services</a><a href="#showcase">ai_gen</a><a href="#creators">content</a><a href="#stack">stack</a><a href="#about">about</a><a href="#contact">hire</a></div>
+    <div class="nav-links"><a href="#services">services</a><a href="#who">who</a><a href="#work">work</a><a href="#clients">clients</a><a href="#showcase">ai_gen</a><a href="#creators">content</a><a href="#stack">stack</a><a href="#about">about</a><a href="#contact">hire</a></div>
     <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="nav-li">↗ HIRE ME</a>
   </div>
 </nav>
@@ -297,6 +326,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       <a href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--txt-d);text-decoration:none;padding:8px 16px;border-radius:6px;border:1px solid var(--brd);transition:all .3s"><svg width="12" height="12" style="fill:currentColor"><use href="#li"/></svg>LINKEDIN</a>
       <span class="hero-cta-status">AVAILABLE_FOR_PROJECTS</span>
     </div>
+    <div class="fi d4" style="margin-top:16px;font-family:var(--mono);font-size:10px;color:var(--txt-g);letter-spacing:.5px">$20K+ earned on Upwork · 19 jobs completed · 5★ rated · ID Verified</div>
   </div></div>
 </section>
 
@@ -307,6 +337,70 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     <div class="srv fi d1"><div class="srv-num">002</div><h4>Frontend Development</h4><p>React, Next.js, modern CSS. Pixel-perfect implementation that's fast, responsive, accessible, and production-ready.</p></div>
     <div class="srv fi d2"><div class="srv-num">003</div><h4>n8n Automation</h4><p>Workflow automation that connects your tools — CRMs, email, Slack, databases, APIs. Lead funnels, content pipelines, and business processes on autopilot.</p></div>
     <div class="srv fi d3"><div class="srv-num">004</div><h4>AI Integration</h4><p>AI-powered workflows using OpenAI, Claude, and custom APIs. Automated content generation, product page optimization, intelligent lead scoring.</p></div>
+  </div>
+</div></section>
+
+<!-- WHO I WORK WITH -->
+<section class="who" id="who"><div class="container">
+  <div class="sec-label fi">WHO_I_WORK_WITH</div>
+  <h2 class="sec-title fi d1">The right fit for the right teams</h2>
+  <div class="who-body fi d2">
+    <p>I work best with startups and growing teams who need design, development, and automation handled by one person — without the agency overhead.</p>
+    <p>Typically: SaaS products, e-commerce brands, and no-code-first companies that move fast and value quality.</p>
+  </div>
+</div></section>
+
+<!-- CASE STUDIES -->
+<section class="work" id="work"><div class="container">
+  <div class="sec-label fi">CASE_STUDIES</div>
+  <h2 class="sec-title fi d1">Selected work</h2>
+  <p class="sec-desc fi d2">Real projects, real outcomes. Long-term engagements with clients who needed a reliable partner.</p>
+  <div class="work-grid">
+    <div class="case-card fi">
+      <div class="case-num">001</div>
+      <div class="case-name">READZ Publishing Platform</div>
+      <div class="case-desc">Designed and built reusable UI templates for a no-code publishing platform. Long-term collaboration producing scalable components for their editor experience.</div>
+      <div class="case-stats">350+ hours · Long-term engagement</div>
+      <div class="case-tags"><span class="case-tag">UI/UX Design</span><span class="case-tag">Webflow</span><span class="case-tag">No-Code</span></div>
+    </div>
+    <div class="case-card fi d1">
+      <div class="case-num">002</div>
+      <div class="case-name">Easy-MGT Redesign</div>
+      <div class="case-desc">Full UI redesign for a business management platform — rebuilt the product's design language from the ground up.</div>
+      <div class="case-stats">306+ hours · Long-term engagement</div>
+      <div class="case-tags"><span class="case-tag">UI/UX Design</span><span class="case-tag">Product Design</span></div>
+    </div>
+    <div class="case-card fi d2">
+      <div class="case-num">003</div>
+      <div class="case-name">Webflow Landing Pages</div>
+      <div class="case-desc">Designed and implemented high-converting landing pages in Webflow. Fast turnaround, pixel-perfect execution.</div>
+      <div class="case-stats">Fixed price · 5★ review</div>
+      <div class="case-tags"><span class="case-tag">Webflow</span><span class="case-tag">Frontend Dev</span><span class="case-tag">Landing Pages</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- CLIENT TESTIMONIALS -->
+<section class="clients" id="clients"><div class="container">
+  <div class="sec-label fi">CLIENTS_SAY</div>
+  <h2 class="sec-title fi d1">From the reviews</h2>
+  <p class="sec-desc fi d2">Real quotes from real Upwork clients.</p>
+  <div class="clients-grid">
+    <div class="testimonial fi">
+      <div class="t-quote">Everything was just perfect!</div>
+      <div class="t-meta">Webflow client</div>
+      <div class="t-stars">★★★★★</div>
+    </div>
+    <div class="testimonial fi d1">
+      <div class="t-quote">Valentino quickly delivered the design of a landing page and later implemented it using Webflow.</div>
+      <div class="t-meta">Landing page client</div>
+      <div class="t-stars">★★★★★</div>
+    </div>
+    <div class="testimonial fi d2">
+      <div class="t-quote">Polite, with very good communication throughout the process. Patient with changes.</div>
+      <div class="t-meta">Website redesign client</div>
+      <div class="t-stars">★★★★½</div>
+    </div>
   </div>
 </div></section>
 
@@ -476,9 +570,10 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   <h2 class="fi">Ready to design, build &amp;<br><span class="gl">automate</span>?</h2>
   <p class="cta-desc fi d1">I deliver the full package — the interface your users love, the code that powers it, and the n8n workflows that automate everything behind it. Send me your project details on Upwork.</p>
   <div class="cta-btns fi d2">
-    <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="upwork-big">↗ HIRE ME ON UPWORK</a>
+    <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="upwork-big">↗ Available for new projects on Upwork</a>
     <a href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" class="li-secondary"><svg><use href="#li"/></svg>CONNECT ON LINKEDIN</a>
   </div>
+  <div class="fi d2" style="margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--txt-g);letter-spacing:.5px;text-align:center">19 jobs completed · $20K+ earned · 5★ rated · Avg. response 1–2hrs</div>
   <div class="hire-process fi d3">
     <div class="hire-process-title">// HOW_TO_HIRE_ME</div>
     <div class="hire-steps">
@@ -499,7 +594,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       </div>
     </div>
   </div>
-  <div class="cta-avail fi d3">AVAILABLE_NOW — TYPICALLY RESPONDS IN 2 HOURS</div>
+  <div class="cta-avail fi d3">AVAILABLE_NOW — TYPICALLY RESPONDS IN 1-2 HOURS</div>
   <div class="cta-links fi d4"><a href="https://github.com/ValentinoManrrique/" target="_blank">github</a><a href="https://www.behance.net/valentinomanrrique" target="_blank">behance</a><a href="https://www.instagram.com/ds.missing" target="_blank">instagram</a></div>
 </div></section>
 
