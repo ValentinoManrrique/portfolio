@@ -17,7 +17,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--bg);color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:56px}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:10000;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.08) 2px,rgba(0,0,0,0.08) 4px);opacity:0.03}
 nav,section,footer,.cta{position:relative;z-index:1}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;background:radial-gradient(ellipse at center,transparent 60%,rgba(0,0,0,0.4) 100%)}
@@ -50,6 +50,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 32px;display:f
 .nav-links a:hover{color:var(--cy);border-color:var(--cy-b);background:var(--cy-d)}
 .nav-li{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:8px;background:var(--cy);color:var(--bg)!important;font-family:var(--mono)!important;font-size:11px!important;font-weight:700!important;text-decoration:none;letter-spacing:.5px;transition:all .3s;border:1px solid var(--cy)!important}
 .nav-li:hover{background:transparent!important;color:var(--cy)!important;box-shadow:0 0 16px var(--cy-gl)}.nav-li svg{width:12px;height:12px;fill:currentColor}
+
+.roadmap{position:fixed;bottom:0;left:0;right:0;z-index:1000;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:8px;backdrop-filter:blur(20px) saturate(1.4);background:var(--gl);border-top:1px solid var(--brd)}
+.rm-track{display:flex;align-items:center;gap:4px;position:relative;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:4px 0}
+.rm-track::-webkit-scrollbar{display:none}
+.rm-dot{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;padding:4px 10px;position:relative;transition:all .3s}
+.rm-dot::before{content:'';width:8px;height:8px;border-radius:50%;border:1.5px solid var(--txt-g);background:transparent;transition:all .3s}
+.rm-dot.active::before{background:var(--cy);border-color:var(--cy);box-shadow:0 0 10px var(--cy-gl)}
+.rm-dot.visited::before{background:var(--cy);border-color:var(--cy);opacity:.4}
+.rm-label{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--txt-g);transition:color .3s;white-space:nowrap}
+.rm-dot.active .rm-label{color:var(--cy)}
+.rm-dot:hover .rm-label{color:var(--txt)}
+.rm-dot:hover::before{border-color:var(--cy);transform:scale(1.3)}
+.rm-arrow{background:none;border:1px solid var(--brd);color:var(--txt-d);font-size:16px;padding:6px 12px;border-radius:6px;cursor:pointer;font-family:var(--mono);transition:all .3s;flex-shrink:0}
+.rm-arrow:hover{color:var(--cy);border-color:var(--cy);background:var(--cy-d)}
+
+.sec-arrows{position:absolute;top:50%;left:8px;right:8px;display:flex;justify-content:space-between;pointer-events:none;z-index:10;transform:translateY(-50%)}
+.sec-arrow{pointer-events:auto;background:var(--bg-c);border:1px solid var(--brd);color:var(--txt-g);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--mono);font-size:14px;transition:all .3s;opacity:.4;text-decoration:none}
+.sec-arrow:hover{opacity:1;color:var(--cy);border-color:var(--cy);background:var(--cy-d);box-shadow:0 0 16px var(--cy-gl)}
 
 .hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 80px;position:relative;overflow:hidden}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--brd) 1px,transparent 1px),linear-gradient(90deg,var(--brd) 1px,transparent 1px);background-size:60px 60px;opacity:.5;mask-image:radial-gradient(ellipse at 30% 50%,black 20%,transparent 70%)}
@@ -294,7 +312,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .cr-srv p{font-size:9px;color:var(--txt-d);line-height:1.5;font-family:var(--mono)}
 
 @media(max-width:900px){.srv-grid,.ap-grid{grid-template-columns:1fr 1fr}.stack-grid{grid-template-columns:repeat(2,1fr)}.demo-grid{grid-template-columns:1fr;gap:12px}.darr{transform:rotate(90deg);padding:4px}.nav-links{display:none}.bento{grid-template-columns:repeat(6,1fr)}.bento-item.b1{grid-column:span 6}.bento-item.b2,.bento-item.b3,.bento-item.b4,.bento-item.b5,.bento-item.b6{grid-column:span 3}.creators-row{gap:12px}.phone{width:140px}.phone.tall{height:280px}.phone.med{height:250px}.phone.short{height:230px}.creator-services{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.container{padding:0 16px}nav{padding:12px 16px}section{padding:64px 0}.hero{padding:80px 0 60px;min-height:auto}.hero-swap{min-height:clamp(80px,28vw,180px);margin-bottom:20px}.hero-phrase{font-size:clamp(44px,12vw,64px);letter-spacing:-2.5px}.hero-caret{height:clamp(44px,12vw,64px)}.hero-desc{font-size:13px;line-height:1.65;margin-bottom:24px}.hero-tags{gap:4px;margin-bottom:32px}.tag{font-size:9px;padding:4px 8px}.hero-cta{flex-direction:column;gap:10px;padding:10px 14px}.hero-terminal{font-size:10px;padding:5px 10px;margin-bottom:20px}.cta-btns{flex-direction:column}.cta-links{flex-direction:column;align-items:center}.hire-steps{flex-direction:column;gap:20px}.hire-step::after{display:none}.bento{grid-template-columns:1fr}.bento-item.b1,.bento-item.b2,.bento-item.b3,.bento-item.b4,.bento-item.b5,.bento-item.b6{grid-column:span 1;grid-row:span 1}.srv-grid,.ap-grid{grid-template-columns:1fr}.stack-grid{grid-template-columns:repeat(2,1fr)}.creator-services{grid-template-columns:1fr}.clients-grid{grid-template-columns:1fr}.sec-summary::after{font-size:20px;right:-4px}}
+@media(max-width:600px){.container{padding:0 16px}nav{padding:12px 16px}section{padding:64px 0}.hero{padding:80px 0 60px;min-height:auto}.hero-swap{min-height:clamp(80px,28vw,180px);margin-bottom:20px}.hero-phrase{font-size:clamp(44px,12vw,64px);letter-spacing:-2.5px}.hero-caret{height:clamp(44px,12vw,64px)}.hero-desc{font-size:13px;line-height:1.65;margin-bottom:24px}.hero-tags{gap:4px;margin-bottom:32px}.tag{font-size:9px;padding:4px 8px}.hero-cta{flex-direction:column;gap:10px;padding:10px 14px}.hero-terminal{font-size:10px;padding:5px 10px;margin-bottom:20px}.cta-btns{flex-direction:column}.cta-links{flex-direction:column;align-items:center}.hire-steps{flex-direction:column;gap:20px}.hire-step::after{display:none}.bento{grid-template-columns:1fr}.bento-item.b1,.bento-item.b2,.bento-item.b3,.bento-item.b4,.bento-item.b5,.bento-item.b6{grid-column:span 1;grid-row:span 1}.srv-grid,.ap-grid{grid-template-columns:1fr}.stack-grid{grid-template-columns:repeat(2,1fr)}.creator-services{grid-template-columns:1fr}.clients-grid{grid-template-columns:1fr}.sec-summary::after{font-size:20px;right:-4px}.roadmap{padding:8px 10px}.rm-dot{padding:4px 6px}.rm-label{font-size:7px;letter-spacing:1px}.sec-arrow{width:28px;height:28px;font-size:11px}.sec-arrows{padding:0 4px}}
 
 /* WHO I WORK WITH */
 .who{border-top:1px solid var(--brd)}.who-body{max-width:640px;margin-top:32px}.who-body p{font-size:15px;line-height:1.8;color:var(--txt-d);font-weight:300;margin-bottom:16px}
@@ -332,10 +350,27 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <nav>
   <div class="nav-left"><a href="#" class="nav-logo">VM_<span>studio</span></a><div class="nav-status">ONLINE</div></div>
   <div class="nav-right">
-    <div class="nav-links"><a href="#services">services</a><a href="#who">who</a><a href="#work">work</a><a href="#clients">clients</a><a href="#showcase">ai_gen</a><a href="#creators">content</a><a href="#stack">stack</a><a href="#about">about</a><a href="#contact">hire</a></div>
     <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="nav-li">↗ HIRE ME</a>
   </div>
 </nav>
+
+<div class="roadmap" id="roadmap">
+  <button class="rm-arrow rm-prev" id="rm-prev">&#8592;</button>
+  <div class="rm-track">
+    <a href="#" class="rm-dot active" data-section="hero"><span class="rm-label">HOME</span></a>
+    <a href="#services" class="rm-dot" data-section="services"><span class="rm-label">SERVICES</span></a>
+    <a href="#who" class="rm-dot" data-section="who"><span class="rm-label">WHO</span></a>
+    <a href="#work" class="rm-dot" data-section="work"><span class="rm-label">WORK</span></a>
+    <a href="#clients" class="rm-dot" data-section="clients"><span class="rm-label">CLIENTS</span></a>
+    <a href="#approach" class="rm-dot" data-section="approach"><span class="rm-label">PROCESS</span></a>
+    <a href="#showcase" class="rm-dot" data-section="showcase"><span class="rm-label">AI_GEN</span></a>
+    <a href="#creators" class="rm-dot" data-section="creators"><span class="rm-label">CONTENT</span></a>
+    <a href="#stack" class="rm-dot" data-section="stack"><span class="rm-label">STACK</span></a>
+    <a href="#about" class="rm-dot" data-section="about"><span class="rm-label">ABOUT</span></a>
+    <a href="#contact" class="rm-dot" data-section="contact"><span class="rm-label">HIRE</span></a>
+  </div>
+  <button class="rm-arrow rm-next" id="rm-next">&#8594;</button>
+</div>
 
 <section class="hero">
   <div class="hero-grid"></div><div class="hero-orb o1 parallax" data-speed="0.03"></div><div class="hero-orb o2 parallax" data-speed="-0.02"></div>
@@ -348,7 +383,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     <p class="hero-desc fi d3">I create interfaces, build frontends, and automate business processes end-to-end — so nothing falls through the cracks.</p>
     <div class="hero-tags fi d3"><span class="tag cy">UI/UX Design</span><span class="tag cy">Frontend Dev</span><span class="tag cy">n8n Automation</span><span class="tag mg">AI Workflows</span><span class="tag">E-Commerce</span><span class="tag">API Integrations</span></div>
     <div class="hero-cta fi d4">
-      <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="hero-cta-btn">↗ HIRE ME ON UPWORK</a>
+      <a href="#services" class="hero-cta-btn">EXPLORE ↓</a>
       <a href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--txt-d);text-decoration:none;padding:8px 16px;border-radius:6px;border:1px solid var(--brd);transition:all .3s"><svg width="12" height="12" style="fill:currentColor"><use href="#li"/></svg>LINKEDIN</a>
       <span class="hero-cta-status">AVAILABLE_FOR_PROJECTS</span>
     </div>
@@ -756,8 +791,77 @@ document.querySelectorAll('[data-scroll]').forEach(el=>{
   typePhrase();
 })();
 
-// Smooth scroll nav
+// Smooth scroll for all anchor links
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});});
+
+// Section navigation system
+(function(){
+  var sections=Array.from(document.querySelectorAll('section'));
+  var dots=Array.from(document.querySelectorAll('.rm-dot'));
+  var prevBtn=document.getElementById('rm-prev');
+  var nextBtn=document.getElementById('rm-next');
+  var currentIdx=0;
+
+  // Inject left/right arrows into each section
+  sections.forEach(function(sec,i){
+    var arrows=document.createElement('div');
+    arrows.className='sec-arrows';
+    var prevA=document.createElement('a');
+    prevA.className='sec-arrow sec-arrow-prev';
+    prevA.innerHTML='&#8592;';
+    prevA.href='#';
+    prevA.style.visibility=i===0?'hidden':'visible';
+    var nextA=document.createElement('a');
+    nextA.className='sec-arrow sec-arrow-next';
+    nextA.innerHTML='&#8594;';
+    nextA.href='#';
+    nextA.style.visibility=i===sections.length-1?'hidden':'visible';
+    prevA.addEventListener('click',function(e){
+      e.preventDefault();
+      if(i>0)sections[i-1].scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    nextA.addEventListener('click',function(e){
+      e.preventDefault();
+      if(i<sections.length-1)sections[i+1].scrollIntoView({behavior:'smooth',block:'start'});
+    });
+    arrows.appendChild(prevA);
+    arrows.appendChild(nextA);
+    sec.appendChild(arrows);
+  });
+
+  // Roadmap prev/next buttons
+  prevBtn.addEventListener('click',function(){
+    if(currentIdx>0){
+      currentIdx--;
+      sections[currentIdx].scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+  nextBtn.addEventListener('click',function(){
+    if(currentIdx<sections.length-1){
+      currentIdx++;
+      sections[currentIdx].scrollIntoView({behavior:'smooth',block:'start'});
+    }
+  });
+
+  // Track active section on scroll
+  var rmObs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx=sections.indexOf(e.target);
+        if(idx===-1)return;
+        currentIdx=idx;
+        dots.forEach(function(d,di){
+          d.classList.remove('active');
+          if(di<idx)d.classList.add('visited');
+          else d.classList.remove('visited');
+        });
+        if(dots[idx])dots[idx].classList.add('active');
+      }
+    });
+  },{threshold:.3,rootMargin:'-10% 0px -10% 0px'});
+
+  sections.forEach(function(s){rmObs.observe(s);});
+})();
 
 // Matrix rain
 (function(){
