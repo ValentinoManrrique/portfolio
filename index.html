@@ -64,13 +64,13 @@ section{padding:100px 0}
 .sec-title{font-family:var(--sans);font-size:clamp(26px,3.5vw,42px);font-weight:600;line-height:1.15;letter-spacing:-1px;max-width:560px;margin-bottom:12px;color:var(--txt-b)}
 .sec-desc{font-size:14px;line-height:1.75;color:var(--txt-d);max-width:460px;font-weight:300}
 .sec-dropdown{border:none}
-.sec-summary{list-style:none;cursor:pointer;position:relative;padding-right:40px}
+.sec-summary{list-style:none;cursor:pointer;position:relative;padding-right:40px;transition:margin .4s ease}
 .sec-summary::-webkit-details-marker{display:none}
-.sec-summary::after{content:'+';position:absolute;right:0;top:8px;font-family:var(--mono);font-size:24px;color:var(--txt-g);transition:transform .3s,color .3s;line-height:1}
+.sec-summary::after{content:'+';position:absolute;right:0;top:8px;font-family:var(--mono);font-size:24px;color:var(--txt-g);transition:all .35s ease;line-height:1}
+details[open]>.sec-summary{margin-bottom:8px}
 details[open]>.sec-summary::after{content:'−';color:var(--cy)}
-.sec-dropdown>*:not(summary){overflow:hidden}
-details.sec-dropdown[open]>*:not(summary){animation:slideDown .4s ease}
-@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.sec-dropdown>*:not(summary){opacity:0;transform:translateY(-16px);transition:opacity .5s ease,transform .5s ease}
+details.sec-dropdown[open]>*:not(summary){opacity:1;transform:translateY(0)}
 
 .services{border-top:1px solid var(--brd)}.srv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
 .srv{padding:28px 22px;border-radius:var(--r);background:var(--bg-c);border:1px solid var(--brd);position:relative;overflow:hidden;transition:all .4s}
@@ -164,7 +164,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .creators-head{text-align:center;margin-bottom:56px}
 .creators-head .sec-label{justify-content:center}
 .creators-head .sec-title{margin:0 auto 12px;text-align:center;max-width:620px}
-.creators-head .sec-desc{margin:0 auto;text-align:center;max-width:520px}
+.creators-head .sec-desc{margin:0 auto;text-align:center;max-width:520px;padding-top:4px;padding-bottom:32px}
 
 .creators-row{display:flex;gap:24px;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-bottom:48px}
 
