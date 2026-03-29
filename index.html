@@ -329,7 +329,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <nav>
   <div class="nav-left"><a href="#" class="nav-logo">VM_<span>studio</span></a><div class="nav-status">ONLINE</div></div>
   <div class="nav-right">
-    <div class="nav-links" id="nav-links"><a href="#services" data-section="services">services</a><a href="#who" data-section="who">who</a><a href="#work" data-section="work">work</a><a href="#clients" data-section="clients">clients</a><a href="#showcase" data-section="showcase">ai_gen</a><a href="#creators" data-section="creators">content</a><a href="#stack" data-section="stack">stack</a><a href="#about" data-section="about">about</a><a href="#contact" data-section="contact">hire</a></div>
+    <div class="nav-links" id="nav-links"><a href="#services" data-section="services">brief</a><a href="#work" data-section="work">work</a><a href="#stack" data-section="stack">stack</a><a href="#contact" data-section="contact">contact</a><a href="#about" data-section="about">about</a></div>
     <a href="#services" class="nav-li" onclick="event.preventDefault();scrollToBrief()">↗ HIRE ME</a>
   </div>
 </nav>
@@ -1490,7 +1490,7 @@ Return ONLY valid JSON (no markdown, no backticks):
   <p class="cta-desc fi d1">I deliver the full package — the interface your users love, the code that powers it, and the n8n workflows that automate everything behind it. Let's connect on LinkedIn or send your project details on Upwork.</p>
   <div class="cta-btns fi d2">
     <a href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" class="upwork-big"><svg width="18" height="18" style="fill:currentColor"><use href="#li"/></svg>CONNECT ON LINKEDIN</a>
-    <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="li-secondary">↗ Available on Upwork</a>
+    <a href="#services" class="li-secondary" onclick="event.preventDefault();scrollToBrief()">↗ Start a brief</a>
   </div>
   <div class="fi d2" style="margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--txt-g);letter-spacing:.5px;text-align:center">19 jobs completed · $20K+ earned · 5★ rated · Avg. response 1–2hrs</div>
   <div class="cta-avail fi d3">AVAILABLE_NOW — TYPICALLY RESPONDS IN 1-2 HOURS</div>
@@ -1594,13 +1594,13 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click'
 // Nav active state
 ;(function(){
   const links=document.querySelectorAll('#nav-links a[data-section]');
-  const ids=['services','who','work','clients','showcase','creators','stack','about','contact'];
+  const ids=['services','work','stack','contact','about'];
   const sections=ids.map(id=>document.getElementById(id)).filter(Boolean);
   function update(){
     const mid=window.scrollY+window.innerHeight*0.35;
-    let active=0;
-    sections.forEach((s,i)=>{if(s.offsetTop<=mid)active=i;});
-    links.forEach((a,i)=>a.classList.toggle('active',i===active));
+    let activeId=ids[0];
+    sections.forEach((s,i)=>{if(s&&s.offsetTop<=mid)activeId=ids[i];});
+    links.forEach(a=>a.classList.toggle('active',a.dataset.section===activeId));
   }
   window.addEventListener('scroll',update,{passive:true});
   update();
