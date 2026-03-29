@@ -3,7 +3,8 @@
     "allow": [
       "Bash(cp \"/c/Users/Valentino/Documents/GitHub/portfolio/index_v2.html\" \"/c/Users/Valentino/Documents/GitHub/portfolio/index.html\")",
       "Bash(rm \"/c/Users/Valentino/Documents/GitHub/portfolio/index_v2.html\")",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(ls:*)"
     ]
   }
 }
