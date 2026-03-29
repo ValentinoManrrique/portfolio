@@ -302,6 +302,28 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .t-meta{font-family:var(--mono);font-size:9px;color:var(--txt-g);letter-spacing:.5px}
 .t-stars{color:var(--cy);font-size:10px;margin-top:4px}
 
+/* Proof row */
+.proof-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 24px; }
+.proof-card { background: var(--bg-c); border: 1px solid var(--brd); border-radius: var(--r); overflow: hidden; transition: border-color .3s, transform .3s; cursor: pointer; text-decoration: none; display: block; }
+.proof-card:hover { border-color: var(--brd-h); transform: translateY(-3px); }
+.proof-thumb { width: 100%; aspect-ratio: 16/9; background: var(--bg-e); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--brd); position: relative; overflow: hidden; }
+.proof-thumb-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--brd) 1px,transparent 1px),linear-gradient(90deg,var(--brd) 1px,transparent 1px); background-size: 20px 20px; opacity: .6; }
+.proof-thumb-icon { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.proof-thumb-label { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+.proof-body { padding: 18px 20px; }
+.proof-tag { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+.proof-title { font-size: 14px; font-weight: 600; color: var(--txt-b); margin-bottom: 6px; line-height: 1.3; }
+.proof-desc { font-size: 12px; color: var(--txt-d); line-height: 1.65; }
+
+/* Waypoint nav */
+.waypoint { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 14px; }
+.wp-item { display: flex; align-items: center; gap: 8px; cursor: pointer; background: none; border: none; padding: 0; }
+.wp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--txt-g); transition: all .3s; flex-shrink: 0; }
+.wp-label { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--txt-g); transition: all .3s; opacity: 0; transform: translateX(4px); white-space: nowrap; }
+.wp-item:hover .wp-dot, .wp-item.active .wp-dot { background: var(--cy); box-shadow: 0 0 8px var(--cy); width: 8px; height: 8px; }
+.wp-item:hover .wp-label, .wp-item.active .wp-label { color: var(--cy); opacity: 1; transform: translateX(0); }
+@media(max-width:900px){ .waypoint { display: none; } .proof-row { grid-template-columns: 1fr; } }
+
 /* Hero exit/enter animation */
 .hero-content { transition: opacity 0.55s ease, transform 0.55s ease; }
 .hero-content.hero-out { opacity: 0; transform: translateY(-28px); pointer-events: none; }
@@ -521,6 +543,73 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     </div>
 
   </div>
+
+  <!-- Proof row -->
+  <div class="proof-row fi d3">
+
+    <!-- n8n Automation -->
+    <a class="proof-card" href="#work">
+      <div class="proof-thumb">
+        <div class="proof-thumb-grid"></div>
+        <div class="proof-thumb-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="2" y="10" width="8" height="8" rx="2" stroke="#20E070" stroke-width="1.2"/>
+            <rect x="12" y="6" width="8" height="8" rx="2" stroke="#3A3A48" stroke-width="1.2"/>
+            <rect x="22" y="10" width="8" height="8" rx="2" stroke="#20E070" stroke-width="1.2"/>
+            <path d="M10 14h2M20 10l2 4M20 18l2-4" stroke="#20E070" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <span class="proof-thumb-label" style="color:var(--cy)">n8n workflow</span>
+        </div>
+      </div>
+      <div class="proof-body">
+        <div class="proof-tag" style="color:var(--cy)">Automation</div>
+        <div class="proof-title">AI-powered lead capture pipeline</div>
+        <div class="proof-desc">How this brief generator captures leads, generates structured output, and notifies — fully automated with n8n.</div>
+      </div>
+    </a>
+
+    <!-- No-code -->
+    <a class="proof-card" href="#work">
+      <div class="proof-thumb">
+        <div class="proof-thumb-grid"></div>
+        <div class="proof-thumb-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="4" y="4" width="10" height="10" rx="2" stroke="#E040A0" stroke-width="1.2"/>
+            <rect x="18" y="4" width="10" height="10" rx="2" stroke="#3A3A48" stroke-width="1.2"/>
+            <rect x="4" y="18" width="10" height="10" rx="2" stroke="#3A3A48" stroke-width="1.2"/>
+            <rect x="18" y="18" width="10" height="10" rx="2" stroke="#E040A0" stroke-width="1.2"/>
+          </svg>
+          <span class="proof-thumb-label" style="color:var(--mg)">no-code</span>
+        </div>
+      </div>
+      <div class="proof-body">
+        <div class="proof-tag" style="color:var(--mg)">No-Code</div>
+        <div class="proof-title">Ship without a backend team</div>
+        <div class="proof-desc">Real projects built with Webflow, Framer, and n8n — production-grade results without the engineering overhead.</div>
+      </div>
+    </a>
+
+    <!-- Integration guide -->
+    <a class="proof-card" href="#" onclick="event.preventDefault()">
+      <div class="proof-thumb">
+        <div class="proof-thumb-grid"></div>
+        <div class="proof-thumb-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="4" y="3" width="24" height="26" rx="2" stroke="#3A3A48" stroke-width="1.2"/>
+            <path d="M9 10h14M9 15h14M9 20h9" stroke="#20E070" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <span class="proof-thumb-label" style="color:var(--txt-d)">guide</span>
+        </div>
+      </div>
+      <div class="proof-body">
+        <div class="proof-tag" style="color:var(--txt-d)">Tutorial</div>
+        <div class="proof-title">Brief Generator → n8n setup guide</div>
+        <div class="proof-desc">Step-by-step: wire the brief form to a real n8n workflow. Webhook, AI node, lead logging, and deploy.</div>
+      </div>
+    </a>
+
+  </div>
+
 </div>
 </section>
 
@@ -1139,7 +1228,20 @@ Return ONLY valid JSON (no markdown, no backticks):
 
 <canvas id="matrix-rain"></canvas>
 
-<footer><div class="f-brand">VM_<span>studio</span></div><span class="f-copy">© 2025 // designed &amp; built by hand</span></footer>
+<!-- Waypoint nav -->
+<nav class="waypoint" id="waypoint">
+  <button class="wp-item" data-target="services" onclick="wpGo('services')"><span class="wp-label">Brief</span><span class="wp-dot"></span></button>
+  <button class="wp-item" data-target="work" onclick="wpGo('work')"><span class="wp-label">Work</span><span class="wp-dot"></span></button>
+  <button class="wp-item" data-target="stack" onclick="wpGo('stack')"><span class="wp-label">Stack</span><span class="wp-dot"></span></button>
+  <button class="wp-item" data-target="about" onclick="wpGo('about')"><span class="wp-label">About</span><span class="wp-dot"></span></button>
+  <button class="wp-item" data-target="contact" onclick="wpGo('contact')"><span class="wp-label">Contact</span><span class="wp-dot"></span></button>
+</nav>
+
+<footer>
+  <div class="f-brand">VM_<span>studio</span></div>
+  <span class="f-copy">© 2026 Valentino Manrrique — All rights reserved</span>
+  <span class="f-copy">Designed &amp; built by hand // Córdoba, Argentina</span>
+</footer>
 
 <script>
 // ── Scroll helper: accounts for fixed nav + breathing room ──────────────────
@@ -1242,6 +1344,25 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click'
   }
   draw();
 })();
+
+// Waypoint nav
+function wpGo(id) {
+  const t = document.getElementById(id)
+  if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+;(function() {
+  const items = document.querySelectorAll('.wp-item')
+  const ids = ['services','work','stack','about','contact']
+  const sections = ids.map(id => document.getElementById(id)).filter(Boolean)
+  function update() {
+    const mid = window.scrollY + window.innerHeight * 0.4
+    let active = 0
+    sections.forEach((s, i) => { if (s.offsetTop <= mid) active = i })
+    items.forEach((item, i) => item.classList.toggle('active', i === active))
+  }
+  window.addEventListener('scroll', update, { passive: true })
+  update()
+})()
 
 // Hero title typewriter cycling
 (function(){
