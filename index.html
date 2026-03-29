@@ -295,7 +295,8 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 /* CASE STUDIES */
 .work{border-top:1px solid var(--brd)}.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
 @media(max-width:900px){.work-grid{grid-template-columns:1fr}}
-.case-card{padding:28px 24px;border-radius:var(--r);background:var(--bg-c);border:1px solid var(--brd);position:relative;overflow:hidden;transition:all .4s;display:flex;flex-direction:column;gap:14px}
+.case-card{padding:28px 24px;border-radius:var(--r);background:var(--bg-c);border:1px solid var(--brd);position:relative;overflow:hidden;transition:all .4s;display:flex;flex-direction:column;gap:14px;cursor:pointer}
+.case-card .proof-thumb{width:calc(100% + 48px);margin-left:-24px;margin-top:-28px;margin-bottom:22px;flex-shrink:0}
 .case-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px}
 .case-card:nth-child(1)::before{background:linear-gradient(90deg,var(--cy),transparent)}
 .case-card:nth-child(2)::before{background:linear-gradient(90deg,var(--mg),transparent)}
@@ -1109,10 +1110,10 @@ Return ONLY valid JSON (no markdown, no backticks):
   <p class="sec-desc fi d2">Real projects, real outcomes. Long-term engagements with clients who needed a reliable partner.</p>
   <div class="work-grid">
     <a class="case-card fi" href="./work-readz.html" style="text-decoration:none">
-      <div class="proof-thumb" style="aspect-ratio:16/7;margin:-28px -24px 18px;border-bottom:1px solid var(--brd);border-radius:var(--r) var(--r) 0 0">
-        <div class="proof-thumb-grid"></div>
+      <div class="proof-thumb" style="aspect-ratio:16/9;border-bottom:1px solid rgba(32,224,112,.12);border-radius:var(--r) var(--r) 0 0;background:radial-gradient(ellipse at 65% 45%,rgba(32,224,112,.18) 0%,rgba(32,224,112,.05) 45%,transparent 70%),linear-gradient(135deg,#0d1a12 0%,var(--bg-e) 100%)">
+        <div class="proof-thumb-grid" style="opacity:.3"></div>
         <div class="proof-thumb-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <svg width="52" height="52" viewBox="0 0 32 32" fill="none">
             <rect x="4" y="6" width="24" height="20" rx="2" stroke="#20E070" stroke-width="1.2"/>
             <path d="M8 12h16M8 16h12M8 20h8" stroke="#20E070" stroke-width="1.2" stroke-linecap="round"/>
           </svg>
@@ -1122,15 +1123,13 @@ Return ONLY valid JSON (no markdown, no backticks):
       <div class="case-num">001</div>
       <div class="case-name">READZ Publishing Platform</div>
       <div class="case-desc">Designed and built reusable UI templates for a no-code publishing platform. Long-term collaboration producing scalable components for their editor experience.</div>
-      <div class="case-stats">350+ hours · Long-term engagement</div>
       <div class="case-tags"><span class="case-tag">UI/UX Design</span><span class="case-tag">Webflow</span><span class="case-tag">No-Code</span></div>
-      <div class="proof-arrow">Read case study →</div>
     </a>
     <a class="case-card fi d1" href="./work-easy-mgt.html" style="text-decoration:none">
-      <div class="proof-thumb" style="aspect-ratio:16/7;margin:-28px -24px 18px;border-bottom:1px solid var(--brd);border-radius:var(--r) var(--r) 0 0">
-        <div class="proof-thumb-grid"></div>
+      <div class="proof-thumb" style="aspect-ratio:16/9;border-bottom:1px solid rgba(224,64,160,.12);border-radius:var(--r) var(--r) 0 0;background:radial-gradient(ellipse at 35% 55%,rgba(224,64,160,.18) 0%,rgba(224,64,160,.05) 45%,transparent 70%),linear-gradient(135deg,#1a0d14 0%,var(--bg-e) 100%)">
+        <div class="proof-thumb-grid" style="opacity:.3"></div>
         <div class="proof-thumb-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <svg width="52" height="52" viewBox="0 0 32 32" fill="none">
             <rect x="4" y="4" width="24" height="24" rx="2" stroke="#E040A0" stroke-width="1.2"/>
             <path d="M10 12h12M10 16h8M10 20h10" stroke="#E040A0" stroke-width="1.2" stroke-linecap="round"/>
             <circle cx="24" cy="8" r="3" fill="#E040A0" opacity=".3"/>
@@ -1141,15 +1140,13 @@ Return ONLY valid JSON (no markdown, no backticks):
       <div class="case-num">002</div>
       <div class="case-name">Easy-MGT Redesign</div>
       <div class="case-desc">Full UI redesign for a business management platform — rebuilt the product's design language from the ground up.</div>
-      <div class="case-stats">306+ hours · Long-term engagement</div>
       <div class="case-tags"><span class="case-tag" style="border-color:rgba(224,64,160,.12);color:var(--mg);background:var(--mg-d)">UI/UX Design</span><span class="case-tag" style="border-color:rgba(224,64,160,.12);color:var(--mg);background:var(--mg-d)">Product Design</span></div>
-      <div class="proof-arrow" style="color:var(--mg)">Read case study →</div>
     </a>
     <a class="case-card fi d2" href="./work-webflow.html" style="text-decoration:none">
-      <div class="proof-thumb" style="aspect-ratio:16/7;margin:-28px -24px 18px;border-bottom:1px solid var(--brd);border-radius:var(--r) var(--r) 0 0">
-        <div class="proof-thumb-grid"></div>
+      <div class="proof-thumb" style="aspect-ratio:16/9;border-bottom:1px solid rgba(224,208,96,.12);border-radius:var(--r) var(--r) 0 0;background:radial-gradient(ellipse at 70% 35%,rgba(224,208,96,.16) 0%,rgba(224,208,96,.04) 45%,transparent 70%),linear-gradient(135deg,#1a1a0a 0%,var(--bg-e) 100%)">
+        <div class="proof-thumb-grid" style="opacity:.3"></div>
         <div class="proof-thumb-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <svg width="52" height="52" viewBox="0 0 32 32" fill="none">
             <rect x="3" y="8" width="26" height="16" rx="2" stroke="#E0D060" stroke-width="1.2"/>
             <path d="M8 16l4 4 4-8 4 6 2-2" stroke="#E0D060" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -1159,9 +1156,7 @@ Return ONLY valid JSON (no markdown, no backticks):
       <div class="case-num">003</div>
       <div class="case-name">Webflow Landing Pages</div>
       <div class="case-desc">Designed and implemented high-converting landing pages in Webflow. Fast turnaround, pixel-perfect execution.</div>
-      <div class="case-stats">Fixed price · 5★ review</div>
       <div class="case-tags"><span class="case-tag" style="border-color:rgba(224,208,96,.12);color:var(--yl);background:var(--yl-d)">Webflow</span><span class="case-tag" style="border-color:rgba(224,208,96,.12);color:var(--yl);background:var(--yl-d)">Frontend Dev</span><span class="case-tag" style="border-color:rgba(224,208,96,.12);color:var(--yl);background:var(--yl-d)">Landing Pages</span></div>
-      <div class="proof-arrow" style="color:var(--yl)">Read case study →</div>
     </a>
   </div>
 </div></section>
@@ -1219,28 +1214,6 @@ Return ONLY valid JSON (no markdown, no backticks):
         <div class="testimonial">
           <div class="t-quote">"Delivered exactly what we needed, on time and on budget. Will hire again."</div>
           <div class="t-meta">E-commerce client · Upwork</div>
-          <div class="t-stars">★★★★★</div>
-        </div>
-      </div>
-      <!-- Placeholders -->
-      <div class="carousel-slide">
-        <div class="testimonial ph">
-          <div class="t-quote">More reviews on the way.</div>
-          <div class="t-meta">LinkedIn · coming soon</div>
-          <div class="t-stars">★★★★★</div>
-        </div>
-      </div>
-      <div class="carousel-slide">
-        <div class="testimonial ph">
-          <div class="t-quote">Working on getting more reviews.</div>
-          <div class="t-meta">Client review · pending</div>
-          <div class="t-stars">★★★★★</div>
-        </div>
-      </div>
-      <div class="carousel-slide">
-        <div class="testimonial ph">
-          <div class="t-quote">More coming.</div>
-          <div class="t-meta">Client review · pending</div>
           <div class="t-stars">★★★★★</div>
         </div>
       </div>
@@ -1502,102 +1475,6 @@ Return ONLY valid JSON (no markdown, no backticks):
 
 
 <!-- CONTENT CREATOR SHOWCASE -->
-<section class="creators" id="creators"><div class="container">
-  <div class="creators-head">
-    <div class="sec-label fi">CONTENT_CREATION</div>
-    <h2 class="sec-title fi d1">Video editing &amp; content for creators</h2>
-    <p class="sec-desc fi d2">I help TikTokers, influencers, and brands produce scroll-stopping content — from raw footage to polished, platform-ready edits with effects, captions, and motion graphics.</p>
-  </div>
-
-  <!-- Phone mockups row -->
-  <div class="creators-row fi d2">
-
-    <div class="phone tall">
-      <div class="phone-screen"><div class="phone-content">
-        <div class="ph-bg style-1"></div>
-        <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
-        <div class="ph-hearts"><span class="ph-heart">❤️</span><span class="ph-heart">❤️</span><span class="ph-heart">❤️</span></div>
-        <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
-        <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
-        <div class="ph-stats">♥ 24.5K</div>
-        <div class="ph-bottom"><div class="ph-username">@creator_name</div><div class="ph-caption">trending edit ✨ #fyp</div></div>
-      </div></div>
-    </div>
-
-    <div class="phone med">
-      <div class="phone-screen"><div class="phone-content">
-        <div class="ph-bg style-2"></div>
-        <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
-        <div class="ph-hearts"><span class="ph-heart">🔥</span><span class="ph-heart">🔥</span><span class="ph-heart">🔥</span></div>
-        <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
-        <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
-        <div class="ph-stats">♥ 102K</div>
-        <div class="ph-bottom"><div class="ph-username">@lifestyle.mvp</div><div class="ph-caption">POV: your editor actually gets it 🎬</div></div>
-      </div></div>
-    </div>
-
-    <div class="phone tall">
-      <div class="phone-screen"><div class="phone-content">
-        <div class="ph-bg style-3"></div>
-        <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
-        <div class="ph-hearts"><span class="ph-heart">✨</span><span class="ph-heart">✨</span><span class="ph-heart">✨</span></div>
-        <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
-        <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
-        <div class="ph-stats">♥ 58.3K</div>
-        <div class="ph-bottom"><div class="ph-username">@beauty.edits</div><div class="ph-caption">smooth transitions only 💅</div></div>
-      </div></div>
-    </div>
-
-    <div class="phone med">
-      <div class="phone-screen"><div class="phone-content">
-        <div class="ph-bg style-4"></div>
-        <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
-        <div class="ph-hearts"><span class="ph-heart">💜</span><span class="ph-heart">💜</span><span class="ph-heart">💜</span></div>
-        <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
-        <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
-        <div class="ph-stats">♥ 340K</div>
-        <div class="ph-bottom"><div class="ph-username">@fitness.daily</div><div class="ph-caption">this edit took 10 min with AI 🤯</div></div>
-      </div></div>
-    </div>
-
-    <div class="phone short">
-      <div class="phone-screen"><div class="phone-content">
-        <div class="ph-bg style-5"></div>
-        <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
-        <div class="ph-hearts"><span class="ph-heart">⚡</span><span class="ph-heart">⚡</span><span class="ph-heart">⚡</span></div>
-        <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
-        <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
-        <div class="ph-stats">♥ 87.1K</div>
-        <div class="ph-bottom"><div class="ph-username">@brand.content</div><div class="ph-caption">UGC that converts 📈</div></div>
-      </div></div>
-    </div>
-
-  </div>
-
-  <!-- Editing timeline -->
-  <div class="edit-timeline fi d3">
-    <div class="edit-playhead"></div>
-    <div class="edit-tl-head">
-      <span class="edit-tl-title">// TIMELINE — FINAL_EDIT_v3.mp4</span>
-      <span class="edit-tl-time">00:00:00 ———————————————————— 00:00:42</span>
-    </div>
-    <div class="edit-tracks">
-      <div class="edit-track"><span class="edit-track-label">Video</span><div class="edit-track-bar"><div class="edit-clip v1"></div><div class="edit-clip v2"></div><div class="edit-clip v3"></div><div class="edit-clip v4"></div></div></div>
-      <div class="edit-track"><span class="edit-track-label">Audio</span><div class="edit-track-bar"><div class="edit-clip a1"></div><div class="edit-clip a2"></div><div class="edit-clip a3"></div></div></div>
-      <div class="edit-track"><span class="edit-track-label">Text</span><div class="edit-track-bar"><div class="edit-clip t1"></div><div class="edit-clip t2"></div></div></div>
-      <div class="edit-track"><span class="edit-track-label">FX</span><div class="edit-track-bar"><div class="edit-clip e1"></div><div class="edit-clip e2"></div><div class="edit-clip e3"></div></div></div>
-    </div>
-  </div>
-
-  <!-- Creator services -->
-  <div class="creator-services fi d4">
-    <div class="cr-srv"><div class="cr-srv-ico">✂️</div><h6>Short-Form Editing</h6><p>TikTok · Reels · Shorts</p></div>
-    <div class="cr-srv"><div class="cr-srv-ico">✨</div><h6>Motion & Effects</h6><p>Transitions · VFX · Captions</p></div>
-    <div class="cr-srv"><div class="cr-srv-ico">🎵</div><h6>Sound Design</h6><p>Music sync · SFX · Voiceover</p></div>
-    <div class="cr-srv"><div class="cr-srv-ico">📊</div><h6>Content Strategy</h6><p>Hooks · Trends · Batch edits</p></div>
-  </div>
-
-</div></section>
 
 <section class="stack" id="stack">
   <div class="container">
@@ -1623,36 +1500,11 @@ Return ONLY valid JSON (no markdown, no backticks):
     </div>
   </div>
 
-  <!-- Audio strip (reverse) -->
-  <div class="stack-strip fi d1">
-    <div class="stack-strip-lbl">// AUDIO & MUSIC</div>
-    <div class="smt-wrap">
-      <div class="smt-track rev" id="smt-1">
-        <div class="tc"><span class="tc-icon">🎹</span><span class="name">FL Studio</span><span class="cat">Production</span></div>
-        <div class="tc"><span class="tc-icon">🎛️</span><span class="name">Ableton Live</span><span class="cat">Production</span></div>
-        <div class="tc"><img src="https://cdn.simpleicons.org/audacity" alt="Audacity" loading="lazy"><span class="name">Audacity</span><span class="cat">Audio Edit</span></div>
-        <div class="tc"><span class="tc-icon">🔊</span><span class="name">Splice</span><span class="cat">Samples</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Video strip -->
-  <div class="stack-strip fi d2">
-    <div class="stack-strip-lbl">// VIDEO & CONTENT</div>
-    <div class="smt-wrap">
-      <div class="smt-track" id="smt-2">
-        <div class="tc"><span class="tc-icon">🎬</span><span class="name">Premiere Pro</span><span class="cat">Video Edit</span></div>
-        <div class="tc"><span class="tc-icon">✨</span><span class="name">After Effects</span><span class="cat">Motion</span></div>
-        <div class="tc"><img src="https://cdn.simpleicons.org/davinciresolve" alt="DaVinci Resolve" loading="lazy"><span class="name">DaVinci Resolve</span><span class="cat">Color & Edit</span></div>
-        <div class="tc"><span class="tc-icon">✂️</span><span class="name">CapCut</span><span class="cat">Short-Form</span></div>
-      </div>
-    </div>
-  </div>
 
 </section>
 <script>
 ;(function(){
-  for(var i=0;i<3;i++){
+  for(var i=0;i<1;i++){
     var t=document.getElementById('smt-'+i);
     if(!t)continue;
     // Duplicate enough times to fill the viewport for seamless loop

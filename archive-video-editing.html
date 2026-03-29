@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archive — Video Editing Section | VM Studio</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%2320E070'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0A0A0C;--bg-e:#111114;--bg-c:#14141A;--bg-h:#1A1A22;--srf:#0E0E12;
+  --txt:#D4D4D8;--txt-b:#F0F0F4;--txt-d:#6B6B78;--txt-g:#3A3A48;
+  --cy:#20E070;--cy-d:rgba(32,224,112,0.07);--cy-b:rgba(32,224,112,0.12);--cy-gl:rgba(32,224,112,0.15);
+  --mg:#E040A0;--mg-d:rgba(224,64,160,0.06);--yl:#E0D060;--yl-d:rgba(224,208,96,0.06);--rd:#FF4060;
+  --brd:rgba(255,255,255,0.04);--brd-h:rgba(255,255,255,0.08);--gl:rgba(10,10,12,0.92);
+  --mono:'Space Mono',monospace;--sans:'Outfit',-apple-system,sans-serif;--r:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--txt);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.container{max-width:1100px;margin:0 auto;padding:0 32px}
+section{padding:100px 0}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px) saturate(1.4);background:var(--gl);border-bottom:1px solid var(--brd)}
+.nav-left{display:flex;align-items:center;gap:12px;flex:1}
+.nav-logo{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--cy);text-decoration:none}.nav-logo span{color:var(--txt-g);font-weight:400}
+.nav-right{display:flex;gap:8px;align-items:center}
+footer{border-top:1px solid var(--brd);padding:32px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.f-brand{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cy)}.f-brand span{color:var(--txt-g);font-weight:400}
+.f-copy{font-family:var(--mono);font-size:10px;color:var(--txt-g);letter-spacing:.5px}
+.sec-label{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cy);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.sec-label::before{content:'';width:16px;height:1px;background:var(--cy)}
+.sec-title{font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--txt-b);line-height:1.1;margin-bottom:16px}
+.sec-desc{font-size:15px;color:var(--txt-d);line-height:1.7;max-width:560px}
+
+/* Archive banner */
+.archive-banner{background:rgba(224,208,96,.07);border:1px solid rgba(224,208,96,.15);border-radius:var(--r);padding:16px 24px;margin-bottom:48px;font-family:var(--mono);font-size:11px;color:var(--yl);letter-spacing:.06em;line-height:1.6}
+.archive-banner strong{color:var(--txt-b)}
+
+/* Creators section */
+.creators{border-top:1px solid var(--brd);overflow:hidden}
+.creators-head{text-align:center;margin-bottom:56px}
+.creators-head .sec-label{justify-content:center}
+.creators-head .sec-title{margin:0 auto 12px;text-align:center;max-width:620px}
+.creators-head .sec-desc{margin:0 auto;text-align:center;max-width:520px}
+.creators-row{display:flex;gap:24px;justify-content:center;align-items:flex-end;flex-wrap:wrap;margin-bottom:48px}
+.phone{width:170px;border-radius:22px;background:var(--bg-c);border:2px solid var(--brd);position:relative;overflow:hidden;transition:all .5s cubic-bezier(.16,1,.3,1)}
+.phone:hover{border-color:var(--cy-b);transform:translateY(-8px);box-shadow:0 20px 60px rgba(32,224,112,0.06)}
+.phone.tall{height:340px}.phone.med{height:300px}.phone.short{height:280px}
+.phone::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:50px;height:16px;background:var(--bg);border-radius:0 0 10px 10px;z-index:10}
+.phone-screen{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden}
+.phone-content{flex:1;position:relative;overflow:hidden}
+.phone-content .ph-bg{position:absolute;inset:0}
+.ph-bg.style-1{background:linear-gradient(180deg,#1a0a1e 0%,#0e1a14 50%,var(--bg-c) 100%)}
+.ph-bg.style-2{background:linear-gradient(180deg,#0a1a1e 0%,#141018 50%,var(--bg-c) 100%)}
+.ph-bg.style-3{background:linear-gradient(180deg,#1a1408 0%,#0e0a1a 50%,var(--bg-c) 100%)}
+.ph-bg.style-4{background:linear-gradient(180deg,#0a0e1a 0%,#1a140e 50%,var(--bg-c) 100%)}
+.ph-bg.style-5{background:linear-gradient(180deg,#120a1a 0%,#0a1a10 50%,var(--bg-c) 100%)}
+.ph-silhouette{position:absolute;bottom:40%;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;opacity:.25;transition:opacity .5s}
+.phone:hover .ph-silhouette{opacity:.4}
+.ph-head{width:28px;height:28px;border-radius:50%;background:currentColor;margin-bottom:4px}
+.ph-body{width:36px;height:50px;border-radius:18px 18px 6px 6px;background:currentColor}
+.phone:nth-child(1) .ph-silhouette{color:var(--mg)}
+.phone:nth-child(2) .ph-silhouette{color:var(--cy)}
+.phone:nth-child(3) .ph-silhouette{color:var(--yl)}
+.phone:nth-child(4) .ph-silhouette{color:#60A0FF}
+.phone:nth-child(5) .ph-silhouette{color:var(--mg)}
+.ph-hearts{position:absolute;right:12px;top:50%;display:flex;flex-direction:column;gap:8px;opacity:0;transition:opacity .4s .1s}
+.phone:hover .ph-hearts{opacity:1}
+.ph-heart{font-size:14px;animation:float-up 2s ease infinite}
+.ph-heart:nth-child(2){animation-delay:.4s;font-size:11px;opacity:.6}
+.ph-heart:nth-child(3){animation-delay:.8s;font-size:9px;opacity:.4}
+@keyframes float-up{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-20px);opacity:0}}
+.ph-wave{position:absolute;bottom:60px;left:12px;right:12px;height:20px;display:flex;align-items:end;gap:2px}
+.ph-wave-bar{width:3px;border-radius:2px;background:var(--cy);opacity:.4;animation:wave-pulse 1.2s ease infinite}
+.ph-wave-bar:nth-child(1){height:6px}.ph-wave-bar:nth-child(2){height:14px;animation-delay:.1s}.ph-wave-bar:nth-child(3){height:8px;animation-delay:.2s}.ph-wave-bar:nth-child(4){height:18px;animation-delay:.3s}.ph-wave-bar:nth-child(5){height:10px;animation-delay:.4s}.ph-wave-bar:nth-child(6){height:16px;animation-delay:.5s}.ph-wave-bar:nth-child(7){height:6px;animation-delay:.6s}.ph-wave-bar:nth-child(8){height:12px;animation-delay:.7s}.ph-wave-bar:nth-child(9){height:8px;animation-delay:.8s}.ph-wave-bar:nth-child(10){height:14px;animation-delay:.9s}.ph-wave-bar:nth-child(11){height:5px;animation-delay:1s}.ph-wave-bar:nth-child(12){height:10px;animation-delay:1.1s}
+.phone:hover .ph-wave-bar{opacity:.7}
+@keyframes wave-pulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.4)}}
+.ph-bottom{position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(0deg,rgba(10,10,12,.95) 0%,transparent 100%)}
+.ph-username{font-family:var(--mono);font-size:8px;color:var(--txt);font-weight:700;margin-bottom:3px}
+.ph-caption{font-size:7px;color:var(--txt-d);line-height:1.4}
+.ph-actions{position:absolute;right:8px;bottom:50px;display:flex;flex-direction:column;gap:10px;align-items:center}
+.ph-action{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:10px}
+.ph-stats{position:absolute;top:24px;left:10px;font-family:var(--mono);font-size:7px;color:var(--cy);opacity:0;transition:opacity .4s}
+.phone:hover .ph-stats{opacity:.7}
+.edit-timeline{margin-top:8px;padding:24px;border-radius:var(--r);background:var(--bg-c);border:1px solid var(--brd);position:relative;overflow:hidden}
+@keyframes scan-line{0%{top:-4px}100%{top:100%}}
+.edit-timeline::after{content:'';position:absolute;left:0;right:0;height:2px;top:-2px;background:linear-gradient(90deg,transparent,var(--mg),transparent);opacity:0;transition:opacity .3s;animation:scan-line 3s linear infinite}
+.edit-timeline:hover::after{opacity:.15}
+.edit-tl-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.edit-tl-title{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--txt-d);letter-spacing:1px;text-transform:uppercase}
+.edit-tl-time{font-family:var(--mono);font-size:9px;color:var(--txt-g)}
+.edit-tracks{display:flex;flex-direction:column;gap:6px}
+.edit-track{display:flex;align-items:center;gap:8px;height:22px}
+.edit-track-label{font-family:var(--mono);font-size:7px;color:var(--txt-g);width:44px;text-align:right;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0}
+.edit-track-bar{flex:1;height:100%;border-radius:4px;position:relative;overflow:hidden;display:flex;gap:3px}
+.edit-clip{height:100%;border-radius:3px;position:relative;min-width:20px}
+.edit-clip.v1{background:rgba(224,64,160,.15);border:1px solid rgba(224,64,160,.2);flex:3}
+.edit-clip.v2{background:rgba(32,224,112,.12);border:1px solid rgba(32,224,112,.18);flex:2}
+.edit-clip.v3{background:rgba(224,64,160,.1);border:1px solid rgba(224,64,160,.15);flex:1.5}
+.edit-clip.v4{background:rgba(96,160,255,.12);border:1px solid rgba(96,160,255,.18);flex:2.5}
+.edit-clip.a1{background:rgba(32,224,112,.1);border:1px solid rgba(32,224,112,.15);flex:4}
+.edit-clip.a2{background:rgba(224,208,96,.1);border:1px solid rgba(224,208,96,.15);flex:2}
+.edit-clip.a3{background:rgba(32,224,112,.08);border:1px solid rgba(32,224,112,.12);flex:3}
+.edit-clip.t1{background:rgba(224,208,96,.12);border:1px solid rgba(224,208,96,.18);flex:1;margin-left:15%}
+.edit-clip.t2{background:rgba(224,208,96,.08);border:1px solid rgba(224,208,96,.12);flex:1.5}
+.edit-clip.e1{background:rgba(224,64,160,.08);border:1px solid rgba(224,64,160,.12);flex:0.8;margin-left:5%}
+.edit-clip.e2{background:rgba(96,160,255,.1);border:1px solid rgba(96,160,255,.15);flex:1.2}
+.edit-clip.e3{background:rgba(224,64,160,.06);border:1px solid rgba(224,64,160,.1);flex:0.6}
+.edit-playhead{position:absolute;top:0;left:38%;width:1px;height:100%;background:var(--cy);opacity:.5;z-index:5;animation:playhead-move 8s linear infinite}
+.edit-playhead::before{content:'';position:absolute;top:-3px;left:-4px;width:9px;height:7px;background:var(--cy);clip-path:polygon(50% 100%,0 0,100% 0);opacity:.8}
+@keyframes playhead-move{0%{left:0}100%{left:100%}}
+.creator-services{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:36px}
+.cr-srv{padding:16px;border-radius:var(--r);background:var(--bg-c);border:1px solid var(--brd);text-align:center;transition:all .4s}
+.cr-srv:hover{border-color:var(--cy-b);transform:translateY(-3px)}
+.cr-srv-ico{font-size:20px;margin-bottom:8px}
+.cr-srv h6{font-size:12px;font-weight:600;color:var(--txt-b);margin-bottom:4px}
+.cr-srv p{font-size:9px;color:var(--txt-d);line-height:1.5;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-left"><a href="./index.html" class="nav-logo">VM_<span>studio</span></a></div>
+  <div class="nav-right"><a href="./index.html" style="font-family:var(--mono);font-size:11px;color:var(--txt-d);text-decoration:none;padding:8px 16px;border-radius:6px;border:1px solid var(--brd)">← Back to portfolio</a></div>
+</nav>
+
+<main style="padding-top:80px">
+  <div class="container" style="padding-top:40px">
+    <div class="archive-banner">
+      <strong>// ARCHIVED SECTION</strong><br>
+      This section (Video Editing &amp; Content for Creators) was removed from the main portfolio on 2026-03-29. Archived for reference.
+    </div>
+  </div>
+
+  <section class="creators" id="creators"><div class="container">
+    <div class="creators-head">
+      <div class="sec-label">CONTENT_CREATION</div>
+      <h2 class="sec-title">Video editing &amp; content for creators</h2>
+      <p class="sec-desc">I help TikTokers, influencers, and brands produce scroll-stopping content — from raw footage to polished, platform-ready edits with effects, captions, and motion graphics.</p>
+    </div>
+
+    <div class="creators-row">
+      <div class="phone tall">
+        <div class="phone-screen"><div class="phone-content">
+          <div class="ph-bg style-1"></div>
+          <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
+          <div class="ph-hearts"><span class="ph-heart">❤️</span><span class="ph-heart">❤️</span><span class="ph-heart">❤️</span></div>
+          <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
+          <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
+          <div class="ph-stats">♥ 24.5K</div>
+          <div class="ph-bottom"><div class="ph-username">@creator_name</div><div class="ph-caption">trending edit ✨ #fyp</div></div>
+        </div></div>
+      </div>
+      <div class="phone med">
+        <div class="phone-screen"><div class="phone-content">
+          <div class="ph-bg style-2"></div>
+          <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
+          <div class="ph-hearts"><span class="ph-heart">🔥</span><span class="ph-heart">🔥</span><span class="ph-heart">🔥</span></div>
+          <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
+          <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
+          <div class="ph-stats">♥ 102K</div>
+          <div class="ph-bottom"><div class="ph-username">@lifestyle.mvp</div><div class="ph-caption">POV: your editor actually gets it 🎬</div></div>
+        </div></div>
+      </div>
+      <div class="phone tall">
+        <div class="phone-screen"><div class="phone-content">
+          <div class="ph-bg style-3"></div>
+          <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
+          <div class="ph-hearts"><span class="ph-heart">✨</span><span class="ph-heart">✨</span><span class="ph-heart">✨</span></div>
+          <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
+          <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
+          <div class="ph-stats">♥ 58.3K</div>
+          <div class="ph-bottom"><div class="ph-username">@beauty.edits</div><div class="ph-caption">smooth transitions only 💅</div></div>
+        </div></div>
+      </div>
+      <div class="phone med">
+        <div class="phone-screen"><div class="phone-content">
+          <div class="ph-bg style-4"></div>
+          <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
+          <div class="ph-hearts"><span class="ph-heart">💜</span><span class="ph-heart">💜</span><span class="ph-heart">💜</span></div>
+          <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
+          <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
+          <div class="ph-stats">♥ 340K</div>
+          <div class="ph-bottom"><div class="ph-username">@fitness.daily</div><div class="ph-caption">this edit took 10 min with AI 🤯</div></div>
+        </div></div>
+      </div>
+      <div class="phone short">
+        <div class="phone-screen"><div class="phone-content">
+          <div class="ph-bg style-5"></div>
+          <div class="ph-silhouette"><div class="ph-head"></div><div class="ph-body"></div></div>
+          <div class="ph-hearts"><span class="ph-heart">⚡</span><span class="ph-heart">⚡</span><span class="ph-heart">⚡</span></div>
+          <div class="ph-wave"><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div><div class="ph-wave-bar"></div></div>
+          <div class="ph-actions"><div class="ph-action">❤</div><div class="ph-action">💬</div><div class="ph-action">↗</div></div>
+          <div class="ph-stats">♥ 87.1K</div>
+          <div class="ph-bottom"><div class="ph-username">@brand.content</div><div class="ph-caption">UGC that converts 📈</div></div>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="edit-timeline">
+      <div class="edit-playhead"></div>
+      <div class="edit-tl-head">
+        <span class="edit-tl-title">// TIMELINE — FINAL_EDIT_v3.mp4</span>
+        <span class="edit-tl-time">00:00:00 ———————————————————— 00:00:42</span>
+      </div>
+      <div class="edit-tracks">
+        <div class="edit-track"><span class="edit-track-label">Video</span><div class="edit-track-bar"><div class="edit-clip v1"></div><div class="edit-clip v2"></div><div class="edit-clip v3"></div><div class="edit-clip v4"></div></div></div>
+        <div class="edit-track"><span class="edit-track-label">Audio</span><div class="edit-track-bar"><div class="edit-clip a1"></div><div class="edit-clip a2"></div><div class="edit-clip a3"></div></div></div>
+        <div class="edit-track"><span class="edit-track-label">Text</span><div class="edit-track-bar"><div class="edit-clip t1"></div><div class="edit-clip t2"></div></div></div>
+        <div class="edit-track"><span class="edit-track-label">FX</span><div class="edit-track-bar"><div class="edit-clip e1"></div><div class="edit-clip e2"></div><div class="edit-clip e3"></div></div></div>
+      </div>
+    </div>
+
+    <div class="creator-services">
+      <div class="cr-srv"><div class="cr-srv-ico">✂️</div><h6>Short-Form Editing</h6><p>TikTok · Reels · Shorts</p></div>
+      <div class="cr-srv"><div class="cr-srv-ico">✨</div><h6>Motion &amp; Effects</h6><p>Transitions · VFX · Captions</p></div>
+      <div class="cr-srv"><div class="cr-srv-ico">🎵</div><h6>Sound Design</h6><p>Music sync · SFX · Voiceover</p></div>
+      <div class="cr-srv"><div class="cr-srv-ico">📊</div><h6>Content Strategy</h6><p>Hooks · Trends · Batch edits</p></div>
+    </div>
+  </div></section>
+</main>
+
+<footer>
+  <div class="f-brand">VM_<span>studio</span></div>
+  <span class="f-copy">© 2026 Valentino Manrrique — All rights reserved</span>
+  <span class="f-copy">Designed &amp; built by hand // Córdoba, Argentina</span>
+</footer>
+</body>
+</html>
