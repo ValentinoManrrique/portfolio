@@ -301,6 +301,10 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .t-quote{font-size:14px;line-height:1.75;color:var(--txt);font-style:italic;margin-bottom:18px;font-weight:300}
 .t-meta{font-family:var(--mono);font-size:9px;color:var(--txt-g);letter-spacing:.5px}
 .t-stars{color:var(--cy);font-size:10px;margin-top:4px}
+
+/* Hero exit/enter animation */
+.hero-content { transition: opacity 0.55s ease, transform 0.55s ease; }
+.hero-content.hero-out { opacity: 0; transform: translateY(-28px); pointer-events: none; }
 </style>
 </head>
 <body>
@@ -310,7 +314,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   <div class="nav-left"><a href="#" class="nav-logo">VM_<span>studio</span></a><div class="nav-status">ONLINE</div></div>
   <div class="nav-right">
     <div class="nav-links"><a href="#services">services</a><a href="#who">who</a><a href="#work">work</a><a href="#clients">clients</a><a href="#showcase">ai_gen</a><a href="#creators">content</a><a href="#stack">stack</a><a href="#about">about</a><a href="#contact">hire</a></div>
-    <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="nav-li">↗ HIRE ME</a>
+    <a href="#services" class="nav-li" onclick="event.preventDefault();scrollToBrief()">↗ HIRE ME</a>
   </div>
 </nav>
 
@@ -322,23 +326,543 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     <p class="hero-desc fi d2">From the UI your customers see to the AI workflows running behind it. I create interfaces, build frontends, and automate business processes end-to-end — so nothing falls through the cracks.</p>
     <div class="hero-tags fi d2"><span class="tag cy">UI/UX Design</span><span class="tag cy">Frontend Dev</span><span class="tag cy">n8n Automation</span><span class="tag mg">AI Workflows</span><span class="tag">E-Commerce</span><span class="tag">API Integrations</span></div>
     <div class="hero-cta fi d3">
-      <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="hero-cta-btn">↗ HIRE ME ON UPWORK</a>
-      <a href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--txt-d);text-decoration:none;padding:8px 16px;border-radius:6px;border:1px solid var(--brd);transition:all .3s"><svg width="12" height="12" style="fill:currentColor"><use href="#li"/></svg>LINKEDIN</a>
+      <button onclick="scrollToBrief()" class="hero-cta-btn">↗ START A PROJECT</button>
+      <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--txt-d);text-decoration:none;padding:8px 16px;border-radius:6px;border:1px solid var(--brd);transition:all .3s">↗ UPWORK</a>
       <span class="hero-cta-status">AVAILABLE_FOR_PROJECTS</span>
     </div>
     <div class="fi d4" style="margin-top:16px;font-family:var(--mono);font-size:10px;color:var(--txt-g);letter-spacing:.5px">$20K+ earned on Upwork · 19 jobs completed · 5★ rated · ID Verified</div>
   </div></div>
 </section>
 
-<section class="services" id="services"><div class="container">
-  <div class="sec-label fi">SERVICES</div><h2 class="sec-title fi d1">Design it. Build it. Automate it.</h2><p class="sec-desc fi d2">End-to-end — from the interface your users see to the workflows running behind the scenes.</p>
-  <div class="srv-grid">
-    <div class="srv fi"><div class="srv-num">001</div><h4>UI/UX Design</h4><p>Research, wireframes, prototyping, and high-fidelity interfaces. Design systems that scale and experiences that feel intuitive.</p></div>
-    <div class="srv fi d1"><div class="srv-num">002</div><h4>Frontend Development</h4><p>React, Next.js, modern CSS. Pixel-perfect implementation that's fast, responsive, accessible, and production-ready.</p></div>
-    <div class="srv fi d2"><div class="srv-num">003</div><h4>n8n Automation</h4><p>Workflow automation that connects your tools — CRMs, email, Slack, databases, APIs. Lead funnels, content pipelines, and business processes on autopilot.</p></div>
-    <div class="srv fi d3"><div class="srv-num">004</div><h4>AI Integration</h4><p>AI-powered workflows using OpenAI, Claude, and custom APIs. Automated content generation, product page optimization, intelligent lead scoring.</p></div>
+<section class="services" id="services">
+<style>
+/* ── Brief section ── */
+.brief-section { padding: 100px 0; border-top: 1px solid var(--brd); position: relative; }
+.brief-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; margin-bottom: 56px; }
+.brief-services { display: flex; flex-direction: column; gap: 10px; }
+.brief-srv-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 10px; background: var(--bg-c); border: 1px solid var(--brd); transition: all .35s; }
+.brief-srv-row:hover { border-color: var(--cy-b); background: var(--bg-h); transform: translateX(4px); }
+.brief-srv-num { font-family: var(--mono); font-size: 10px; color: var(--cy); min-width: 28px; letter-spacing: .5px; }
+.brief-srv-name { font-size: 14px; font-weight: 500; color: var(--txt-b); flex: 1; }
+.brief-srv-tag { font-family: var(--mono); font-size: 9px; letter-spacing: .8px; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+.brief-srv-tag.cy { background: var(--cy-d); color: var(--cy); border: 1px solid var(--cy-b); }
+.brief-srv-tag.mg { background: var(--mg-d); color: var(--mg); border: 1px solid rgba(224,64,160,.12); }
+.brief-srv-tag.yl { background: var(--yl-d); color: var(--yl); border: 1px solid rgba(224,208,96,.12); }
+.brief-srv-tag.bl { background: rgba(96,160,255,.06); color: #60A0FF; border: 1px solid rgba(96,160,255,.12); }
+
+/* ── Brief card ── */
+.brief-card { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--brd); border: 1px solid var(--brd); border-radius: var(--r); overflow: hidden; }
+.brief-form { background: var(--bg-e); padding: 44px 40px; }
+.brief-result { background: var(--srf); padding: 44px 40px; display: flex; flex-direction: column; min-height: 480px; }
+.brief-card-title { font-size: 17px; font-weight: 600; color: var(--txt-b); margin-bottom: 4px; }
+.brief-card-sub { font-family: var(--mono); font-size: 10px; color: var(--txt-d); letter-spacing: .06em; margin-bottom: 28px; }
+
+/* Progress */
+.brief-progress { display: flex; gap: 4px; margin-bottom: 32px; }
+.brief-seg { height: 2px; flex: 1; border-radius: 1px; background: var(--txt-g); transition: background .3s; }
+.brief-seg.done { background: var(--cy); }
+.brief-seg.active { background: var(--txt-d); }
+
+/* Question */
+.brief-q { font-size: 19px; font-weight: 600; color: var(--txt-b); margin-bottom: 4px; line-height: 1.3; }
+.brief-hint { font-family: var(--mono); font-size: 10px; color: var(--txt-g); letter-spacing: .06em; margin-bottom: 20px; }
+
+/* Options */
+.brief-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 28px; }
+.brief-opt { padding: 11px 13px; border: 1px solid var(--brd-h); background: transparent; font-family: var(--sans); font-size: 12px; color: var(--txt); cursor: pointer; text-align: left; border-radius: 8px; transition: all .15s; line-height: 1.3; }
+.brief-opt:hover { border-color: var(--cy-b); color: var(--cy); background: var(--cy-d); }
+.brief-opt.sel { border-color: var(--cy); background: var(--cy-d); color: var(--cy); font-weight: 500; }
+
+/* Textarea */
+.brief-ta { width: 100%; padding: 13px 15px; border: 1px solid var(--brd-h); background: var(--bg-c); font-family: var(--sans); font-size: 13px; font-weight: 300; color: var(--txt); border-radius: 8px; outline: none; resize: none; line-height: 1.6; margin-bottom: 28px; transition: border-color .2s; }
+.brief-ta:focus { border-color: var(--cy-b); }
+.brief-ta::placeholder { color: var(--txt-g); }
+
+/* Nav */
+.brief-nav { display: flex; align-items: center; justify-content: space-between; }
+.brief-counter { font-family: var(--mono); font-size: 10px; color: var(--txt-g); letter-spacing: .06em; }
+.brief-btn-next { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--bg); background: var(--cy); padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: all .15s; }
+.brief-btn-next:disabled { background: var(--txt-g); color: var(--bg); cursor: not-allowed; }
+.brief-btn-next:not(:disabled):hover { background: #40FF90; box-shadow: 0 0 16px var(--cy-gl); }
+.brief-btn-back { font-family: var(--mono); font-size: 11px; color: var(--txt-g); background: none; border: none; cursor: pointer; letter-spacing: .06em; padding: 0; transition: color .15s; }
+.brief-btn-back:hover { color: var(--txt); }
+
+/* Summary (post-submit left side) */
+.brief-summary { display: flex; flex-direction: column; gap: 10px; }
+.brief-sum-row { display: flex; gap: 10px; align-items: flex-start; }
+.brief-sum-check { font-family: var(--mono); font-size: 10px; color: var(--cy); min-width: 18px; margin-top: 2px; }
+.brief-sum-key { font-family: var(--mono); font-size: 9px; letter-spacing: .06em; color: var(--txt-g); text-transform: uppercase; }
+.brief-sum-val { font-size: 13px; color: var(--txt); margin-top: 2px; }
+.brief-reset { font-family: var(--mono); font-size: 11px; color: var(--cy); background: none; border: none; cursor: pointer; letter-spacing: .06em; padding: 0; margin-top: 16px; text-decoration: underline; }
+
+/* Result side */
+.brief-res-label { font-family: var(--mono); font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-g); margin-bottom: 22px; }
+.brief-placeholder { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; opacity: .35; }
+.brief-placeholder-text { font-family: var(--sans); font-size: 14px; color: var(--txt-g); line-height: 1.6; }
+.brief-loader { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+.brief-loader-txt { font-family: var(--mono); font-size: 11px; color: var(--cy); letter-spacing: .08em; }
+.brief-loader-sub { font-family: var(--mono); font-size: 10px; color: var(--txt-g); letter-spacing: .06em; }
+
+/* Pipeline visual */
+.brief-pipeline { display: flex; align-items: flex-start; gap: 0; }
+.brief-pipe-node { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.brief-pipe-box {
+  padding: 7px 13px; border-radius: 7px; border: 1px solid var(--brd-h);
+  background: var(--bg-c); font-family: var(--mono); font-size: 10px;
+  color: var(--txt-g); white-space: nowrap; text-align: center;
+  transition: border-color .4s, color .4s, background .4s, box-shadow .4s;
+}
+.brief-pipe-lbl { font-family: var(--mono); font-size: 9px; color: var(--txt-g); letter-spacing: .06em; transition: color .4s; }
+.brief-pipe-conn { width: 24px; height: 1px; background: var(--brd-h); flex-shrink: 0; margin-top: 17px; position: relative; overflow: hidden; }
+.brief-pipe-conn::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: var(--cy); transition: left .5s ease; }
+.brief-pipe-conn.lit::after { left: 0; }
+.brief-pipe-node.active .brief-pipe-box { border-color: var(--cy); color: var(--cy); background: var(--cy-b); animation: pipe-pulse 1.6s ease-in-out infinite; }
+.brief-pipe-node.active .brief-pipe-lbl { color: var(--cy); }
+.brief-pipe-node.done .brief-pipe-box { border-color: rgba(32,224,112,.28); color: rgba(32,224,112,.45); background: rgba(32,224,112,.04); }
+.brief-pipe-node.done .brief-pipe-lbl { color: rgba(32,224,112,.4); }
+@keyframes pipe-pulse {
+  0%,100% { box-shadow: 0 0 8px rgba(32,224,112,.12); }
+  50%      { box-shadow: 0 0 20px rgba(32,224,112,.28); }
+}
+.brief-res-name { font-size: 22px; font-weight: 700; color: var(--txt-b); margin-bottom: 4px; }
+.brief-res-type { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--cy); margin-bottom: 24px; }
+.brief-block { margin-bottom: 20px; }
+.brief-block-label { font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-g); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--brd); }
+.brief-block-text { font-size: 13px; color: var(--txt); line-height: 1.75; }
+.brief-phase { display: flex; gap: 10px; margin-bottom: 6px; font-size: 13px; color: var(--txt); }
+.brief-phase-num { font-family: var(--mono); font-size: 10px; color: var(--cy); min-width: 22px; margin-top: 1px; }
+.brief-question { font-size: 13px; color: var(--txt); line-height: 1.7; margin-bottom: 8px; padding-left: 12px; border-left: 2px solid var(--cy-d); }
+.brief-footer { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--brd); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brief-footer-note { font-size: 11px; color: var(--txt-g); line-height: 1.5; max-width: 190px; }
+.brief-cta-btn { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--bg); background: var(--cy); padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all .15s; }
+.brief-cta-btn:hover { background: #40FF90; box-shadow: 0 0 16px var(--cy-gl); }
+
+/* Spinner */
+@keyframes vm-spin2 { to { transform: rotate(360deg); transform-origin: 14px 14px; } }
+.brief-spinner { animation: vm-spin2 .8s linear infinite; }
+
+@media(max-width:800px) {
+  .brief-intro { grid-template-columns: 1fr; }
+  .brief-card { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="container">
+  <div class="brief-intro fi">
+    <!-- Left: header -->
+    <div>
+      <div class="sec-label">SERVICES</div>
+      <h2 class="sec-title" style="max-width:480px">Design it. Build it. <span style="color:var(--cy)">Automate it.</span></h2>
+      <p class="sec-desc" style="margin-bottom:0">End-to-end — from the interface your users see to the workflows running behind the scenes.</p>
+    </div>
+    <!-- Right: service rows -->
+    <div class="brief-services fi d2">
+      <div class="brief-srv-row">
+        <span class="brief-srv-num">001</span>
+        <span class="brief-srv-name">UI/UX Design</span>
+        <span class="brief-srv-tag cy">Design</span>
+      </div>
+      <div class="brief-srv-row">
+        <span class="brief-srv-num">002</span>
+        <span class="brief-srv-name">Frontend Development</span>
+        <span class="brief-srv-tag bl">Dev</span>
+      </div>
+      <div class="brief-srv-row">
+        <span class="brief-srv-num">003</span>
+        <span class="brief-srv-name">n8n Automation</span>
+        <span class="brief-srv-tag yl">Automation</span>
+      </div>
+      <div class="brief-srv-row">
+        <span class="brief-srv-num">004</span>
+        <span class="brief-srv-name">AI Integration</span>
+        <span class="brief-srv-tag mg">AI</span>
+      </div>
+    </div>
   </div>
-</div></section>
+
+  <!-- Brief generator label -->
+  <div class="sec-label fi" style="margin-bottom:16px">BRIEF_GENERATOR</div>
+  <h3 class="sec-title fi d1" style="font-size:clamp(22px,2.8vw,34px);margin-bottom:10px">Tell us what you're <span style="color:var(--cy)">building.</span></h3>
+  <p class="sec-desc fi d2" style="margin-bottom:36px">Answer five quick questions and get a structured project brief — scope, phases, and clarifying questions — generated instantly.</p>
+
+  <!-- The card -->
+  <div class="brief-card fi d2" id="brief-card">
+
+    <!-- Form side -->
+    <div class="brief-form">
+      <div class="brief-card-title">Project Brief</div>
+      <div class="brief-card-sub">Takes about 2 minutes</div>
+
+      <div class="brief-progress" id="brief-progress"></div>
+
+      <!-- Form view -->
+      <div id="brief-form-view">
+        <div class="brief-q" id="brief-q"></div>
+        <div class="brief-hint" id="brief-hint"></div>
+        <div id="brief-opts-wrap"></div>
+        <div class="brief-nav">
+          <button class="brief-btn-back" id="brief-back" onclick="briefBack()">← back</button>
+          <span class="brief-counter" id="brief-counter"></span>
+          <button class="brief-btn-next" id="brief-next" onclick="briefNext()">continue →</button>
+        </div>
+      </div>
+
+      <!-- Summary view (post-submit) -->
+      <div id="brief-summary-view" style="display:none">
+        <div class="brief-summary" id="brief-summary-rows"></div>
+        <button class="brief-reset" onclick="briefReset()">↺ start over</button>
+      </div>
+    </div>
+
+    <!-- Result side -->
+    <div class="brief-result" id="brief-result-side">
+      <div class="brief-res-label">// YOUR_PROJECT_BRIEF</div>
+      <div id="brief-result-content"></div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<script>
+(function() {
+  const STEPS = [
+    { key: 'projectType', q: 'What type of project is this?', hint: 'Select the closest match',
+      options: [
+        { label: 'Landing page',           value: 'Landing page & marketing site' },
+        { label: 'SaaS / web app',         value: 'SaaS product or web app' },
+        { label: 'E-commerce',             value: 'E-commerce store' },
+        { label: 'Mobile app',             value: 'Mobile app design' },
+        { label: 'Brand & design system',  value: 'Brand identity & design system' },
+        { label: 'AI / automation',        value: 'AI or automation workflow' },
+      ]
+    },
+    { key: 'goal', q: "What's your main goal?", hint: 'Pick the outcome that matters most',
+      options: [
+        { label: 'Generate leads',           value: 'Generate leads and conversions' },
+        { label: 'Launch MVP fast',          value: 'Launch an MVP quickly' },
+        { label: 'Redesign existing',        value: 'Redesign an existing product' },
+        { label: 'Improve UX & retention',   value: 'Improve user experience and retention' },
+        { label: 'Build brand trust',        value: 'Build brand authority and trust' },
+        { label: 'Automate processes',       value: 'Automate internal processes' },
+      ]
+    },
+    { key: 'timeline', q: "What's your timeline?", hint: 'Rough estimate is fine',
+      options: [
+        { label: 'ASAP — under 2 weeks',  value: 'As soon as possible (under 2 weeks)' },
+        { label: '1 month',               value: '1 month' },
+        { label: '2–3 months',            value: '2–3 months' },
+        { label: 'Flexible',              value: 'Flexible — quality over speed' },
+      ]
+    },
+    { key: 'budget', q: "What's your approximate budget?", hint: 'Helps scope the right solution',
+      options: [
+        { label: 'Under $2k',   value: 'Under $2,000' },
+        { label: '$2k – $5k',   value: '$2,000 – $5,000' },
+        { label: '$5k – $15k',  value: '$5,000 – $15,000' },
+        { label: '$15k+',       value: '$15,000+' },
+      ]
+    },
+    { key: 'challenge', q: "What's your biggest challenge?", hint: 'One sentence is enough — be specific', type: 'textarea' }
+  ]
+
+  const LOADING_MSGS = ['Analysing project type','Scoping deliverables','Defining project phases','Preparing clarifying questions','Finalising your brief']
+
+  let step = 0, answers = {}, phase = 'form', loadInterval = null
+
+  function render() {
+    // Progress bar
+    const prog = document.getElementById('brief-progress')
+    prog.innerHTML = STEPS.map((_, i) => {
+      const cls = i < step ? 'done' : i === step ? 'active' : ''
+      return `<div class="brief-seg ${cls}"></div>`
+    }).join('')
+
+    if (phase === 'form') {
+      document.getElementById('brief-form-view').style.display = ''
+      document.getElementById('brief-summary-view').style.display = 'none'
+      renderStep()
+    } else {
+      document.getElementById('brief-form-view').style.display = 'none'
+      document.getElementById('brief-summary-view').style.display = ''
+      renderSummary()
+    }
+  }
+
+  function renderStep() {
+    const s = STEPS[step]
+    document.getElementById('brief-q').textContent = s.q
+    document.getElementById('brief-hint').textContent = s.hint || ''
+
+    const wrap = document.getElementById('brief-opts-wrap')
+    wrap.innerHTML = ''
+
+    if (s.type === 'textarea') {
+      const ta = document.createElement('textarea')
+      ta.className = 'brief-ta'
+      ta.id = 'brief-ta'
+      ta.rows = 4
+      ta.placeholder = "e.g. We've tried building this before and it stalled. We need someone who can own it end to end..."
+      wrap.appendChild(ta)
+    } else {
+      const grid = document.createElement('div')
+      grid.className = 'brief-opts'
+      s.options.forEach(opt => {
+        const btn = document.createElement('button')
+        btn.className = 'brief-opt' + (answers[s.key] === opt.value ? ' sel' : '')
+        btn.textContent = opt.label
+        btn.onclick = () => { answers[s.key] = opt.value; renderStep() }
+        grid.appendChild(btn)
+      })
+      wrap.appendChild(grid)
+    }
+
+    // Counter
+    document.getElementById('brief-counter').textContent = `${step + 1} / ${STEPS.length}`
+
+    // Back button
+    const backBtn = document.getElementById('brief-back')
+    backBtn.style.visibility = step > 0 ? 'visible' : 'hidden'
+
+    // Next button
+    const nextBtn = document.getElementById('brief-next')
+    const isTextStep = s.type === 'textarea'
+    const canProceed = isTextStep ? true : !!answers[s.key]
+    nextBtn.disabled = !canProceed
+    nextBtn.textContent = step === STEPS.length - 1 ? 'generate brief →' : 'continue →'
+  }
+
+  function renderSummary() {
+    const rows = document.getElementById('brief-summary-rows')
+    rows.innerHTML = STEPS.map(s => {
+      const val = s.key === 'challenge'
+        ? (document.getElementById('brief-ta-stored')?.value || answers[s.key] || '—')
+        : (answers[s.key] || '—')
+      return `<div class="brief-sum-row">
+        <span class="brief-sum-check">✓</span>
+        <div>
+          <div class="brief-sum-key">${s.q.substring(0, 22)}...</div>
+          <div class="brief-sum-val">${val}</div>
+        </div>
+      </div>`
+    }).join('')
+  }
+
+  window.briefBack = function() {
+    if (step > 0) { step--; render() }
+  }
+
+  window.briefNext = function() {
+    if (step < STEPS.length - 1) {
+      step++; render()
+    } else {
+      const taVal = document.getElementById('brief-ta')?.value || 'Not specified'
+      answers.challenge = taVal
+      // store it for summary
+      let stored = document.getElementById('brief-ta-stored')
+      if (!stored) { stored = document.createElement('input'); stored.id = 'brief-ta-stored'; stored.type = 'hidden'; document.body.appendChild(stored) }
+      stored.value = taVal
+      generate()
+    }
+  }
+
+  window.briefReset = function() {
+    step = 0; answers = {}; phase = 'form'
+    document.getElementById('brief-result-content').innerHTML = placeholderHTML()
+    render()
+  }
+
+  function placeholderHTML() {
+    return `<div class="brief-placeholder">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <rect x="6" y="4" width="28" height="32" rx="2" stroke="#D4D4D8" stroke-width="1"/>
+        <path d="M12 13h16M12 19h16M12 25h10" stroke="#D4D4D8" stroke-width="1" stroke-linecap="round"/>
+      </svg>
+      <div class="brief-placeholder-text">Your brief will<br>appear here</div>
+    </div>`
+  }
+
+  function loaderHTML() {
+    return `<div class="brief-loader">
+      <div class="brief-pipeline">
+        <div class="brief-pipe-node" id="bpn-0">
+          <div class="brief-pipe-box">Browser</div>
+          <div class="brief-pipe-lbl">client</div>
+        </div>
+        <div class="brief-pipe-conn" id="bpc-0"></div>
+        <div class="brief-pipe-node" id="bpn-1">
+          <div class="brief-pipe-box">Webhook</div>
+          <div class="brief-pipe-lbl">n8n</div>
+        </div>
+        <div class="brief-pipe-conn" id="bpc-1"></div>
+        <div class="brief-pipe-node" id="bpn-2">
+          <div class="brief-pipe-box">Anthropic</div>
+          <div class="brief-pipe-lbl">AI</div>
+        </div>
+        <div class="brief-pipe-conn" id="bpc-2"></div>
+        <div class="brief-pipe-node" id="bpn-3">
+          <div class="brief-pipe-box">Response</div>
+          <div class="brief-pipe-lbl">brief</div>
+        </div>
+      </div>
+      <div class="brief-loader-txt">crafting your brief...</div>
+      <div class="brief-loader-sub" id="brief-load-msg">Analysing project type</div>
+    </div>`
+  }
+
+  // Maps loading message index → which pipeline node should be active
+  const PIPELINE_MAP = [0, 1, 2, 2, 3]
+
+  function activatePipelineNode(msgIdx) {
+    const nodeIdx = PIPELINE_MAP[Math.min(msgIdx, PIPELINE_MAP.length - 1)]
+    for (let i = 0; i < 4; i++) {
+      const n = document.getElementById('bpn-' + i)
+      if (!n) return
+      n.classList.remove('active', 'done')
+      if (i < nodeIdx) n.classList.add('done')
+      else if (i === nodeIdx) n.classList.add('active')
+    }
+    for (let i = 0; i < 3; i++) {
+      const c = document.getElementById('bpc-' + i)
+      if (!c) return
+      if (i < nodeIdx) c.classList.add('lit')
+      else c.classList.remove('lit')
+    }
+  }
+
+  function resultHTML(b) {
+    const phases = (b.phases || []).map((p, i) => {
+      const [title, ...rest] = p.split(':')
+      return `<div class="brief-phase">
+        <span class="brief-phase-num">${String(i+1).padStart(2,'0')}</span>
+        <span><strong style="color:#F0F0F4">${title.trim()}</strong>${rest.length ? ': ' + rest.join(':').trim() : ''}</span>
+      </div>`
+    }).join('')
+
+    const questions = (b.questions || '').split('\n').filter(q => q.trim()).map(q =>
+      `<div class="brief-question">${q.trim()}</div>`
+    ).join('')
+
+    return `<div style="flex:1;display:flex;flex-direction:column">
+      <div class="brief-res-name">${b.projectName || 'Your Project'}</div>
+      <div class="brief-res-type">${b.projectType || ''}</div>
+      <div class="brief-block">
+        <div class="brief-block-label">Scope overview</div>
+        <div class="brief-block-text">${b.scope || ''}</div>
+      </div>
+      <div class="brief-block">
+        <div class="brief-block-label">Suggested phases</div>
+        ${phases}
+      </div>
+      <div class="brief-block">
+        <div class="brief-block-label">Questions before we start</div>
+        ${questions}
+      </div>
+      <div class="brief-footer">
+        <div class="brief-footer-note">Brief generated by VM Studio AI. Ready to talk through the details?</div>
+        <button class="brief-cta-btn" onclick="document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})">book a call →</button>
+      </div>
+    </div>`
+  }
+
+  function fallback(a) {
+    return {
+      projectName: a.projectType?.includes('SaaS') ? 'The Dashboard Sprint' : a.projectType?.includes('Landing') ? 'Conversion-First Launch' : 'Studio Project Brief',
+      projectType: a.projectType,
+      scope: `Design and develop a ${(a.projectType||'digital product').toLowerCase()} focused on ${(a.goal||"the client's core goal").toLowerCase()}. Delivered within ${(a.timeline||'the agreed timeline').toLowerCase()} including UX, UI, and frontend build.`,
+      phases: ['Discovery & research: Stakeholder interviews, user flows, competitive audit','Design: Wireframes, hi-fi UI, interactive prototype in Figma','Development: Frontend build in React/Next.js, responsive & accessible','Launch & handoff: QA, documentation, deployment support'],
+      questions: 'Do you have existing brand guidelines or is visual identity in scope?\nWho is the primary decision-maker and what does approval look like?\nAre there existing tools or platforms this needs to integrate with?',
+    }
+  }
+
+  async function generate() {
+    phase = 'loading'
+    render()
+    document.getElementById('brief-result-content').innerHTML = loaderHTML()
+    activatePipelineNode(0)
+
+    let msgIdx = 0
+    loadInterval = setInterval(() => {
+      msgIdx = (msgIdx + 1) % LOADING_MSGS.length
+      const el = document.getElementById('brief-load-msg')
+      if (el) el.textContent = LOADING_MSGS[msgIdx]
+      activatePipelineNode(msgIdx)
+    }, 900)
+
+    const a = answers
+    const prompt = `You are a senior creative studio director writing a project brief.
+
+Based on these client answers, write a concise professional project brief in JSON format.
+
+Client answers:
+- Project type: ${a.projectType}
+- Main goal: ${a.goal}
+- Timeline: ${a.timeline}
+- Budget: ${a.budget}
+- Biggest challenge: ${a.challenge}
+
+Return ONLY valid JSON (no markdown, no backticks):
+{
+  "projectName": "A short evocative name for this project (3-5 words)",
+  "projectType": "${a.projectType}",
+  "scope": "2-3 sentences describing what will be designed and built, specific to their inputs",
+  "phases": ["Phase name: brief description", "Phase name: brief description", "Phase name: brief description", "Phase name: brief description"],
+  "questions": "3 short clarifying questions before starting, separated by \\n"
+}`
+
+    // ── Level 2: validate body has all required fields before hitting the API ──
+    const REQUIRED = ['projectType', 'goal', 'timeline', 'budget', 'challenge']
+    const missing = REQUIRED.filter(k => !a[k] || !String(a[k]).trim())
+    if (missing.length) {
+      clearInterval(loadInterval)
+      phase = 'result'
+      render()
+      document.getElementById('brief-result-content').innerHTML = resultHTML(fallback(a))
+      return
+    }
+
+    // ── Level 1: n8n webhook with secret header ──────────────────────────────
+    // Replace WEBHOOK_URL with your n8n production webhook URL
+    // Replace WEBHOOK_SECRET with the token you set in n8n Header Auth
+    const WEBHOOK_URL    = 'https://vmstudio.app.n8n.cloud/webhook/dae4c7fb-e7bf-4baa-b5a5-2c70a26e5a6e'
+    const WEBHOOK_SECRET = 'REPLACE_WITH_YOUR_SECRET_TOKEN'
+
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Brief-Token': WEBHOOK_SECRET,
+        },
+        body: JSON.stringify({
+          projectType: a.projectType,
+          goal:        a.goal,
+          timeline:    a.timeline,
+          budget:      a.budget,
+          challenge:   a.challenge,
+        })
+      })
+
+      if (!res.ok) throw new Error(`Webhook error: ${res.status}`)
+
+      const parsed = await res.json()
+      clearInterval(loadInterval)
+      phase = 'result'
+      render()
+      document.getElementById('brief-result-content').innerHTML = resultHTML(parsed)
+    } catch(e) {
+      clearInterval(loadInterval)
+      phase = 'result'
+      render()
+      document.getElementById('brief-result-content').innerHTML = resultHTML(fallback(a))
+    }
+  }
+
+  // Init
+  document.getElementById('brief-result-content').innerHTML = placeholderHTML()
+  render()
+})()
+</script>
 
 <!-- WHO I WORK WITH -->
 <section class="who" id="who"><div class="container">
@@ -568,10 +1092,10 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 
 <section class="cta" id="contact"><div class="container">
   <h2 class="fi">Ready to design, build &amp;<br><span class="gl">automate</span>?</h2>
-  <p class="cta-desc fi d1">I deliver the full package — the interface your users love, the code that powers it, and the n8n workflows that automate everything behind it. Send me your project details on Upwork.</p>
+  <p class="cta-desc fi d1">I deliver the full package — the interface your users love, the code that powers it, and the n8n workflows that automate everything behind it. Let's connect on LinkedIn or send your project details on Upwork.</p>
   <div class="cta-btns fi d2">
-    <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="upwork-big">↗ Available for new projects on Upwork</a>
-    <a href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" class="li-secondary"><svg><use href="#li"/></svg>CONNECT ON LINKEDIN</a>
+    <a href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" class="upwork-big"><svg width="18" height="18" style="fill:currentColor"><use href="#li"/></svg>CONNECT ON LINKEDIN</a>
+    <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="li-secondary">↗ Available on Upwork</a>
   </div>
   <div class="fi d2" style="margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--txt-g);letter-spacing:.5px;text-align:center">19 jobs completed · $20K+ earned · 5★ rated · Avg. response 1–2hrs</div>
   <div class="hire-process fi d3">
@@ -617,6 +1141,64 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <footer><div class="f-brand">VM_<span>studio</span></div><span class="f-copy">© 2025 // designed &amp; built by hand</span></footer>
 
 <script>
+// ── Scroll helper: accounts for fixed nav + breathing room ──────────────────
+function scrollToBrief() {
+  const target = document.getElementById('services')
+  if (!target) return
+
+  // Matrix flash
+  const canvas = document.getElementById('matrix-rain')
+  if (canvas) {
+    canvas.style.transition = 'opacity 0.12s ease'
+    canvas.style.opacity = '0.18'
+    setTimeout(() => {
+      canvas.style.transition = 'opacity 0.7s ease'
+      canvas.style.opacity = '0.035'
+    }, 180)
+  }
+
+  // Hero content fades out
+  const heroContent = document.querySelector('.hero-content')
+  if (heroContent) heroContent.classList.add('hero-out')
+
+  // Fast scroll with cubic ease-in-out
+  const nav = document.querySelector('nav')
+  const navH = nav ? nav.getBoundingClientRect().height : 64
+  const targetTop = target.getBoundingClientRect().top + window.scrollY - navH
+  const startY = window.scrollY
+  const distance = targetTop - startY
+  const duration = 700
+  let startTime = null
+
+  function ease(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+  }
+
+  function step(ts) {
+    if (!startTime) startTime = ts
+    const progress = Math.min((ts - startTime) / duration, 1)
+    window.scrollTo(0, startY + distance * ease(progress))
+    if (progress < 1) requestAnimationFrame(step)
+  }
+
+  requestAnimationFrame(step)
+}
+
+// Hero content reappears when scrolling back up into view
+;(function() {
+  const hero = document.querySelector('.hero')
+  if (!hero) return
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const content = hero.querySelector('.hero-content')
+        if (content) content.classList.remove('hero-out')
+      }
+    })
+  }, { threshold: 0.15 })
+  obs.observe(hero)
+})()
+
 const obs=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});},{threshold:.08,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});});
