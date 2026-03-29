@@ -1524,8 +1524,8 @@ Return ONLY valid JSON (no markdown, no backticks):
   <button class="wp-item" data-target="services" onclick="wpGo('services')"><span class="wp-label">Brief</span><span class="wp-dot"></span></button>
   <button class="wp-item" data-target="work" onclick="wpGo('work')"><span class="wp-label">Work</span><span class="wp-dot"></span></button>
   <button class="wp-item" data-target="stack" onclick="wpGo('stack')"><span class="wp-label">Stack</span><span class="wp-dot"></span></button>
-  <button class="wp-item" data-target="about" onclick="wpGo('about')"><span class="wp-label">About</span><span class="wp-dot"></span></button>
   <button class="wp-item" data-target="contact" onclick="wpGo('contact')"><span class="wp-label">Contact</span><span class="wp-dot"></span></button>
+  <button class="wp-item" data-target="about" onclick="wpGo('about')"><span class="wp-label">About</span><span class="wp-dot"></span></button>
 </nav>
 
 <footer>
@@ -1658,7 +1658,7 @@ function wpGo(id) {
 }
 ;(function() {
   const items = document.querySelectorAll('.wp-item')
-  const ids = ['services','work','stack','about','contact']
+  const ids = ['services','work','stack','contact','about']
   const sections = ids.map(id => document.getElementById(id)).filter(Boolean)
   function update() {
     const mid = window.scrollY + window.innerHeight * 0.4
