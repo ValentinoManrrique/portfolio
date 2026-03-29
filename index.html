@@ -1661,10 +1661,10 @@ function wpGo(id) {
   const ids = ['services','work','stack','contact','about']
   const sections = ids.map(id => document.getElementById(id)).filter(Boolean)
   function update() {
-    const mid = window.scrollY + window.innerHeight * 0.4
-    let active = 0
-    sections.forEach((s, i) => { if (s.offsetTop <= mid) active = i })
-    items.forEach((item, i) => item.classList.toggle('active', i === active))
+    const top = window.scrollY + 80
+    let activeId = ids[0]
+    sections.forEach((s, i) => { if (s && s.offsetTop <= top) activeId = ids[i] })
+    items.forEach(item => item.classList.toggle('active', item.dataset.target === activeId))
   }
   window.addEventListener('scroll', update, { passive: true })
   update()
