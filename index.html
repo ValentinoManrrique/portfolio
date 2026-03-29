@@ -36,7 +36,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 32px;display:f
 .nav-status::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cy);box-shadow:0 0 6px var(--cy);animation:blink 2s ease infinite}
 .nav-right{display:flex;gap:8px;align-items:center}
 .nav-links{display:flex;gap:4px}.nav-links a{font-family:var(--mono);font-size:11px;color:var(--txt-d);text-decoration:none;padding:7px 14px;border-radius:8px;border:1px solid transparent;transition:all .3s}
-.nav-links a:hover{color:var(--cy);border-color:var(--cy-b);background:var(--cy-d)}
+.nav-links a:hover,.nav-links a.active{color:var(--cy);border-color:var(--cy-b);background:var(--cy-d)}
 .nav-li{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:8px;background:var(--cy);color:var(--bg)!important;font-family:var(--mono)!important;font-size:11px!important;font-weight:700!important;text-decoration:none;letter-spacing:.5px;transition:all .3s;border:1px solid var(--cy)!important}
 .nav-li:hover{background:transparent!important;color:var(--cy)!important;box-shadow:0 0 16px var(--cy-gl)}.nav-li svg{width:12px;height:12px;fill:currentColor}
 
@@ -316,13 +316,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .proof-desc { font-size: 12px; color: var(--txt-d); line-height: 1.65; }
 
 /* Waypoint nav */
-.waypoint { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 14px; }
-.wp-item { display: flex; align-items: center; gap: 8px; cursor: pointer; background: none; border: none; padding: 0; }
-.wp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--txt-g); transition: all .3s; flex-shrink: 0; }
-.wp-label { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--txt-g); transition: all .3s; opacity: 0; transform: translateX(4px); white-space: nowrap; }
-.wp-item:hover .wp-dot, .wp-item.active .wp-dot { background: var(--cy); box-shadow: 0 0 8px var(--cy); width: 8px; height: 8px; }
-.wp-item:hover .wp-label, .wp-item.active .wp-label { color: var(--cy); opacity: 1; transform: translateX(0); }
-@media(max-width:900px){ .waypoint { display: none; } .proof-row { grid-template-columns: 1fr; } }
+@media(max-width:900px){ .proof-row { grid-template-columns: 1fr; } }
 
 /* Hero exit/enter animation */
 .hero-content { transition: opacity 0.55s ease, transform 0.55s ease; }
@@ -335,7 +329,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <nav>
   <div class="nav-left"><a href="#" class="nav-logo">VM_<span>studio</span></a><div class="nav-status">ONLINE</div></div>
   <div class="nav-right">
-    <div class="nav-links"><a href="#services">services</a><a href="#who">who</a><a href="#work">work</a><a href="#clients">clients</a><a href="#showcase">ai_gen</a><a href="#creators">content</a><a href="#stack">stack</a><a href="#about">about</a><a href="#contact">hire</a></div>
+    <div class="nav-links" id="nav-links"><a href="#services" data-section="services">services</a><a href="#who" data-section="who">who</a><a href="#work" data-section="work">work</a><a href="#clients" data-section="clients">clients</a><a href="#showcase" data-section="showcase">ai_gen</a><a href="#creators" data-section="creators">content</a><a href="#stack" data-section="stack">stack</a><a href="#about" data-section="about">about</a><a href="#contact" data-section="contact">hire</a></div>
     <a href="#services" class="nav-li" onclick="event.preventDefault();scrollToBrief()">↗ HIRE ME</a>
   </div>
 </nav>
@@ -552,7 +546,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   <div class="proof-row fi d3">
 
     <!-- n8n Automation -->
-    <a class="proof-card" href="#work">
+    <a class="proof-card featured" href="./case-ai-pipeline.html">
       <div class="proof-thumb">
         <div class="proof-thumb-grid"></div>
         <div class="proof-thumb-icon">
@@ -573,7 +567,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     </a>
 
     <!-- No-code -->
-    <a class="proof-card" href="#work">
+    <a class="proof-card" href="./case-nocode.html">
       <div class="proof-thumb">
         <div class="proof-thumb-grid"></div>
         <div class="proof-thumb-icon">
@@ -594,7 +588,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     </a>
 
     <!-- Integration guide -->
-    <a class="proof-card" href="#" onclick="event.preventDefault()">
+    <a class="proof-card" href="./case-n8n-guide.html">
       <div class="proof-thumb">
         <div class="proof-thumb-grid"></div>
         <div class="proof-thumb-icon">
@@ -620,13 +614,12 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <script>
 (function() {
   const STEPS = [
-    { key: 'projectType', q: 'What type of project is this?', hint: 'Select the closest match',
+    { key: 'projectType', q: 'What service do you need?', hint: 'Select the closest match',
       options: [
-        { label: 'Landing page',           value: 'Landing page & marketing site' },
-        { label: 'SaaS / web app',         value: 'SaaS product or web app' },
-        { label: 'E-commerce',             value: 'E-commerce store' },
-        { label: 'Mobile app',             value: 'Mobile app design' },
-        { label: 'Brand & design system',  value: 'Brand identity & design system' },
+        { label: 'UI/UX Design',          value: 'UI/UX Design' },
+        { label: 'Frontend Development',  value: 'Frontend Development' },
+        { label: 'n8n Automation',        value: 'n8n Automation' },
+        { label: 'AI Integration',        value: 'AI Integration' },
         { label: 'AI / automation',        value: 'AI or automation workflow' },
       ]
     },
@@ -1597,6 +1590,21 @@ function scrollToBrief() {
 const obs=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});},{threshold:.08,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
 document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',function(e){e.preventDefault();const h=this.getAttribute('href');if(!h||h==='#')return;const t=document.querySelector(h);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});});
+
+// Nav active state
+;(function(){
+  const links=document.querySelectorAll('#nav-links a[data-section]');
+  const ids=['services','who','work','clients','showcase','creators','stack','about','contact'];
+  const sections=ids.map(id=>document.getElementById(id)).filter(Boolean);
+  function update(){
+    const mid=window.scrollY+window.innerHeight*0.35;
+    let active=0;
+    sections.forEach((s,i)=>{if(s.offsetTop<=mid)active=i;});
+    links.forEach((a,i)=>a.classList.toggle('active',i===active));
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  update();
+})();
 
 // Matrix rain
 (function(){
