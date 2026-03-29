@@ -36,7 +36,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:16px 32px;display:f
 .nav-status::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cy);box-shadow:0 0 6px var(--cy);animation:blink 2s ease infinite}
 .nav-right{display:flex;gap:8px;align-items:center}
 .nav-links{display:flex;gap:4px}.nav-links a{font-family:var(--mono);font-size:11px;color:var(--txt-d);text-decoration:none;padding:7px 14px;border-radius:8px;border:1px solid transparent;transition:all .3s}
-.nav-links a:hover{color:var(--cy);border-color:var(--cy-b);background:var(--cy-d)}
+.nav-links a:hover,.nav-links a.active{color:var(--cy);border-color:var(--cy-b);background:var(--cy-d)}
 .nav-li{display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:8px;background:var(--cy);color:var(--bg)!important;font-family:var(--mono)!important;font-size:11px!important;font-weight:700!important;text-decoration:none;letter-spacing:.5px;transition:all .3s;border:1px solid var(--cy)!important}
 .nav-li:hover{background:transparent!important;color:var(--cy)!important;box-shadow:0 0 16px var(--cy-gl)}.nav-li svg{width:12px;height:12px;fill:currentColor}
 
@@ -303,9 +303,15 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .t-stars{color:var(--cy);font-size:10px;margin-top:4px}
 
 /* Proof row */
-.proof-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 24px; }
+.proof-row { display: grid; grid-template-columns: 1.6fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; margin-top: 24px; }
 .proof-card { background: var(--bg-c); border: 1px solid var(--brd); border-radius: var(--r); overflow: hidden; transition: border-color .3s, transform .3s; cursor: pointer; text-decoration: none; display: block; }
 .proof-card:hover { border-color: var(--brd-h); transform: translateY(-3px); }
+.proof-card.featured { grid-row: span 2; display: flex; flex-direction: column; }
+.proof-card.featured .proof-thumb { aspect-ratio: 4/3; flex-shrink: 0; }
+.proof-card.featured .proof-body { flex: 1; padding: 28px; }
+.proof-card.featured .proof-title { font-size: 18px; margin-bottom: 10px; }
+.proof-card.featured .proof-desc { font-size: 13px; line-height: 1.75; }
+.proof-card.featured .proof-tag { font-size: 10px; margin-bottom: 12px; }
 .proof-thumb { width: 100%; aspect-ratio: 16/9; background: var(--bg-e); display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--brd); position: relative; overflow: hidden; }
 .proof-thumb-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--brd) 1px,transparent 1px),linear-gradient(90deg,var(--brd) 1px,transparent 1px); background-size: 20px 20px; opacity: .6; }
 .proof-thumb-icon { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
@@ -314,15 +320,46 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .proof-tag { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
 .proof-title { font-size: 14px; font-weight: 600; color: var(--txt-b); margin-bottom: 6px; line-height: 1.3; }
 .proof-desc { font-size: 12px; color: var(--txt-d); line-height: 1.65; }
+.proof-arrow { font-family: var(--mono); font-size: 11px; color: var(--cy); margin-top: 16px; display: inline-block; transition: transform .2s; }
+.proof-card:hover .proof-arrow { transform: translateX(4px); }
 
-/* Waypoint nav */
-.waypoint { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 14px; }
-.wp-item { display: flex; align-items: center; gap: 8px; cursor: pointer; background: none; border: none; padding: 0; }
-.wp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--txt-g); transition: all .3s; flex-shrink: 0; }
-.wp-label { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--txt-g); transition: all .3s; opacity: 0; transform: translateX(4px); white-space: nowrap; }
-.wp-item:hover .wp-dot, .wp-item.active .wp-dot { background: var(--cy); box-shadow: 0 0 8px var(--cy); width: 8px; height: 8px; }
-.wp-item:hover .wp-label, .wp-item.active .wp-label { color: var(--cy); opacity: 1; transform: translateX(0); }
-@media(max-width:900px){ .waypoint { display: none; } .proof-row { grid-template-columns: 1fr; } }
+@media(max-width:900px){ .proof-row { grid-template-columns: 1fr; grid-template-rows: auto; } .proof-card.featured { grid-row: span 1; } }
+
+/* Email popup */
+.email-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .3s; backdrop-filter: blur(4px); }
+.email-overlay.show { opacity: 1; pointer-events: all; }
+.email-modal { background: var(--bg-e); border: 1px solid var(--brd-h); border-radius: var(--r); padding: 40px; max-width: 420px; width: 90%; position: relative; }
+.email-modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--txt-g); font-family: var(--mono); font-size: 16px; cursor: pointer; transition: color .2s; line-height: 1; }
+.email-modal-close:hover { color: var(--txt); }
+.email-modal-label { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--cy); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.email-modal-label::before { content: ''; width: 20px; height: 1px; background: var(--cy); opacity: .5; display: inline-block; }
+.email-modal h3 { font-size: 20px; font-weight: 700; color: var(--txt-b); margin-bottom: 8px; line-height: 1.2; }
+.email-modal p { font-size: 13px; color: var(--txt-d); line-height: 1.65; margin-bottom: 24px; }
+.email-modal-form { display: flex; gap: 8px; }
+.email-modal-input { flex: 1; padding: 11px 14px; background: var(--bg-c); border: 1px solid var(--brd-h); border-radius: 6px; font-family: var(--sans); font-size: 13px; color: var(--txt); outline: none; transition: border-color .2s; }
+.email-modal-input:focus { border-color: var(--cy-b); }
+.email-modal-input::placeholder { color: var(--txt-g); }
+.email-modal-submit { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--bg); background: var(--cy); padding: 11px 18px; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all .2s; }
+.email-modal-submit:hover { background: #40FF90; }
+.email-skip { display: block; text-align: center; margin-top: 14px; font-family: var(--mono); font-size: 10px; color: var(--txt-g); cursor: pointer; transition: color .2s; background: none; border: none; width: 100%; }
+.email-skip:hover { color: var(--txt); }
+.email-success { text-align: center; padding: 8px 0; }
+.email-success-icon { font-size: 28px; margin-bottom: 12px; }
+.email-success h4 { font-size: 16px; font-weight: 600; color: var(--txt-b); margin-bottom: 6px; }
+.email-success p { font-size: 13px; color: var(--txt-d); margin: 0; }
+@media(max-width:700px){ .nav-links { display: none; } }
+
+/* Section CTA blocks */
+.sec-cta { padding: 48px 0 0; border-top: 1px solid var(--brd); margin-top: 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.sec-cta-left { flex: 1; min-width: 240px; }
+.sec-cta-label { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-g); margin-bottom: 10px; }
+.sec-cta-h { font-size: 20px; font-weight: 600; color: var(--txt-b); line-height: 1.25; margin-bottom: 6px; }
+.sec-cta-sub { font-size: 13px; color: var(--txt-d); line-height: 1.65; }
+.sec-cta-btns { display: flex; gap: 10px; flex-wrap: wrap; flex-shrink: 0; }
+.sec-cta-primary { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--bg); background: var(--cy); padding: 10px 20px; border-radius: 6px; text-decoration: none; transition: all .2s; border: none; cursor: pointer; white-space: nowrap; }
+.sec-cta-primary:hover { background: #40FF90; box-shadow: 0 0 16px var(--cy-gl); }
+.sec-cta-ghost { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--txt-d); padding: 10px 20px; border-radius: 6px; border: 1px solid var(--brd-h); text-decoration: none; transition: all .2s; white-space: nowrap; background: none; cursor: pointer; }
+.sec-cta-ghost:hover { color: var(--cy); border-color: var(--cy-b); }
 
 /* Hero exit/enter animation */
 .hero-content { transition: opacity 0.55s ease, transform 0.55s ease; }
@@ -335,7 +372,13 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <nav>
   <div class="nav-left"><a href="#" class="nav-logo">VM_<span>studio</span></a><div class="nav-status">ONLINE</div></div>
   <div class="nav-right">
-    <div class="nav-links"><a href="#services">services</a><a href="#who">who</a><a href="#work">work</a><a href="#clients">clients</a><a href="#showcase">ai_gen</a><a href="#creators">content</a><a href="#stack">stack</a><a href="#about">about</a><a href="#contact">hire</a></div>
+    <div class="nav-links" id="nav-links">
+      <a href="#services" data-section="services">Brief</a>
+      <a href="#work" data-section="work">Work</a>
+      <a href="#stack" data-section="stack">Stack</a>
+      <a href="#about" data-section="about">About</a>
+      <a href="#contact" data-section="contact">Contact</a>
+    </div>
     <a href="#services" class="nav-li" onclick="event.preventDefault();scrollToBrief()">↗ HIRE ME</a>
   </div>
 </nav>
@@ -446,11 +489,13 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   0%,100% { box-shadow: 0 0 8px rgba(32,224,112,.12); }
   50%      { box-shadow: 0 0 20px rgba(32,224,112,.28); }
 }
-.brief-res-name { font-size: 22px; font-weight: 700; color: var(--txt-b); margin-bottom: 4px; }
+.brief-res-name { font-size: 26px; font-weight: 700; color: var(--txt-b); margin-bottom: 6px; line-height: 1.1; }
 .brief-res-type { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--cy); margin-bottom: 24px; }
-.brief-block { margin-bottom: 20px; }
-.brief-block-label { font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-g); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--brd); }
-.brief-block-text { font-size: 13px; color: var(--txt); line-height: 1.75; }
+.brief-block { margin-bottom: 22px; }
+.brief-block-label { font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-g); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--brd); }
+.brief-block-text { font-size: 14px; color: var(--txt); line-height: 1.8; }
+.brief-phase { display: flex; gap: 10px; margin-bottom: 8px; font-size: 14px; color: var(--txt); }
+.brief-question { font-size: 14px; color: var(--txt); line-height: 1.75; margin-bottom: 10px; padding-left: 12px; border-left: 2px solid var(--cy-d); }
 .brief-phase { display: flex; gap: 10px; margin-bottom: 6px; font-size: 13px; color: var(--txt); }
 .brief-phase-num { font-family: var(--mono); font-size: 10px; color: var(--cy); min-width: 22px; margin-top: 1px; }
 .brief-question { font-size: 13px; color: var(--txt); line-height: 1.7; margin-bottom: 8px; padding-left: 12px; border-left: 2px solid var(--cy-d); }
@@ -479,26 +524,30 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     </div>
     <!-- Right: service rows -->
     <div class="brief-services fi d2">
-      <div class="brief-srv-row">
+      <a class="brief-srv-row" href="./service-uiux.html" style="text-decoration:none">
         <span class="brief-srv-num">001</span>
         <span class="brief-srv-name">UI/UX Design</span>
         <span class="brief-srv-tag cy">Design</span>
-      </div>
-      <div class="brief-srv-row">
+        <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--txt-g)">→</span>
+      </a>
+      <a class="brief-srv-row" href="./service-frontend.html" style="text-decoration:none">
         <span class="brief-srv-num">002</span>
         <span class="brief-srv-name">Frontend Development</span>
         <span class="brief-srv-tag bl">Dev</span>
-      </div>
-      <div class="brief-srv-row">
+        <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--txt-g)">→</span>
+      </a>
+      <a class="brief-srv-row" href="./service-n8n.html" style="text-decoration:none">
         <span class="brief-srv-num">003</span>
         <span class="brief-srv-name">n8n Automation</span>
         <span class="brief-srv-tag yl">Automation</span>
-      </div>
-      <div class="brief-srv-row">
+        <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--txt-g)">→</span>
+      </a>
+      <a class="brief-srv-row" href="./service-ai.html" style="text-decoration:none">
         <span class="brief-srv-num">004</span>
         <span class="brief-srv-name">AI Integration</span>
         <span class="brief-srv-tag mg">AI</span>
-      </div>
+        <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--txt-g)">→</span>
+      </a>
     </div>
   </div>
 
@@ -547,12 +596,12 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   <!-- Proof row -->
   <div class="proof-row fi d3">
 
-    <!-- n8n Automation -->
-    <a class="proof-card" href="#work">
+    <!-- n8n Automation — FEATURED -->
+    <a class="proof-card featured" href="./case-ai-pipeline.html">
       <div class="proof-thumb">
         <div class="proof-thumb-grid"></div>
         <div class="proof-thumb-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
             <rect x="2" y="10" width="8" height="8" rx="2" stroke="#20E070" stroke-width="1.2"/>
             <rect x="12" y="6" width="8" height="8" rx="2" stroke="#3A3A48" stroke-width="1.2"/>
             <rect x="22" y="10" width="8" height="8" rx="2" stroke="#20E070" stroke-width="1.2"/>
@@ -562,14 +611,15 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         </div>
       </div>
       <div class="proof-body">
-        <div class="proof-tag" style="color:var(--cy)">Automation</div>
+        <div class="proof-tag" style="color:var(--cy)">Featured · Automation</div>
         <div class="proof-title">AI-powered lead capture pipeline</div>
-        <div class="proof-desc">How this brief generator captures leads, generates structured output, and notifies — fully automated with n8n.</div>
+        <div class="proof-desc">How this brief generator captures leads, generates a structured project brief with Claude, logs to Google Sheets, and notifies — fully automated with n8n. Zero manual steps.</div>
+        <div class="proof-arrow">Read case study →</div>
       </div>
     </a>
 
     <!-- No-code -->
-    <a class="proof-card" href="#work">
+    <a class="proof-card" href="./case-nocode.html">
       <div class="proof-thumb">
         <div class="proof-thumb-grid"></div>
         <div class="proof-thumb-icon">
@@ -590,7 +640,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     </a>
 
     <!-- Integration guide -->
-    <a class="proof-card" href="#" onclick="event.preventDefault()">
+    <a class="proof-card" href="./case-n8n-guide.html">
       <div class="proof-thumb">
         <div class="proof-thumb-grid"></div>
         <div class="proof-thumb-icon">
@@ -616,14 +666,12 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <script>
 (function() {
   const STEPS = [
-    { key: 'projectType', q: 'What type of project is this?', hint: 'Select the closest match',
+    { key: 'projectType', q: 'What service do you need?', hint: 'Select the closest match',
       options: [
-        { label: 'Landing page',           value: 'Landing page & marketing site' },
-        { label: 'SaaS / web app',         value: 'SaaS product or web app' },
-        { label: 'E-commerce',             value: 'E-commerce store' },
-        { label: 'Mobile app',             value: 'Mobile app design' },
-        { label: 'Brand & design system',  value: 'Brand identity & design system' },
-        { label: 'AI / automation',        value: 'AI or automation workflow' },
+        { label: 'UI/UX Design',          value: 'UI/UX Design' },
+        { label: 'Frontend Development',  value: 'Frontend Development' },
+        { label: 'n8n Automation',        value: 'n8n Automation' },
+        { label: 'AI Integration',        value: 'AI Integration' },
       ]
     },
     { key: 'goal', q: "What's your main goal?", hint: 'Pick the outcome that matters most',
@@ -970,72 +1018,319 @@ Return ONLY valid JSON (no markdown, no backticks):
   <h2 class="sec-title fi d1">Selected work</h2>
   <p class="sec-desc fi d2">Real projects, real outcomes. Long-term engagements with clients who needed a reliable partner.</p>
   <div class="work-grid">
-    <div class="case-card fi">
+    <a class="case-card fi" href="./work-readz.html" style="text-decoration:none">
+      <div class="proof-thumb" style="aspect-ratio:16/7;margin:-28px -24px 18px;border-bottom:1px solid var(--brd);border-radius:var(--r) var(--r) 0 0">
+        <div class="proof-thumb-grid"></div>
+        <div class="proof-thumb-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="4" y="6" width="24" height="20" rx="2" stroke="#20E070" stroke-width="1.2"/>
+            <path d="M8 12h16M8 16h12M8 20h8" stroke="#20E070" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <span class="proof-thumb-label" style="color:var(--cy)">publishing platform</span>
+        </div>
+      </div>
       <div class="case-num">001</div>
       <div class="case-name">READZ Publishing Platform</div>
       <div class="case-desc">Designed and built reusable UI templates for a no-code publishing platform. Long-term collaboration producing scalable components for their editor experience.</div>
       <div class="case-stats">350+ hours · Long-term engagement</div>
       <div class="case-tags"><span class="case-tag">UI/UX Design</span><span class="case-tag">Webflow</span><span class="case-tag">No-Code</span></div>
-    </div>
-    <div class="case-card fi d1">
+      <div class="proof-arrow">Read case study →</div>
+    </a>
+    <a class="case-card fi d1" href="./work-easy-mgt.html" style="text-decoration:none">
+      <div class="proof-thumb" style="aspect-ratio:16/7;margin:-28px -24px 18px;border-bottom:1px solid var(--brd);border-radius:var(--r) var(--r) 0 0">
+        <div class="proof-thumb-grid"></div>
+        <div class="proof-thumb-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="4" y="4" width="24" height="24" rx="2" stroke="#E040A0" stroke-width="1.2"/>
+            <path d="M10 12h12M10 16h8M10 20h10" stroke="#E040A0" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="24" cy="8" r="3" fill="#E040A0" opacity=".3"/>
+          </svg>
+          <span class="proof-thumb-label" style="color:var(--mg)">product redesign</span>
+        </div>
+      </div>
       <div class="case-num">002</div>
       <div class="case-name">Easy-MGT Redesign</div>
       <div class="case-desc">Full UI redesign for a business management platform — rebuilt the product's design language from the ground up.</div>
       <div class="case-stats">306+ hours · Long-term engagement</div>
-      <div class="case-tags"><span class="case-tag">UI/UX Design</span><span class="case-tag">Product Design</span></div>
-    </div>
-    <div class="case-card fi d2">
+      <div class="case-tags"><span class="case-tag" style="border-color:rgba(224,64,160,.12);color:var(--mg);background:var(--mg-d)">UI/UX Design</span><span class="case-tag" style="border-color:rgba(224,64,160,.12);color:var(--mg);background:var(--mg-d)">Product Design</span></div>
+      <div class="proof-arrow" style="color:var(--mg)">Read case study →</div>
+    </a>
+    <a class="case-card fi d2" href="./work-webflow.html" style="text-decoration:none">
+      <div class="proof-thumb" style="aspect-ratio:16/7;margin:-28px -24px 18px;border-bottom:1px solid var(--brd);border-radius:var(--r) var(--r) 0 0">
+        <div class="proof-thumb-grid"></div>
+        <div class="proof-thumb-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect x="3" y="8" width="26" height="16" rx="2" stroke="#E0D060" stroke-width="1.2"/>
+            <path d="M8 16l4 4 4-8 4 6 2-2" stroke="#E0D060" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="proof-thumb-label" style="color:var(--yl)">landing pages</span>
+        </div>
+      </div>
       <div class="case-num">003</div>
       <div class="case-name">Webflow Landing Pages</div>
       <div class="case-desc">Designed and implemented high-converting landing pages in Webflow. Fast turnaround, pixel-perfect execution.</div>
       <div class="case-stats">Fixed price · 5★ review</div>
-      <div class="case-tags"><span class="case-tag">Webflow</span><span class="case-tag">Frontend Dev</span><span class="case-tag">Landing Pages</span></div>
-    </div>
+      <div class="case-tags"><span class="case-tag" style="border-color:rgba(224,208,96,.12);color:var(--yl);background:var(--yl-d)">Webflow</span><span class="case-tag" style="border-color:rgba(224,208,96,.12);color:var(--yl);background:var(--yl-d)">Frontend Dev</span><span class="case-tag" style="border-color:rgba(224,208,96,.12);color:var(--yl);background:var(--yl-d)">Landing Pages</span></div>
+      <div class="proof-arrow" style="color:var(--yl)">Read case study →</div>
+    </a>
   </div>
 </div></section>
 
 <!-- CLIENT TESTIMONIALS -->
+<style>
+.carousel-wrap{position:relative;margin-top:48px;overflow:hidden}
+.carousel-track{display:flex;transition:transform .5s cubic-bezier(.16,1,.3,1)}
+.carousel-slide{min-width:100%;padding:0 2px}
+.carousel-slide .testimonial{transform:none;opacity:1}
+.carousel-dots{display:flex;justify-content:center;gap:8px;margin-top:24px}
+.carousel-dot{width:6px;height:6px;border-radius:50%;background:var(--txt-g);cursor:pointer;transition:all .3s;border:none;padding:0}
+.carousel-dot.active{background:var(--cy);width:20px;border-radius:3px}
+.carousel-nav{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.carousel-btn{width:36px;height:36px;border-radius:50%;background:var(--bg-c);border:1px solid var(--brd-h);color:var(--txt-d);font-family:var(--mono);font-size:14px;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center}
+.carousel-btn:hover{border-color:var(--cy-b);color:var(--cy)}
+</style>
 <section class="clients" id="clients"><div class="container">
   <div class="sec-label fi">CLIENTS_SAY</div>
   <h2 class="sec-title fi d1">From the reviews</h2>
   <p class="sec-desc fi d2">Real quotes from real Upwork clients.</p>
-  <div class="clients-grid">
-    <div class="testimonial fi">
-      <div class="t-quote">Everything was just perfect!</div>
-      <div class="t-meta">Webflow client</div>
-      <div class="t-stars">★★★★★</div>
+  <div class="carousel-wrap fi d2">
+    <div class="carousel-track" id="testimonial-track">
+      <div class="carousel-slide">
+        <div class="testimonial">
+          <div class="t-quote">"Everything was just perfect!"</div>
+          <div class="t-meta">Webflow client · Upwork</div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div class="testimonial">
+          <div class="t-quote">"Valentino quickly delivered the design of a landing page and later implemented it using Webflow. Highly recommended."</div>
+          <div class="t-meta">Landing page client · Upwork</div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div class="testimonial">
+          <div class="t-quote">"Polite, with very good communication throughout the process. Patient with changes."</div>
+          <div class="t-meta">Website redesign client · Upwork</div>
+          <div class="t-stars">★★★★½</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div class="testimonial">
+          <div class="t-quote">"Great work on the UI redesign — very responsive and understood the brief immediately."</div>
+          <div class="t-meta">SaaS product client · Upwork</div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <div class="testimonial">
+          <div class="t-quote">"Delivered exactly what we needed, on time and on budget. Will hire again."</div>
+          <div class="t-meta">E-commerce client · Upwork</div>
+          <div class="t-stars">★★★★★</div>
+        </div>
+      </div>
     </div>
-    <div class="testimonial fi d1">
-      <div class="t-quote">Valentino quickly delivered the design of a landing page and later implemented it using Webflow.</div>
-      <div class="t-meta">Landing page client</div>
-      <div class="t-stars">★★★★★</div>
+    <div class="carousel-dots" id="carousel-dots-wrap">
+      <button class="carousel-dot active" onclick="goToTestimonial(0)"></button>
+      <button class="carousel-dot" onclick="goToTestimonial(1)"></button>
+      <button class="carousel-dot" onclick="goToTestimonial(2)"></button>
+      <button class="carousel-dot" onclick="goToTestimonial(3)"></button>
+      <button class="carousel-dot" onclick="goToTestimonial(4)"></button>
     </div>
-    <div class="testimonial fi d2">
-      <div class="t-quote">Polite, with very good communication throughout the process. Patient with changes.</div>
-      <div class="t-meta">Website redesign client</div>
-      <div class="t-stars">★★★★½</div>
+    <div class="carousel-nav">
+      <button class="carousel-btn" onclick="prevTestimonial()" aria-label="Previous">←</button>
+      <button class="carousel-btn" onclick="nextTestimonial()" aria-label="Next">→</button>
     </div>
   </div>
 </div></section>
+<script>
+;(function(){
+  let cur=0;const total=5;
+  function update(){
+    const t=document.getElementById('testimonial-track');
+    if(!t)return;
+    t.style.transform='translateX(-'+(cur*100)+'%)';
+    document.querySelectorAll('.carousel-dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+  }
+  window.goToTestimonial=function(i){cur=i;update();};
+  window.nextTestimonial=function(){cur=(cur+1)%total;update();};
+  window.prevTestimonial=function(){cur=(cur-1+total)%total;update();};
+  let autoT=setInterval(()=>{if(!document.hidden)nextTestimonial();},5000);
+  const wrap=document.querySelector('.carousel-wrap');
+  if(wrap){wrap.addEventListener('mouseenter',()=>clearInterval(autoT));wrap.addEventListener('mouseleave',()=>{autoT=setInterval(()=>{if(!document.hidden)nextTestimonial();},5000);});}
+})();
+</script>
 
+<style>
+.roadmap{display:flex;flex-direction:column;gap:0;margin-top:48px;position:relative;padding-left:20px}
+.roadmap::before{content:'';position:absolute;left:19px;top:20px;bottom:20px;width:1px;background:linear-gradient(180deg,var(--cy) 0%,rgba(32,224,112,.3) 50%,var(--brd) 100%)}
+.rm-phase{display:flex;gap:28px;padding-bottom:44px;position:relative;align-items:flex-start}
+.rm-phase:last-child{padding-bottom:0}
+.rm-node{width:40px;height:40px;border-radius:50%;background:var(--bg-c);border:1px solid var(--brd-h);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--txt-d);flex-shrink:0;position:relative;z-index:1;transition:all .4s;margin-left:-20px}
+.rm-phase:nth-child(1) .rm-node{background:var(--cy-d);border-color:var(--cy);color:var(--cy);box-shadow:0 0 16px var(--cy-gl)}
+.rm-phase:nth-child(2) .rm-node{background:rgba(224,64,160,.07);border-color:rgba(224,64,160,.3);color:var(--mg)}
+.rm-phase:nth-child(3) .rm-node{background:rgba(224,208,96,.07);border-color:rgba(224,208,96,.3);color:var(--yl)}
+.rm-content{flex:1;padding-top:8px}
+.rm-tag{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.rm-phase:nth-child(1) .rm-tag{color:var(--cy)}
+.rm-phase:nth-child(2) .rm-tag{color:var(--mg)}
+.rm-phase:nth-child(3) .rm-tag{color:var(--yl)}
+.rm-title{font-size:18px;font-weight:600;color:var(--txt-b);margin-bottom:8px}
+.rm-desc{font-size:13px;line-height:1.75;color:var(--txt-d);font-weight:300;max-width:560px}
+.rm-milestones{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.rm-ms{font-family:var(--mono);font-size:9px;padding:3px 9px;border-radius:4px;background:var(--bg-h);border:1px solid var(--brd);color:var(--txt-g)}
+</style>
 <section class="approach" id="approach"><div class="container">
-  <div class="sec-label fi">PROCESS</div><h2 class="sec-title fi d1">How every project runs</h2><p class="sec-desc fi d2">Clear phases, fast iteration, no surprises. From design to automation.</p>
-  <div class="ap-grid">
-    <div class="ap fi"><div class="ap-num">01</div><h4>Define &amp; Discover</h4><p>Understand goals, users, and pain points. Map out what needs to be designed, built, and automated — clear alignment before anything starts.</p></div>
-    <div class="ap fi d1"><div class="ap-num">02</div><h4>Design &amp; Iterate</h4><p>Sketches to interactive Figma prototypes. Tight feedback loops ensure the design solves real problems before writing any code.</p></div>
-    <div class="ap fi d2"><div class="ap-num">03</div><h4>Build &amp; Automate</h4><p>Frontend code + n8n workflows deployed together. Your interface goes live connected to automated pipelines, CRM syncs, and AI integrations from day one.</p></div>
+  <div class="sec-label fi">PROCESS</div>
+  <h2 class="sec-title fi d1">How every project runs</h2>
+  <p class="sec-desc fi d2">Clear phases, fast iteration, no surprises. From design to automation.</p>
+  <div class="roadmap fi d2">
+    <div class="rm-phase">
+      <div class="rm-node">01</div>
+      <div class="rm-content">
+        <div class="rm-tag">// DISCOVERY</div>
+        <div class="rm-title">Define &amp; Discover</div>
+        <div class="rm-desc">Understand goals, users, and pain points. Map out what needs to be designed, built, and automated — clear alignment before anything starts.</div>
+        <div class="rm-milestones">
+          <span class="rm-ms">Scope doc</span>
+          <span class="rm-ms">User flows</span>
+          <span class="rm-ms">Tech audit</span>
+          <span class="rm-ms">Timeline</span>
+        </div>
+      </div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-node">02</div>
+      <div class="rm-content">
+        <div class="rm-tag">// DESIGN</div>
+        <div class="rm-title">Design &amp; Iterate</div>
+        <div class="rm-desc">Sketches to interactive Figma prototypes. Tight feedback loops ensure the design solves real problems before writing any code.</div>
+        <div class="rm-milestones">
+          <span class="rm-ms">Wireframes</span>
+          <span class="rm-ms">UI system</span>
+          <span class="rm-ms">Prototype</span>
+          <span class="rm-ms">Client review</span>
+        </div>
+      </div>
+    </div>
+    <div class="rm-phase">
+      <div class="rm-node">03</div>
+      <div class="rm-content">
+        <div class="rm-tag">// BUILD</div>
+        <div class="rm-title">Build &amp; Automate</div>
+        <div class="rm-desc">Frontend code + n8n workflows deployed together. Your interface goes live connected to automated pipelines, CRM syncs, and AI integrations from day one.</div>
+        <div class="rm-milestones">
+          <span class="rm-ms">Frontend dev</span>
+          <span class="rm-ms">n8n flows</span>
+          <span class="rm-ms">AI integration</span>
+          <span class="rm-ms">Deploy ↗</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div></section>
 
+<style>
+.demo-panel-wrap{position:relative}
+.demo-processing-bar{height:2px;background:linear-gradient(90deg,transparent,var(--cy),transparent);background-size:200% 100%;animation:demo-scan 1.8s ease infinite;margin:16px 0;opacity:0;transition:opacity .3s}
+.demo-panel-wrap.processing .demo-processing-bar{opacity:1}
+@keyframes demo-scan{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.demo-ai-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--cy);background:var(--cy-d);border:1px solid var(--cy-b);border-radius:4px;padding:3px 9px;margin-bottom:12px;opacity:0;transform:translateY(6px);transition:all .4s .6s}
+.demo-panel-wrap.done .demo-ai-badge{opacity:1;transform:translateY(0)}
+.demo-metric{transition:all .3s}
+.demo-metric.flip{animation:metric-flip .4s ease forwards}
+@keyframes metric-flip{0%{transform:rotateX(0);opacity:1}50%{transform:rotateX(90deg);opacity:0}100%{transform:rotateX(0);opacity:1}}
+.darr-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.darr-pulse{font-family:var(--mono);font-size:20px;color:var(--cy);animation:darr-pulse 1.5s ease infinite}
+@keyframes darr-pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
+.darr-label{font-family:var(--mono);font-size:8px;color:var(--txt-g);letter-spacing:.1em;text-transform:uppercase;writing-mode:vertical-rl;opacity:.6}
+.demo-replay{margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--txt-g);background:none;border:none;cursor:pointer;letter-spacing:.08em;transition:color .2s;display:flex;align-items:center;gap:6px}
+.demo-replay:hover{color:var(--cy)}
+</style>
 <section class="demo"><div class="container">
   <div class="demo-head"><div class="sec-label fi">CONCEPT</div><h2 class="sec-title fi d1">AI-enhanced product page concept</h2><p class="sec-desc fi d2">How thoughtful UI combined with AI-generated content can transform a generic listing.</p></div>
-  <div class="demo-grid fi d2">
-    <div class="pnl bef"><div class="pnl-hd"><div class="pdot"></div>BEFORE // GENERIC</div><div class="pnl-bd"><div class="bf-card"><div class="bf-ico">🧴</div><div><h5>Vitamin C Serum 30ml</h5><p class="desc">A serum with Vitamin C. Good for skin. Apply daily.</p><div class="price">$34.00</div></div></div><div class="bf-row"><div class="bf-s"><div class="v">LOW</div><div class="l">Engage</div></div><div class="bf-s"><div class="v">FLAT</div><div class="l">Copy</div></div><div class="bf-s"><div class="v">HIGH</div><div class="l">Bounce</div></div></div></div></div>
-    <div class="darr">→</div>
-    <div class="pnl aft"><div class="pnl-hd"><div class="pdot"></div>AFTER // AI_ENHANCED</div><div class="pnl-bd"><div class="af-card"><div class="af-badges"><span class="af-badge g">CLEAN</span><span class="af-badge m">BESTSELLER</span></div><div class="af-img">🧴✨</div><h5>Radiance Boost — Vitamin C Serum</h5><p>20% L-Ascorbic Acid. Lightweight, fast-absorbing. Designed for your morning ritual.</p><div class="af-pr"><span class="price">$34.00</span><span class="stars">★★★★★ 4.9</span></div><div class="af-row"><div class="af-s"><div class="v">HIGH</div><div class="l">Engage</div></div><div class="af-s"><div class="v">SMART</div><div class="l">Copy</div></div><div class="af-s"><div class="v">LOW</div><div class="l">Bounce</div></div></div></div></div></div>
+  <div class="demo-grid fi d2 demo-panel-wrap" id="demo-wrap">
+    <div class="pnl bef" id="demo-before">
+      <div class="pnl-hd"><div class="pdot"></div>BEFORE // GENERIC</div>
+      <div class="pnl-bd">
+        <div class="bf-card">
+          <div class="bf-ico">🧴</div>
+          <div>
+            <h5>Vitamin C Serum 30ml</h5>
+            <p class="desc" id="demo-copy-before">A serum with Vitamin C. Good for skin. Apply daily.</p>
+            <div class="price">$34.00</div>
+          </div>
+        </div>
+        <div class="bf-row">
+          <div class="bf-s"><div class="v demo-metric" id="dm-eng">LOW</div><div class="l">Engage</div></div>
+          <div class="bf-s"><div class="v demo-metric" id="dm-copy">FLAT</div><div class="l">Copy</div></div>
+          <div class="bf-s"><div class="v demo-metric" id="dm-bnc" style="color:var(--rd)">HIGH</div><div class="l">Bounce</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="darr-wrap">
+      <div class="darr-pulse">→</div>
+      <div class="demo-processing-bar" style="width:1px;height:40px;background:var(--cy);opacity:.2;animation:none"></div>
+      <div class="darr-label">AI</div>
+    </div>
+    <div class="pnl aft" id="demo-after">
+      <div class="pnl-hd"><div class="pdot"></div>AFTER // AI_ENHANCED</div>
+      <div class="pnl-bd">
+        <div class="af-card">
+          <div class="af-badges">
+            <span class="af-badge g demo-ai-badge">✦ AI OPTIMIZED</span>
+          </div>
+          <div class="af-badges" style="margin-bottom:0">
+            <span class="af-badge g">CLEAN</span><span class="af-badge m">BESTSELLER</span>
+          </div>
+          <div class="af-img" style="margin-top:8px">🧴✨</div>
+          <h5 id="demo-title-after" style="opacity:0;transition:opacity .5s .4s">Radiance Boost — Vitamin C Serum</h5>
+          <p id="demo-copy-after" style="opacity:0;transition:opacity .5s .6s">20% L-Ascorbic Acid. Lightweight, fast-absorbing. Designed for your morning ritual.</p>
+          <div class="af-pr" style="opacity:0;transition:opacity .4s .8s" id="demo-price-after"><span class="price">$34.00</span><span class="stars">★★★★★ 4.9</span></div>
+          <div class="af-row" style="margin-top:10px">
+            <div class="af-s"><div class="v demo-metric" id="dm-eng-a" style="opacity:0;transition:opacity .3s 1s">HIGH</div><div class="l">Engage</div></div>
+            <div class="af-s"><div class="v demo-metric" id="dm-copy-a" style="opacity:0;transition:opacity .3s 1.1s">SMART</div><div class="l">Copy</div></div>
+            <div class="af-s"><div class="v demo-metric" id="dm-bnc-a" style="opacity:0;transition:opacity .3s 1.2s">LOW</div><div class="l">Bounce</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <p class="demo-note fi d3">// This is a design concept — not a fabricated case study</p>
+  <div style="display:flex;align-items:center;gap:16px;margin-top:16px" class="fi d3">
+    <p class="demo-note" style="margin:0">// This is a design concept — not a fabricated case study</p>
+    <button class="demo-replay" onclick="replayDemoAnimation()">↺ replay</button>
+  </div>
 </div></section>
+<script>
+;(function(){
+  function runDemoAnimation(){
+    const wrap=document.getElementById('demo-wrap');
+    if(!wrap)return;
+    wrap.classList.remove('processing','done');
+    ['demo-title-after','demo-copy-after','demo-price-after','dm-eng-a','dm-copy-a','dm-bnc-a'].forEach(id=>{
+      const el=document.getElementById(id);if(el)el.style.opacity='0';
+    });
+    document.querySelectorAll('.demo-ai-badge').forEach(b=>{b.style.opacity='0';b.style.transform='translateY(6px)';});
+    setTimeout(()=>{wrap.classList.add('processing');},400);
+    setTimeout(()=>{
+      wrap.classList.remove('processing');
+      wrap.classList.add('done');
+      ['demo-title-after','demo-copy-after','demo-price-after','dm-eng-a','dm-copy-a','dm-bnc-a'].forEach(id=>{
+        const el=document.getElementById(id);if(el)el.style.opacity='1';
+      });
+      document.querySelectorAll('.demo-ai-badge').forEach(b=>{b.style.opacity='1';b.style.transform='translateY(0)';});
+    },1800);
+  }
+  window.replayDemoAnimation=runDemoAnimation;
+  // Trigger on scroll into view
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){runDemoAnimation();obs.unobserve(e.target);}});
+  },{threshold:0.3});
+  const wrap=document.getElementById('demo-wrap');
+  if(wrap)obs.observe(wrap);
+})();
+</script>
 
 <section class="showcase" id="showcase"><div class="container">
   <div class="showcase-head"><div class="sec-label fi">AI_GENERATION</div><h2 class="sec-title fi d1">AI-powered visuals for every use case</h2><p class="sec-desc fi d2">From product photography to brand videos — AI generation integrated into real design workflows.</p></div>
@@ -1188,26 +1483,6 @@ Return ONLY valid JSON (no markdown, no backticks):
     <a href="https://www.upwork.com/freelancers/manrriquevalentino" target="_blank" class="li-secondary">↗ Available on Upwork</a>
   </div>
   <div class="fi d2" style="margin-top:20px;font-family:var(--mono);font-size:10px;color:var(--txt-g);letter-spacing:.5px;text-align:center">19 jobs completed · $20K+ earned · 5★ rated · Avg. response 1–2hrs</div>
-  <div class="hire-process fi d3">
-    <div class="hire-process-title">// HOW_TO_HIRE_ME</div>
-    <div class="hire-steps">
-      <div class="hire-step">
-        <div class="hire-step-num">1</div>
-        <h6>Send a Message</h6>
-        <p>Describe your project on Upwork — scope, timeline, budget range</p>
-      </div>
-      <div class="hire-step">
-        <div class="hire-step-num">2</div>
-        <h6>Quick Discovery Call</h6>
-        <p>15-min call to align on goals, deliverables, and approach</p>
-      </div>
-      <div class="hire-step">
-        <div class="hire-step-num">3</div>
-        <h6>Proposal & Kickoff</h6>
-        <p>Clear proposal with milestones. Accept and we start building</p>
-      </div>
-    </div>
-  </div>
   <div class="cta-avail fi d3">AVAILABLE_NOW — TYPICALLY RESPONDS IN 1-2 HOURS</div>
   <div class="cta-links fi d4"><a href="https://github.com/ValentinoManrrique/" target="_blank">github</a><a href="https://www.behance.net/valentinomanrrique" target="_blank">behance</a><a href="https://www.instagram.com/ds.missing" target="_blank">instagram</a></div>
 </div></section>
@@ -1228,14 +1503,23 @@ Return ONLY valid JSON (no markdown, no backticks):
 
 <canvas id="matrix-rain"></canvas>
 
-<!-- Waypoint nav -->
-<nav class="waypoint" id="waypoint">
-  <button class="wp-item" data-target="services" onclick="wpGo('services')"><span class="wp-label">Brief</span><span class="wp-dot"></span></button>
-  <button class="wp-item" data-target="work" onclick="wpGo('work')"><span class="wp-label">Work</span><span class="wp-dot"></span></button>
-  <button class="wp-item" data-target="stack" onclick="wpGo('stack')"><span class="wp-label">Stack</span><span class="wp-dot"></span></button>
-  <button class="wp-item" data-target="about" onclick="wpGo('about')"><span class="wp-label">About</span><span class="wp-dot"></span></button>
-  <button class="wp-item" data-target="contact" onclick="wpGo('contact')"><span class="wp-label">Contact</span><span class="wp-dot"></span></button>
-</nav>
+<!-- Email popup -->
+<div class="email-overlay" id="email-overlay">
+  <div class="email-modal">
+    <button class="email-modal-close" onclick="closeEmailPopup()">✕</button>
+    <div id="email-modal-body">
+      <div class="email-modal-label">// STAY_IN_THE_LOOP</div>
+      <h3>Get project insights<br>& automation tips</h3>
+      <p>Short notes on UI/UX, n8n workflows, and AI tools — from someone building real projects. No spam, unsubscribe anytime.</p>
+      <div class="email-modal-form">
+        <input class="email-modal-input" id="email-input" type="email" placeholder="your@email.com" />
+        <button class="email-modal-submit" onclick="submitEmail()">Subscribe</button>
+      </div>
+      <button class="email-skip" onclick="closeEmailPopup()">No thanks</button>
+    </div>
+  </div>
+</div>
+
 
 <footer>
   <div class="f-brand">VM_<span>studio</span></div>
@@ -1345,20 +1629,50 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click'
   draw();
 })();
 
-// Waypoint nav
-function wpGo(id) {
-  const t = document.getElementById(id)
-  if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' })
+// Email popup
+function closeEmailPopup() {
+  document.getElementById('email-overlay').classList.remove('show')
+  sessionStorage.setItem('email-popup-seen', '1')
+}
+async function submitEmail() {
+  const email = document.getElementById('email-input').value.trim()
+  if (!email || !email.includes('@')) {
+    document.getElementById('email-input').style.borderColor = 'var(--mg)'
+    return
+  }
+  document.getElementById('email-modal-body').innerHTML = `
+    <div class="email-success">
+      <div class="email-success-icon">✓</div>
+      <h4>You're in.</h4>
+      <p>Thanks — I'll keep it worth reading.</p>
+    </div>`
+  setTimeout(closeEmailPopup, 2200)
+  // Wire to your n8n webhook when ready:
+  // fetch('YOUR_EMAIL_WEBHOOK_URL', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email }) })
 }
 ;(function() {
-  const items = document.querySelectorAll('.wp-item')
+  if (sessionStorage.getItem('email-popup-seen')) return
+  // Trigger after 50% scroll depth
+  function onScroll() {
+    const scrolled = window.scrollY / (document.body.scrollHeight - window.innerHeight)
+    if (scrolled > 0.5) {
+      document.getElementById('email-overlay').classList.add('show')
+      window.removeEventListener('scroll', onScroll)
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true })
+})()
+
+// Nav active state on scroll
+;(function() {
+  const links = document.querySelectorAll('#nav-links a[data-section]')
   const ids = ['services','work','stack','about','contact']
   const sections = ids.map(id => document.getElementById(id)).filter(Boolean)
   function update() {
-    const mid = window.scrollY + window.innerHeight * 0.4
+    const mid = window.scrollY + window.innerHeight * 0.35
     let active = 0
     sections.forEach((s, i) => { if (s.offsetTop <= mid) active = i })
-    items.forEach((item, i) => item.classList.toggle('active', i === active))
+    links.forEach((a, i) => a.classList.toggle('active', i === active))
   }
   window.addEventListener('scroll', update, { passive: true })
   update()

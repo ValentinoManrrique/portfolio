@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brief Generator → n8n Integration Guide — VM Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0A0A0C;--bg-e:#111114;--bg-c:#14141A;--bg-h:#1A1A22;
+  --txt:#D4D4D8;--txt-b:#F0F0F4;--txt-d:#6B6B78;--txt-g:#3A3A48;
+  --cy:#20E070;--cy-b:rgba(32,224,112,0.10);--cy-d:rgba(32,224,112,0.07);--cy-gl:rgba(32,224,112,0.15);
+  --yl:#E0D060;--yl-d:rgba(224,208,96,0.07);
+  --brd:rgba(255,255,255,0.05);--brd-h:rgba(255,255,255,0.09);
+  --sans:'Outfit',sans-serif;--mono:'Space Mono',monospace;--r:10px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--sans);font-weight:300;line-height:1.7;-webkit-font-smoothing:antialiased}
+.cs-nav{position:sticky;top:0;z-index:100;padding:18px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,12,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd)}
+.cs-logo{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cy);text-decoration:none}
+.cs-logo span{color:var(--txt-g);font-weight:400}
+.cs-back{font-family:var(--mono);font-size:11px;color:var(--txt-d);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .2s}
+.cs-back:hover{color:var(--cy)}
+.cs-hero{padding:80px 40px 64px;max-width:860px;margin:0 auto}
+.cs-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--yl);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.cs-eyebrow::before{content:'';display:inline-block;width:24px;height:1px;background:var(--yl);opacity:.5}
+.cs-hero h1{font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--txt-b);line-height:1.1;letter-spacing:-1px;margin-bottom:16px}
+.cs-hero h1 span{color:var(--cy)}
+.cs-sub{font-size:16px;color:var(--txt-d);line-height:1.75;max-width:580px;margin-bottom:36px}
+.cs-meta{display:flex;flex-wrap:wrap;gap:8px}
+.cs-chip{font-family:var(--mono);font-size:10px;letter-spacing:.08em;padding:5px 12px;border-radius:6px;border:1px solid var(--brd-h);color:var(--txt-d)}
+.cs-chip.yl{border-color:rgba(224,208,96,.2);color:var(--yl);background:var(--yl-d)}
+.cs-cover{max-width:960px;margin:0 auto;padding:0 40px 64px}
+.cs-diagram{background:var(--bg-e);border:1px solid var(--brd);border-radius:var(--r);padding:48px 40px;position:relative;overflow:hidden}
+.cs-diagram-grid{position:absolute;inset:0;background-image:linear-gradient(var(--brd) 1px,transparent 1px),linear-gradient(90deg,var(--brd) 1px,transparent 1px);background-size:32px 32px;opacity:.5}
+.cs-diagram-label{position:absolute;top:18px;right:20px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-g)}
+.cs-flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;position:relative;z-index:1}
+.cs-node{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.cs-node-box{padding:12px 18px;border-radius:8px;border:1px solid var(--brd-h);background:var(--bg-c);font-family:var(--mono);font-size:11px;color:var(--txt);min-width:96px}
+.cs-node-box.cy{border-color:var(--cy);color:var(--cy);background:var(--cy-d);box-shadow:0 0 16px rgba(32,224,112,.1)}
+.cs-node-box.yl{border-color:var(--yl);color:var(--yl);background:var(--yl-d)}
+.cs-node-lbl{font-family:var(--mono);font-size:9px;color:var(--txt-g);letter-spacing:.06em}
+.cs-arrow{font-size:14px;color:var(--txt-g);flex-shrink:0;margin-bottom:18px}
+.cs-body{max-width:720px;margin:0 auto;padding:0 40px 100px}
+.cs-section{margin-bottom:56px}
+.cs-section-num{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--yl);margin-bottom:12px}
+.cs-section h2{font-size:22px;font-weight:600;color:var(--txt-b);margin-bottom:14px;line-height:1.2}
+.cs-section p{font-size:14px;color:var(--txt);line-height:1.8;margin-bottom:14px}
+.cs-section p:last-child{margin-bottom:0}
+.cs-section strong{color:var(--txt-b);font-weight:500}
+hr.cs-divider{border:none;border-top:1px solid var(--brd);margin:56px 0}
+/* Code blocks */
+pre{background:var(--bg-c);border:1px solid var(--brd);border-radius:var(--r);padding:20px 24px;overflow-x:auto;margin:16px 0;position:relative}
+pre .pre-label{position:absolute;top:10px;right:14px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-g)}
+code{font-family:var(--mono);font-size:12px;color:var(--cy);line-height:1.9}
+p code,li code{background:var(--bg-c);padding:2px 6px;border-radius:4px;border:1px solid var(--brd);font-size:12px;color:var(--cy)}
+.c-comment{color:var(--txt-g)}.c-key{color:#79b8ff}.c-str{color:#9ecbff}.c-fn{color:#b392f0}.c-kw{color:#f97583}
+/* Callouts */
+.cs-callout{border-radius:var(--r);padding:16px 20px;margin:20px 0;border-left:3px solid}
+.cs-callout-info{background:var(--cy-b);border-color:var(--cy)}
+.cs-callout-warn{background:var(--yl-d);border-color:var(--yl)}
+.cs-callout-label{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.cs-callout-info .cs-callout-label{color:var(--cy)}
+.cs-callout-warn .cs-callout-label{color:var(--yl)}
+.cs-callout p{font-size:13px;margin:0;line-height:1.7}
+/* Steps */
+.cs-steps{display:flex;flex-direction:column;gap:0;margin:20px 0}
+.cs-step{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--brd)}
+.cs-step:last-child{border-bottom:none}
+.cs-step-num{font-family:var(--mono);font-size:12px;color:var(--yl);min-width:28px;flex-shrink:0;margin-top:2px}
+.cs-step h3{font-size:14px;font-weight:500;color:var(--txt-b);margin-bottom:4px}
+.cs-step p{font-size:13px;color:var(--txt-d);line-height:1.7;margin:0}
+/* TOC */
+.cs-toc{background:var(--bg-e);border:1px solid var(--brd);border-radius:var(--r);padding:24px 28px;margin-bottom:48px}
+.cs-toc-title{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-g);margin-bottom:14px}
+.cs-toc ol{list-style:none;counter-reset:toc;display:flex;flex-direction:column;gap:6px}
+.cs-toc li{counter-increment:toc;display:flex;gap:12px;font-size:13px}
+.cs-toc li::before{content:counter(toc,decimal-leading-zero);font-family:var(--mono);font-size:11px;color:var(--yl);flex-shrink:0;margin-top:1px}
+.cs-toc a{color:var(--txt);text-decoration:none}
+.cs-toc a:hover{color:var(--cy)}
+.cs-stack-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.cs-stack-chip{font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:6px 12px;border-radius:6px;border:1px solid var(--brd-h);color:var(--txt-d);background:var(--bg-c)}
+.cs-cta-block{background:var(--bg-e);border:1px solid var(--brd);border-radius:var(--r);padding:40px;text-align:center;margin-bottom:80px}
+.cs-cta-block h3{font-size:20px;font-weight:600;color:var(--txt-b);margin-bottom:8px}
+.cs-cta-block p{font-size:14px;color:var(--txt-d);margin-bottom:24px}
+.cs-cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cs-btn-primary{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--bg);background:var(--cy);padding:11px 22px;border-radius:6px;text-decoration:none;transition:all .2s}
+.cs-btn-primary:hover{background:#40FF90;box-shadow:0 0 20px var(--cy-gl)}
+.cs-btn-ghost{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-d);padding:11px 22px;border-radius:6px;border:1px solid var(--brd-h);text-decoration:none;transition:all .2s}
+.cs-btn-ghost:hover{color:var(--cy);border-color:var(--cy-b)}
+.cs-next{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:80px}
+.cs-next-card{background:var(--bg-c);border:1px solid var(--brd);border-radius:var(--r);padding:24px;text-decoration:none;transition:all .3s;display:block}
+.cs-next-card:hover{border-color:var(--brd-h);transform:translateY(-2px)}
+.cs-next-label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-g);margin-bottom:8px}
+.cs-next-title{font-size:14px;font-weight:500;color:var(--txt-b)}
+footer{padding:28px 40px;border-top:1px solid var(--brd);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.f-brand{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--cy)}
+.f-brand span{color:var(--txt-g);font-weight:400}
+.f-copy{font-family:var(--mono);font-size:10px;color:var(--txt-g)}
+@media(max-width:700px){
+  .cs-nav{padding:14px 20px}
+  .cs-hero,.cs-cover,.cs-body{padding-left:20px;padding-right:20px}
+  .cs-next{grid-template-columns:1fr}
+  .cs-flow{flex-direction:column;align-items:center}
+  .cs-arrow{transform:rotate(90deg)}
+  footer{padding:24px 20px}
+}
+.cs-float-back { position: fixed; bottom: 28px; left: 28px; z-index: 200; display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: var(--txt-d); background: var(--bg-e); border: 1px solid var(--brd-h); padding: 10px 16px; border-radius: 8px; text-decoration: none; transition: all .25s; backdrop-filter: blur(8px); }
+.cs-float-back:hover { color: var(--cy); border-color: var(--cy-b); transform: translateX(-2px); }
+</style>
+</head>
+<body>
+
+<nav class="cs-nav">
+  <a href="./index.html" class="cs-logo">VM_<span>studio</span></a>
+  <a href="./index.html" class="cs-back">← Back to portfolio</a>
+</nav>
+
+<div class="cs-hero">
+  <div class="cs-eyebrow">Tutorial · Integration Guide</div>
+  <h1>Brief Generator <span>→ n8n</span></h1>
+  <p class="cs-sub">Step-by-step: wire the portfolio brief form to a real n8n workflow. Webhook trigger, AI brief generation, lead logging, and Vercel deploy.</p>
+  <div class="cs-meta">
+    <span class="cs-chip yl">Tutorial</span>
+    <span class="cs-chip">n8n</span>
+    <span class="cs-chip">Anthropic Claude</span>
+    <span class="cs-chip">~2–3 hours</span>
+  </div>
+</div>
+
+<div class="cs-cover">
+  <div class="cs-diagram">
+    <div class="cs-diagram-grid"></div>
+    <div class="cs-diagram-label">// FINAL_WORKFLOW</div>
+    <div class="cs-flow">
+      <div class="cs-node">
+        <div class="cs-node-box cy">Webhook</div>
+        <div class="cs-node-lbl">POST trigger</div>
+      </div>
+      <div class="cs-arrow">→</div>
+      <div class="cs-node">
+        <div class="cs-node-box">LLM Chain</div>
+        <div class="cs-node-lbl">Claude Haiku</div>
+      </div>
+      <div class="cs-arrow">→</div>
+      <div class="cs-node">
+        <div class="cs-node-box">Code</div>
+        <div class="cs-node-lbl">parse JSON</div>
+      </div>
+      <div class="cs-arrow">→</div>
+      <div class="cs-node">
+        <div class="cs-node-box yl">Sheets</div>
+        <div class="cs-node-lbl">log lead</div>
+      </div>
+      <div class="cs-arrow">→</div>
+      <div class="cs-node">
+        <div class="cs-node-box cy">Respond</div>
+        <div class="cs-node-lbl">brief JSON</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cs-body">
+
+  <div class="cs-toc">
+    <div class="cs-toc-title">// TABLE_OF_CONTENTS</div>
+    <ol>
+      <li><a href="#overview">What you're building</a></li>
+      <li><a href="#n8n-setup">Set up n8n</a></li>
+      <li><a href="#workflow">Build the workflow</a></li>
+      <li><a href="#prompt">The AI prompt</a></li>
+      <li><a href="#code-node">Code node — parse JSON</a></li>
+      <li><a href="#deploy">Deploy & go live</a></li>
+      <li><a href="#troubleshoot">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <div class="cs-section" id="overview">
+    <div class="cs-section-num">// 01 — OVERVIEW</div>
+    <h2>What you're building</h2>
+    <p>The brief generator form on the portfolio sends 5 fields to an n8n webhook. n8n passes them to Claude, which generates a structured JSON brief. The brief comes back to the browser and renders in real time.</p>
+    <p>The result: every form submission becomes a <strong>lead log entry</strong> and a <strong>structured project brief</strong> — with zero manual work.</p>
+    <div class="cs-callout cs-callout-info">
+      <div class="cs-callout-label">Time to complete</div>
+      <p>2–3 hours end to end. n8n setup is the longest part (~1.5hrs first time). Once the workflow is live, adding new nodes takes minutes.</p>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <div class="cs-section" id="n8n-setup">
+    <div class="cs-section-num">// 02 — N8N SETUP</div>
+    <h2>Set up n8n Cloud</h2>
+    <div class="cs-steps">
+      <div class="cs-step">
+        <div class="cs-step-num">01</div>
+        <div>
+          <h3>Create account</h3>
+          <p>Go to n8n.io → "Get started free". Free trial: 5 active workflows, 2,500 executions/month — plenty for this.</p>
+        </div>
+      </div>
+      <div class="cs-step">
+        <div class="cs-step-num">02</div>
+        <div>
+          <h3>Add Anthropic credential</h3>
+          <p>Settings → Credentials → Add → search "Anthropic" → paste your API key from console.anthropic.com. Name it <code>Anthropic account</code>.</p>
+        </div>
+      </div>
+      <div class="cs-step">
+        <div class="cs-step-num">03</div>
+        <div>
+          <h3>Add Google Sheets credential (optional)</h3>
+          <p>Credentials → Add → "Google Sheets" → follow the OAuth flow. Required only if you want lead logging.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <div class="cs-section" id="workflow">
+    <div class="cs-section-num">// 03 — WORKFLOW</div>
+    <h2>Build the workflow node by node</h2>
+
+    <h3 style="font-size:15px;color:var(--txt-b);margin:20px 0 10px">Node 1 — Webhook</h3>
+    <p>New Workflow → Add node → Webhook. Configure:</p>
+    <div class="cs-steps">
+      <div class="cs-step">
+        <div class="cs-step-num">→</div>
+        <div><h3>HTTP Method: POST</h3><p>Response Mode: <strong>Response Node</strong> — critical. This makes n8n wait for the Respond node before sending back the HTTP response.</p></div>
+      </div>
+      <div class="cs-step">
+        <div class="cs-step-num">→</div>
+        <div><h3>Copy the production URL</h3><p>Activate the workflow (toggle top-right). The production URL format is <code>https://your-instance.app.n8n.cloud/webhook/[id]</code>. Paste this into your site.</p></div>
+      </div>
+    </div>
+
+    <h3 style="font-size:15px;color:var(--txt-b);margin:28px 0 10px">Node 2 — Basic LLM Chain</h3>
+    <p>Add node → Basic LLM Chain → connect Anthropic credential → model: <code>claude-haiku-4-5-20251001</code>. Paste the prompt from section 04 into the User Message field.</p>
+
+    <h3 style="font-size:15px;color:var(--txt-b);margin:28px 0 10px">Node 3 — Code (parse JSON)</h3>
+    <p>See section 05 for the exact code.</p>
+
+    <h3 style="font-size:15px;color:var(--txt-b);margin:28px 0 10px">Node 4 — Respond to Webhook</h3>
+    <p>Respond With: JSON · Response Body: <code>&#123;&#123; $json &#125;&#125;</code></p>
+  </div>
+
+  <hr class="cs-divider">
+
+  <div class="cs-section" id="prompt">
+    <div class="cs-section-num">// 04 — AI PROMPT</div>
+    <h2>The prompt (~110 tokens)</h2>
+    <p>Paste this into the Basic LLM Chain User Message field. n8n uses <code>&#123;&#123; &#125;&#125;</code> for variable interpolation from the webhook body.</p>
+
+<pre><code>Brief writer. JSON only, no markdown.
+
+type: <span class="c-fn">&#123;&#123; $json.body.projectType &#125;&#125;</span>
+goal: <span class="c-fn">&#123;&#123; $json.body.goal &#125;&#125;</span>
+timeline: <span class="c-fn">&#123;&#123; $json.body.timeline &#125;&#125;</span>
+budget: <span class="c-fn">&#123;&#123; $json.body.budget &#125;&#125;</span>
+challenge: <span class="c-fn">&#123;&#123; $json.body.challenge &#125;&#125;</span>
+
+&#123;"projectName":"3-5 word name","projectType":"<span class="c-fn">&#123;&#123; $json.body.projectType &#125;&#125;</span>","scope":"2 sentences: what gets built and how it solves the challenge within the budget","phases":["4 phases as 'Name: deliverable' paced for the timeline"],"questions":"3 specific pre-kickoff questions\nseparated by newlines"&#125;<span class="pre-label">n8n — LLM Chain user message</span></code></pre>
+
+    <div class="cs-callout cs-callout-warn">
+      <div class="cs-callout-label">Max tokens</div>
+      <p>Set Max Tokens to <strong>1024</strong> in the Anthropic node. Lower values truncate the JSON and cause parse errors.</p>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <div class="cs-section" id="code-node">
+    <div class="cs-section-num">// 05 — CODE NODE</div>
+    <h2>Parse the AI response to JSON</h2>
+    <p>The LLM returns a text string. This Code node parses it into a real JSON object before the Respond node sends it back.</p>
+
+<pre><code><span class="c-kw">const</span> raw = $input.first().json.text.replace(<span class="c-str">/```json|```/g</span>, <span class="c-str">''</span>).trim()
+<span class="c-kw">try</span> {
+  <span class="c-kw">return</span> [{ json: <span class="c-fn">JSON</span>.parse(raw) }]
+} <span class="c-kw">catch</span>(e) {
+  <span class="c-comment">// Fallback — prevents workflow failure on bad JSON</span>
+  <span class="c-kw">return</span> [{ json: { projectName: <span class="c-str">'Project Brief'</span>, scope: raw.substring(0,300), phases: [], questions: <span class="c-str">''</span> } }]
+}<span class="pre-label">n8n — Code node</span></code></pre>
+  </div>
+
+  <hr class="cs-divider">
+
+  <div class="cs-section" id="deploy">
+    <div class="cs-section-num">// 06 — DEPLOY</div>
+    <h2>Go live</h2>
+    <div class="cs-steps">
+      <div class="cs-step">
+        <div class="cs-step-num">01</div>
+        <div><h3>Activate workflow in n8n</h3><p>Toggle to Active (top-right). The production webhook URL is now live.</p></div>
+      </div>
+      <div class="cs-step">
+        <div class="cs-step-num">02</div>
+        <div><h3>Paste production URL in index.html</h3><p>Find <code>WEBHOOK_URL</code> in the brief generator script and replace with your n8n production URL.</p></div>
+      </div>
+      <div class="cs-step">
+        <div class="cs-step-num">03</div>
+        <div><h3>Push to Vercel</h3><p><code>git push</code> — Vercel auto-deploys. Test the form on the live site and check the n8n Executions tab.</p></div>
+      </div>
+    </div>
+    <div class="cs-callout cs-callout-warn">
+      <div class="cs-callout-label">CORS</div>
+      <p>n8n Cloud blocks requests from unknown origins. Add your Vercel domain in n8n Settings → Allowed Origins, or set <code>*</code> during testing.</p>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <div class="cs-section" id="troubleshoot">
+    <div class="cs-section-num">// 07 — TROUBLESHOOTING</div>
+    <h2>Common issues</h2>
+    <div class="cs-steps">
+      <div class="cs-step">
+        <div class="cs-step-num">!</div>
+        <div><h3>Brief doesn't appear — loading forever</h3><p>Workflow not Active, or Respond to Webhook not connected. Check n8n Executions tab for the failing node.</p></div>
+      </div>
+      <div class="cs-step">
+        <div class="cs-step-num">!</div>
+        <div><h3>CORS error in console</h3><p>Add your domain to n8n Settings → Allowed Origins.</p></div>
+      </div>
+      <div class="cs-step">
+        <div class="cs-step-num">!</div>
+        <div><h3>JSON parse error</h3><p>Max Tokens too low — the response is getting cut off. Set to 1024 in the Anthropic node.</p></div>
+      </div>
+      <div class="cs-step">
+        <div class="cs-step-num">!</div>
+        <div><h3>500 error from webhook</h3><p>Check the AI node — wrong model name or invalid/missing Anthropic API key.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <div class="cs-section">
+    <div class="cs-section-num">// STACK</div>
+    <h2>Tools used</h2>
+    <div class="cs-stack-chips">
+      <span class="cs-stack-chip">n8n Cloud</span>
+      <span class="cs-stack-chip">Anthropic Claude Haiku</span>
+      <span class="cs-stack-chip">Google Sheets</span>
+      <span class="cs-stack-chip">Vercel</span>
+      <span class="cs-stack-chip">Vanilla JS</span>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <div class="cs-cta-block">
+    <h3>Want this built for you?</h3>
+    <p>I can wire up n8n automations for your product — lead capture, AI pipelines, CRM integrations.</p>
+    <div class="cs-cta-btns">
+      <a href="./index.html#services" class="cs-btn-primary">↗ Start a project</a>
+      <a href="./case-ai-pipeline.html" class="cs-btn-ghost">See the case study →</a>
+    </div>
+  </div>
+
+  <div class="cs-next">
+    <a href="./case-ai-pipeline.html" class="cs-next-card">
+      <div class="cs-next-label">Case Study</div>
+      <div class="cs-next-title">← AI Lead Capture Pipeline</div>
+    </a>
+    <a href="./case-nocode.html" class="cs-next-card">
+      <div class="cs-next-label">Case Study</div>
+      <div class="cs-next-title">Ship Without a Backend Team →</div>
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="f-brand">VM_<span>studio</span></div>
+  <span class="f-copy">© 2026 Valentino Manrrique — All rights reserved</span>
+</footer>
+
+<a class="cs-float-back" href="./index.html">← Portfolio</a>
+
+</body>
+</html>
