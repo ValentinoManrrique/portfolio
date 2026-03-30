@@ -506,9 +506,28 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .brief-phase { display: flex; gap: 10px; margin-bottom: 6px; font-size: 13px; color: var(--txt); }
 .brief-phase-num { font-family: var(--mono); font-size: 10px; color: var(--cy); min-width: 22px; margin-top: 1px; }
 .brief-question { font-size: 13px; color: var(--txt); line-height: 1.7; margin-bottom: 8px; padding-left: 12px; border-left: 2px solid var(--cy-d); }
+.brief-result { overflow-y: auto; }
+.brief-email-inp { width: 100%; padding: 13px 15px; border: 1px solid var(--brd-h); background: var(--bg-c); font-family: var(--sans); font-size: 14px; color: var(--txt); border-radius: 8px; outline: none; margin-bottom: 8px; transition: border-color .2s; box-sizing: border-box; }
+.brief-email-inp:focus { border-color: var(--cy-b); }
+.brief-email-inp::placeholder { color: var(--txt-g); }
+.brief-email-inp.err { border-color: rgba(255,64,96,.5); }
+.brief-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.brief-action-btn { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; padding: 8px 14px; border-radius: 6px; border: 1px solid var(--brd-h); background: transparent; color: var(--txt-d); cursor: pointer; transition: all .15s; white-space: nowrap; }
+.brief-action-btn:hover { border-color: var(--cy-b); color: var(--cy); background: var(--cy-d); }
+.brief-action-btn.sent { border-color: rgba(32,224,112,.2); color: rgba(32,224,112,.55); background: rgba(32,224,112,.04); cursor: default; pointer-events: none; }
+.brief-action-btn.reset:hover { border-color: rgba(255,64,96,.3); color: #FF4060; background: rgba(255,64,96,.05); }
+.brief-timeline-strip { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: rgba(32,224,112,.06); border: 1px solid rgba(32,224,112,.15); border-radius: 8px; margin-bottom: 20px; }
+.brief-timeline-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: rgba(32,224,112,.6); }
+.brief-timeline-val { font-family: var(--mono); font-size: 13px; font-weight: 700; color: #20E070; }
+.brief-deliverables { display: flex; flex-direction: column; gap: 6px; }
+.brief-deliv-row { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--txt); line-height: 1.5; }
+.brief-deliv-check { font-family: var(--mono); font-size: 10px; color: var(--cy); min-width: 14px; margin-top: 2px; }
+.brief-whyme { display: flex; flex-direction: column; gap: 7px; }
+.brief-why-row { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--txt); line-height: 1.5; }
+.brief-why-arrow { font-family: var(--mono); font-size: 10px; color: #E040A0; min-width: 14px; margin-top: 2px; }
 .brief-footer { margin-top: auto; padding-top: 18px; border-top: 1px solid var(--brd); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .brief-footer-note { font-size: 11px; color: var(--txt-g); line-height: 1.5; max-width: 190px; }
-.brief-cta-btn { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--bg); background: var(--cy); padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all .15s; }
+.brief-cta-btn { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--bg); background: var(--cy); padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all .15s; text-decoration: none; display: inline-block; }
 .brief-cta-btn:hover { background: #40FF90; box-shadow: 0 0 16px var(--cy-gl); }
 
 /* Spinner */
@@ -611,6 +630,18 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 
     <!-- Form side -->
     <div class="brief-form">
+
+      <!-- Email capture (pre-step) -->
+      <div id="brief-email-view">
+        <div class="brief-card-title">Where should we send your brief?</div>
+        <div class="brief-card-sub">// ENTER_EMAIL_TO_BEGIN</div>
+        <input type="email" class="brief-email-inp" id="brief-email-inp" placeholder="your@email.com" onkeydown="if(event.key==='Enter')briefStartEmail()" />
+        <div class="brief-hint" style="margin-bottom:28px">Your brief will be generated and sent to this address — no spam, ever.</div>
+        <div class="brief-nav" style="justify-content:flex-end">
+          <button class="brief-btn-next" onclick="briefStartEmail()">start brief →</button>
+        </div>
+      </div>
+
       <div class="brief-progress" id="brief-progress"></div>
 
       <!-- Step indicator -->
@@ -767,18 +798,33 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 
   const LOADING_MSGS = ['Analysing project type','Scoping deliverables','Defining project phases','Preparing clarifying questions','Finalising your brief']
 
-  let step = 0, answers = {}, phase = 'form', loadInterval = null
+  let step = 0, answers = {}, phase = 'email', email = '', lastBrief = null, loadInterval = null
 
   function render() {
+    const emailView = document.getElementById('brief-email-view')
+    const prog      = document.getElementById('brief-progress')
+    const stepInd   = document.getElementById('brief-step-ind')
+    const card      = document.getElementById('brief-card')
+
+    // Email phase: show only the email capture view
+    if (phase === 'email') {
+      if (emailView) emailView.style.display = ''
+      if (prog)     prog.style.display = 'none'
+      if (stepInd)  stepInd.style.display = 'none'
+      document.getElementById('brief-form-view').style.display = 'none'
+      document.getElementById('brief-summary-view').style.display = 'none'
+      if (card) { card.style.borderColor = ''; card.style.boxShadow = '' }
+      return
+    }
+
+    if (emailView) emailView.style.display = 'none'
+    if (prog)      prog.style.display = ''
+
     // Progress — letter tabs
-    const prog = document.getElementById('brief-progress')
     prog.innerHTML = STEPS.map((s, i) => {
       const cls = i < step ? 'done' : i === step ? 'active' : ''
       return `<div class="brief-seg ${cls}"><span class="brief-seg-l">${s.letter}</span><span class="brief-seg-dot"></span></div>`
     }).join('')
-
-    const card = document.getElementById('brief-card')
-    const stepInd = document.getElementById('brief-step-ind')
 
     if (phase === 'form') {
       const c = STEPS[step].color
@@ -893,11 +939,51 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   }
 
   window.briefReset = function() {
-    step = 0; answers = {}; phase = 'form'
+    step = 0; answers = {}; phase = 'form'; lastBrief = null
     document.getElementById('brief-result-content').innerHTML = placeholderHTML()
     const card = document.getElementById('brief-card')
     if (card) { card.style.borderColor = ''; card.style.boxShadow = '' }
     render()
+  }
+
+  window.briefStartEmail = function() {
+    const inp = document.getElementById('brief-email-inp')
+    const val = inp ? inp.value.trim() : ''
+    if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+      if (inp) { inp.classList.add('err'); inp.focus() }
+      return
+    }
+    if (inp) inp.classList.remove('err')
+    email = val
+    phase = 'form'
+    render()
+  }
+
+  window.briefCopy = function() {
+    if (!lastBrief) return
+    const b = lastBrief
+    const lines = [
+      b.projectName || 'Project Brief',
+      b.projectType || '',
+      b.timelineEstimate ? `Estimated delivery: ${b.timelineEstimate}` : '',
+      '',
+      'SCOPE',
+      b.scope || '',
+      '',
+      "WHAT YOU'LL GET",
+      ...(b.deliverables || []).map(d => '✓ ' + d),
+      '',
+      'WHY VM STUDIO FOR THIS',
+      ...(b.whyMe || []).map(w => '→ ' + w),
+      '',
+      'PHASES',
+      ...(b.phases || []).map((p, i) => `${String(i+1).padStart(2,'0')} ${p}`),
+    ]
+    const text = lines.join('\n')
+    navigator.clipboard?.writeText(text).then(() => {
+      const btn = document.getElementById('brief-copy-btn')
+      if (btn) { btn.textContent = '✓ Copied!'; setTimeout(() => { btn.textContent = '↗ Copy brief' }, 2000) }
+    })
   }
 
   function placeholderHTML() {
@@ -967,38 +1053,178 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       </div>`
     }).join('')
 
-    const questions = (b.questions || '').split('\n').filter(q => q.trim()).map(q =>
-      `<div class="brief-question">${q.trim()}</div>`
+    const deliverables = (b.deliverables || []).map(d =>
+      `<div class="brief-deliv-row"><span class="brief-deliv-check">✓</span><span>${d}</span></div>`
     ).join('')
+
+    const whyMe = (b.whyMe || []).map(w =>
+      `<div class="brief-why-row"><span class="brief-why-arrow">→</span><span>${w}</span></div>`
+    ).join('')
+
+    const timelineStrip = b.timelineEstimate
+      ? `<div class="brief-timeline-strip"><span class="brief-timeline-lbl">Estimated delivery</span><span class="brief-timeline-val">${b.timelineEstimate}</span></div>`
+      : ''
+
+    const sentLabel = email ? `✓ Sent to ${email}` : '✓ Brief sent'
 
     return `<div style="flex:1;display:flex;flex-direction:column">
       <div class="brief-res-name">${b.projectName || 'Your Project'}</div>
       <div class="brief-res-type">${b.projectType || ''}</div>
+      ${timelineStrip}
       <div class="brief-block">
         <div class="brief-block-label">Scope overview</div>
         <div class="brief-block-text">${b.scope || ''}</div>
       </div>
+      ${deliverables ? `<div class="brief-block">
+        <div class="brief-block-label">What you'll get</div>
+        <div class="brief-deliverables">${deliverables}</div>
+      </div>` : ''}
+      ${whyMe ? `<div class="brief-block">
+        <div class="brief-block-label">Why VM Studio for this</div>
+        <div class="brief-whyme">${whyMe}</div>
+      </div>` : ''}
       <div class="brief-block">
         <div class="brief-block-label">Suggested phases</div>
         ${phases}
       </div>
       <div class="brief-block">
-        <div class="brief-block-label">Questions before we start</div>
-        ${questions}
+        <div class="brief-block-label">Actions</div>
+        <div class="brief-actions">
+          <button class="brief-action-btn" id="brief-copy-btn" onclick="briefCopy()">↗ Copy brief</button>
+          <span class="brief-action-btn sent">${sentLabel}</span>
+          <a class="brief-action-btn" href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" rel="noopener">↗ Start project</a>
+          <button class="brief-action-btn reset" onclick="briefReset()">↺ New brief</button>
+        </div>
       </div>
       <div class="brief-footer">
-        <div class="brief-footer-note">Brief generated by VM Studio AI. Ready to talk through the details?</div>
-        <button class="brief-cta-btn" onclick="document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})">book a call →</button>
+        <div class="brief-footer-note">This brief is ready. Let's start building.</div>
+        <a class="brief-cta-btn" href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" rel="noopener">start now →</a>
       </div>
     </div>`
   }
 
   function fallback(a) {
+    const type = (a.projectType || '').toLowerCase()
+    const isFrontend = type.includes('frontend') || type.includes('development')
+    const isN8n = type.includes('n8n') || type.includes('automation')
+    const isAI = type.includes('ai') || type.includes('artificial')
+    // default: UI/UX Design
+
+    const timelineMap = {
+      'As soon as possible (under 2 weeks)': '1–2 weeks',
+      '1 month': '3–4 weeks',
+      '2–3 months': '6–10 weeks',
+      'Flexible — quality over speed': '4–6 weeks',
+    }
+    const timelineEstimate = timelineMap[a.timeline] || '3–5 weeks'
+
+    if (isFrontend) {
+      return {
+        projectName: 'Frontend Build Sprint',
+        projectType: a.projectType,
+        timelineEstimate,
+        scope: `Build a responsive, production-ready frontend focused on ${(a.goal||'performance and conversion').toLowerCase()}. Clean markup, fast load times, and pixel-perfect implementation — delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
+        deliverables: [
+          'Responsive, cross-browser frontend (HTML/CSS/JS or React/Next.js)',
+          'Performance-optimized build — fast load, semantic markup, accessible',
+          'Full source code + deployment to Vercel or Netlify',
+          'Component documentation and 2-week post-launch support',
+        ],
+        whyMe: [
+          '6+ years shipping production frontends — from landing pages to full SaaS dashboards',
+          'Design background means pixel-perfect output with zero back-and-forth on visuals',
+          'I own design-to-code end to end — no handoff friction, no lost context',
+        ],
+        phases: [
+          'Discovery & planning: Requirements, tech stack, component map, responsive breakpoints',
+          'Build: Markup, CSS architecture, JS interactions, animations',
+          'QA & review: Cross-browser testing, performance audit, client feedback rounds',
+          'Launch & handoff: Deploy, documentation, 2-week support window',
+        ],
+        questions: 'Do you have a Figma design file or will design also be in scope?\nAre there specific performance targets (Core Web Vitals, Lighthouse score)?\nWhich CMS or backend does the frontend need to connect to, if any?',
+      }
+    }
+
+    if (isN8n) {
+      return {
+        projectName: 'Automation Pipeline Build',
+        projectType: a.projectType,
+        timelineEstimate,
+        scope: `Build and deploy an n8n automation workflow to ${(a.goal||'automate your core processes').toLowerCase()}. Trigger setup, error handling, and AI integration where needed — live within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
+        deliverables: [
+          'Production n8n workflow deployed to your cloud or self-hosted instance',
+          'Webhook/trigger setup with error handling and retry logic',
+          'AI node integration (Claude or OpenAI) if applicable',
+          'Workflow documentation + short walkthrough video',
+          '2-week post-launch support',
+        ],
+        whyMe: [
+          'Built production n8n pipelines for lead capture, CRM sync, AI content, and internal ops',
+          'Full-stack perspective: I design the UX of the automation, not just the plumbing',
+          'Fast iteration — most workflows are live within 1–2 weeks',
+        ],
+        phases: [
+          'Mapping: Document every trigger, step, data shape, and edge case',
+          'Build: n8n workflow construction, webhook config, node connections',
+          'Test: End-to-end testing with real data, error handling and retry verification',
+          'Deploy & handoff: Live deployment, documentation, walkthrough',
+        ],
+        questions: 'Where is n8n hosted — cloud, self-hosted, or should I set that up too?\nWhat data sources and destinations are involved (CRM, spreadsheet, API)?\nIs there an existing workflow to replace, or is this built from scratch?',
+      }
+    }
+
+    if (isAI) {
+      return {
+        projectName: 'AI Integration Sprint',
+        projectType: a.projectType,
+        timelineEstimate,
+        scope: `Design and build a production AI integration to ${(a.goal||'add intelligent automation to your product').toLowerCase()}. Prompt engineering, API connection, and UI — all in one scope, delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
+        deliverables: [
+          'Working AI feature integrated into your product or workflow',
+          'Prompt engineering tuned to your specific use case and data',
+          'Frontend UI for the AI interaction (if applicable)',
+          'n8n or API glue layer connecting all moving parts',
+          'Documentation and 2-week post-launch support',
+        ],
+        whyMe: [
+          'Shipped Claude and OpenAI integrations in production across SaaS products and automation pipelines',
+          'I handle UI, prompt engineering, and API layer in a single scope — no coordination overhead',
+          'Fast time-to-working: most integrations are live within 2–3 weeks',
+        ],
+        phases: [
+          'Discovery: Define AI use case, data flow, inputs/outputs, and success criteria',
+          'Prompt engineering: Design, test, and iterate prompts against your real data',
+          'Integration: Connect AI to your frontend, backend, or n8n workflow',
+          'Launch & handoff: QA, documentation, deployment',
+        ],
+        questions: 'Which AI provider do you prefer — Claude, OpenAI, or open to recommendation?\nWhat data or context does the AI need to do its job well?\nWhere does the AI output go — displayed in UI, stored, sent somewhere?',
+      }
+    }
+
+    // Default: UI/UX Design
     return {
-      projectName: a.projectType?.includes('SaaS') ? 'The Dashboard Sprint' : a.projectType?.includes('Landing') ? 'Conversion-First Launch' : 'Studio Project Brief',
+      projectName: 'Design Sprint',
       projectType: a.projectType,
-      scope: `Design and develop a ${(a.projectType||'digital product').toLowerCase()} focused on ${(a.goal||"the client's core goal").toLowerCase()}. Delivered within ${(a.timeline||'the agreed timeline').toLowerCase()} including UX, UI, and frontend build.`,
-      phases: ['Discovery & research: Stakeholder interviews, user flows, competitive audit','Design: Wireframes, hi-fi UI, interactive prototype in Figma','Development: Frontend build in React/Next.js, responsive & accessible','Launch & handoff: QA, documentation, deployment support'],
+      timelineEstimate,
+      scope: `Design a ${(a.projectType||'digital product').toLowerCase()} focused on ${(a.goal||'user experience and conversion').toLowerCase()}. Research-grounded, Figma-native, and developer-ready — delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
+      deliverables: [
+        'User flows and annotated wireframes',
+        'High-fidelity UI in Figma — desktop and mobile',
+        'Interactive prototype for stakeholder review',
+        'Design system / component library with tokens',
+        'Developer handoff specs — ready to build from day one',
+      ],
+      whyMe: [
+        '6+ years of UI/UX work across SaaS, e-commerce, and marketing products',
+        'CS + UX background: I design for both users and the developers who build it',
+        'Figma-native: clean, well-structured files with zero rework on handoff',
+      ],
+      phases: [
+        'Discovery & research: Stakeholder interviews, user flows, competitive audit',
+        'Design: Wireframes, hi-fi UI, interactive prototype in Figma',
+        'Review & iteration: Feedback rounds, design QA, final polish',
+        'Handoff: Developer specs, component library, asset export',
+      ],
       questions: 'Do you have existing brand guidelines or is visual identity in scope?\nWho is the primary decision-maker and what does approval look like?\nAre there existing tools or platforms this needs to integrate with?',
     }
   }
@@ -1018,9 +1244,9 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     }, 900)
 
     const a = answers
-    const prompt = `You are a senior creative studio director writing a project brief.
+    const prompt = `You are writing a conversion-focused project brief for VM Studio — a one-person design and development studio run by Valentino Manrrique (UI/UX Designer, Frontend Developer, n8n automation expert, AI integration specialist — 6+ years, Upwork Top Rated Plus, $75/hr, 5 stars).
 
-Based on these client answers, write a concise professional project brief in JSON format.
+Based on these client answers, write a professional project brief in JSON format. Every section must be specific to the project type selected — if it is Frontend Development, write about frontend work; if it is n8n Automation, write about automation workflows; do not be generic.
 
 Client answers:
 - Project type: ${a.projectType}
@@ -1033,9 +1259,12 @@ Return ONLY valid JSON (no markdown, no backticks):
 {
   "projectName": "A short evocative name for this project (3-5 words)",
   "projectType": "${a.projectType}",
-  "scope": "2-3 sentences describing what will be designed and built, specific to their inputs",
+  "timelineEstimate": "Realistic end-to-end delivery estimate based on their timeline and scope, e.g. '2–3 weeks' or '4–6 weeks'",
+  "scope": "2-3 sentences describing exactly what will be built, fully specific to the project type — not generic",
+  "deliverables": ["Concrete deliverable 1 specific to this project type", "Concrete deliverable 2", "Concrete deliverable 3", "Concrete deliverable 4"],
+  "whyMe": ["Specific reason VM Studio is the right fit for this exact project type and challenge", "Second reason that addresses their stated challenge or goal", "Third reason — a trust signal or differentiator"],
   "phases": ["Phase name: brief description", "Phase name: brief description", "Phase name: brief description", "Phase name: brief description"],
-  "questions": "3 short clarifying questions before starting, separated by \\n"
+  "questions": "3 short clarifying questions tailored to this project type, separated by \\n"
 }`
 
     // ── Level 2: validate body has all required fields before hitting the API ──
@@ -1068,6 +1297,7 @@ Return ONLY valid JSON (no markdown, no backticks):
           timeline:    a.timeline,
           budget:      a.budget,
           challenge:   a.challenge,
+          email:       email,
         })
       })
 
@@ -1075,15 +1305,18 @@ Return ONLY valid JSON (no markdown, no backticks):
 
       let parsed = await res.json()
       if (Array.isArray(parsed)) parsed = parsed[0]
+      lastBrief = parsed
       clearInterval(loadInterval)
       phase = 'result'
       render()
       document.getElementById('brief-result-content').innerHTML = resultHTML(parsed)
     } catch(e) {
+      const fb = fallback(a)
+      lastBrief = fb
       clearInterval(loadInterval)
       phase = 'result'
       render()
-      document.getElementById('brief-result-content').innerHTML = resultHTML(fallback(a))
+      document.getElementById('brief-result-content').innerHTML = resultHTML(fb)
     }
   }
 
