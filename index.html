@@ -594,6 +594,20 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .brief-footer-note { font-size: 11px; color: var(--txt-g); line-height: 1.5; max-width: 190px; }
 .brief-cta-btn { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--bg); background: var(--cy); padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; white-space: nowrap; transition: all .15s; text-decoration: none; display: inline-block; }
 .brief-cta-btn:hover { background: #40FF90; box-shadow: 0 0 16px var(--cy-gl); }
+.brief-seg.clickable { cursor: pointer; }
+.brief-seg.clickable:hover .brief-seg-l { opacity: 1 !important; }
+.brief-footer { flex-direction: column; align-items: flex-start; }
+.brief-footer-btns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.brief-detail-btn { display: flex; align-items: center; gap: 7px; padding: 9px 14px; border-radius: 8px; border: 1px solid var(--brd-h); background: transparent; font-family: var(--mono); font-size: 11px; color: var(--txt-d); cursor: pointer; transition: all .2s; white-space: nowrap; }
+.brief-detail-btn:hover, .brief-detail-btn.open { border-color: var(--cy-b); color: var(--cy); }
+.brief-detail-icon { display: flex; align-items: center; }
+.brief-detail-chevron { transition: transform .25s; display: inline-block; }
+.brief-detail-btn.open .brief-detail-chevron { transform: rotate(180deg); }
+.brief-detail-wrap { max-height: 0; overflow: hidden; transition: max-height .45s ease; }
+.brief-detail-wrap.open { max-height: 800px; }
+.brief-artifact-shell { border: 1px dashed var(--brd-h); border-radius: var(--r); padding: 28px 24px; margin-top: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 120px; }
+.brief-artifact-label { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; color: var(--txt-g); text-transform: uppercase; }
+.brief-artifact-note { font-size: 12px; color: var(--txt-d); text-align: center; line-height: 1.6; }
 
 /* Spinner */
 @keyframes vm-spin2 { to { transform: rotate(360deg); transform-origin: 14px 14px; } }
@@ -900,13 +914,19 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 
     // Progress — letter tabs
     prog.innerHTML = STEPS.map((s, i) => {
-      const cls = i < step ? 'done' : i === step ? 'active' : ''
-      return `<div class="brief-seg ${cls}"><span class="brief-seg-l">${s.letter}</span><span class="brief-seg-dot"></span></div>`
+      const isDone = phase === 'result' || i < step
+      const isActive = phase === 'form' && i === step
+      const clickable = isDone || isActive
+      const cls = (phase === 'result' || i < step ? 'done' : i === step ? 'active' : '') + (clickable ? ' clickable' : '')
+      return `<div class="brief-seg ${cls}" ${clickable ? `onclick="briefGoTo(${i})"` : ''}><span class="brief-seg-l">${s.letter}</span><span class="brief-seg-dot"></span></div>`
     }).join('')
 
     // Sync big BRIEF stat items with progress
     document.querySelectorAll('.brief-stat-item').forEach((item, i) => {
       item.classList.remove('active', 'done')
+      const clickable = phase === 'result' || (phase === 'form' && i <= step)
+      item.style.cursor = clickable ? 'pointer' : 'default'
+      item.onclick = clickable ? () => briefGoTo(i) : null
       if (phase === 'form') {
         if (i < step) item.classList.add('done')
         else if (i === step) item.classList.add('active')
@@ -1150,6 +1170,50 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     }
   }
 
+  window.briefGoTo = function(i) {
+    if (phase === 'email') return
+    step = i
+    phase = 'form'
+    render()
+  }
+
+  window.briefToggleDetail = function() {
+    const wrap = document.getElementById('brief-detail-wrap')
+    const btn  = document.getElementById('brief-detail-btn')
+    if (!wrap) return
+    const open = wrap.classList.toggle('open')
+    if (btn) btn.classList.toggle('open', open)
+  }
+
+  function artifactPreviewIcon(type) {
+    const t = (type || '').toLowerCase()
+    if (t.includes('n8n') || t.includes('automation'))
+      return `<svg width="24" height="10" viewBox="0 0 24 10" fill="none"><circle cx="2" cy="5" r="2" fill="currentColor"/><path d="M4 5h5" stroke="currentColor" stroke-width="1.2" opacity=".5"/><circle cx="12" cy="5" r="2" fill="currentColor"/><path d="M14 5h5" stroke="currentColor" stroke-width="1.2" opacity=".5"/><circle cx="22" cy="5" r="2" fill="currentColor"/></svg>`
+    if (t.includes('frontend') || t.includes('development'))
+      return `<svg width="20" height="14" viewBox="0 0 20 14" fill="none"><polyline points="6,3 1,7 6,11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><polyline points="14,3 19,7 14,11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="13" y1="2" x2="7" y2="12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".6"/></svg>`
+    if (t.includes('ai') || t.includes('artificial'))
+      return `<svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect x="1" y="1" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.2" opacity=".7"/><line x1="4" y1="7" x2="10" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="11" y="5.5" width="1.5" height="3" rx=".5" fill="currentColor"/></svg>`
+    // UI/UX default
+    return `<svg width="20" height="14" viewBox="0 0 20 14" fill="none"><rect x="1" y="1" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.2" opacity=".5"/><rect x="3" y="3" width="14" height="3" rx="1" fill="currentColor" opacity=".25"/><rect x="3" y="8" width="9" height="1.5" rx=".5" fill="currentColor" opacity=".25"/><rect x="3" y="11" width="6" height="1.5" rx=".5" fill="currentColor" opacity=".25"/></svg>`
+  }
+
+  function artifactDetailHTML(b) {
+    const type = (b.projectType || '').toLowerCase()
+    let label = 'WORKFLOW_DIAGRAM'
+    let note = 'Your automation flow diagram — nodes, triggers, and logic mapped from your answers.'
+    if (type.includes('frontend') || type.includes('development')) {
+      label = 'COMPONENT_PREVIEW'; note = 'A live interactive component preview built to match your project scope.'
+    } else if (type.includes('ai') || type.includes('artificial')) {
+      label = 'AI_DEMO'; note = 'A working input/output demo showing what your AI integration would feel like.'
+    } else if (type.includes('ui') || type.includes('ux') || type.includes('design')) {
+      label = 'WIREFRAME_SKETCH'; note = 'A low-fi wireframe sketch of your core screen, annotated with key design decisions.'
+    }
+    return `<div class="brief-artifact-shell">
+      <div class="brief-artifact-label">// ${label}</div>
+      <div class="brief-artifact-note">${note}<br><span style="color:var(--cy);font-family:var(--mono);font-size:10px">Coming soon</span></div>
+    </div>`
+  }
+
   function parseDays(str) {
     if (!str) return 5
     const m = str.match(/(\d+(?:\.\d+)?)\s*(day|week)/i)
@@ -1232,7 +1296,17 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       </div>
       <div class="brief-footer">
         <div class="brief-footer-note">${b.nextStep || 'This brief is ready. Let\'s start building.'}</div>
-        <a class="brief-cta-btn" href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" rel="noopener">start now →</a>
+        <div class="brief-footer-btns">
+          <button class="brief-detail-btn" id="brief-detail-btn" onclick="briefToggleDetail()">
+            <span class="brief-detail-icon">${artifactPreviewIcon(b.projectType)}</span>
+            <span>Detailed brief</span>
+            <span class="brief-detail-chevron">↓</span>
+          </button>
+          <a class="brief-cta-btn" href="https://www.linkedin.com/in/valentino-manrrique-8a7251191/" target="_blank" rel="noopener">start now →</a>
+        </div>
+      </div>
+      <div class="brief-detail-wrap" id="brief-detail-wrap">
+        ${artifactDetailHTML(b)}
       </div>
     </div>`
   }
