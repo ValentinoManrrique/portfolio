@@ -1565,6 +1565,97 @@ Return ONLY valid JSON (no markdown, no backticks):
 })()
 </script>
 
+<style>
+.demo-processing-bar{height:2px;background:linear-gradient(90deg,transparent,var(--cy),transparent);background-size:200% 100%;animation:demo-scan 1.8s ease infinite;margin:0 0 0;opacity:0;transition:opacity .3s;position:absolute;top:0;left:0;right:0}
+.demo-panel-wrap.processing .demo-processing-bar{opacity:1}
+@keyframes demo-scan{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.demo-ai-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--cy);background:var(--cy-d);border:1px solid var(--cy-b);border-radius:4px;padding:3px 9px;margin-bottom:8px;opacity:0;transform:translateY(6px);transition:all .4s .6s}
+.demo-panel-wrap.done .demo-ai-badge{opacity:1;transform:translateY(0)}
+.darr-anim{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.darr-chevron{font-family:var(--mono);font-size:18px;color:var(--cy);animation:darr-pulse 1.5s ease infinite}
+@keyframes darr-pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
+.darr-ai-lbl{font-family:var(--mono);font-size:8px;color:var(--txt-g);letter-spacing:.1em;text-transform:uppercase;writing-mode:vertical-rl;opacity:.6}
+.demo-replay-btn{font-family:var(--mono);font-size:10px;color:var(--txt-g);background:none;border:none;cursor:pointer;letter-spacing:.08em;transition:color .2s;display:inline-flex;align-items:center;gap:6px}
+.demo-replay-btn:hover{color:var(--cy)}
+</style>
+<section class="demo"><div class="container">
+  <div class="demo-head"><div class="sec-label fi">CONCEPT</div><h2 class="sec-title fi d1">AI-enhanced product page concept</h2><p class="sec-desc fi d2">How thoughtful UI combined with AI-generated content can transform a generic listing.</p></div>
+  <div class="demo-grid fi d2 demo-panel-wrap" id="demo-wrap" style="position:relative">
+    <div class="demo-processing-bar"></div>
+    <div class="pnl bef" id="demo-before">
+      <div class="pnl-hd"><div class="pdot"></div>BEFORE // GENERIC</div>
+      <div class="pnl-bd">
+        <div class="bf-card">
+          <div class="bf-ico">🧴</div>
+          <div>
+            <h5>Vitamin C Serum 30ml</h5>
+            <p class="desc">A serum with Vitamin C. Good for skin. Apply daily.</p>
+            <div class="price">$34.00</div>
+          </div>
+        </div>
+        <div class="bf-row">
+          <div class="bf-s"><div class="v">LOW</div><div class="l">Engage</div></div>
+          <div class="bf-s"><div class="v">FLAT</div><div class="l">Copy</div></div>
+          <div class="bf-s"><div class="v" style="color:var(--rd)">HIGH</div><div class="l">Bounce</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="darr-anim">
+      <div class="darr-chevron">→</div>
+      <div class="darr-ai-lbl">AI</div>
+    </div>
+    <div class="pnl aft" id="demo-after">
+      <div class="pnl-hd"><div class="pdot"></div>AFTER // AI_ENHANCED</div>
+      <div class="pnl-bd">
+        <div class="af-card">
+          <div class="demo-ai-badge">✦ AI OPTIMIZED</div>
+          <div class="af-badges"><span class="af-badge g">CLEAN</span><span class="af-badge m">BESTSELLER</span></div>
+          <div class="af-img" style="margin-top:8px">🧴✨</div>
+          <h5 id="demo-title-a" style="opacity:0;transition:opacity .5s .4s">Radiance Boost — Vitamin C Serum</h5>
+          <p id="demo-copy-a" style="opacity:0;transition:opacity .5s .6s">20% L-Ascorbic Acid. Lightweight, fast-absorbing. Designed for your morning ritual.</p>
+          <div id="demo-price-a" class="af-pr" style="opacity:0;transition:opacity .4s .8s"><span class="price">$34.00</span><span class="stars">★★★★★ 4.9</span></div>
+          <div class="af-row" style="margin-top:10px">
+            <div class="af-s"><div class="v" id="dm-e" style="opacity:0;transition:opacity .3s 1s">HIGH</div><div class="l">Engage</div></div>
+            <div class="af-s"><div class="v" id="dm-c" style="opacity:0;transition:opacity .3s 1.1s">SMART</div><div class="l">Copy</div></div>
+            <div class="af-s"><div class="v" id="dm-b" style="opacity:0;transition:opacity .3s 1.2s">LOW</div><div class="l">Bounce</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;margin-top:16px" class="fi d3">
+    <p class="demo-note" style="margin:0">// This is a design concept — not a fabricated case study</p>
+    <button class="demo-replay-btn" onclick="replayDemo()">↺ replay</button>
+  </div>
+</div></section>
+<script>
+;(function(){
+  function runDemo(){
+    const wrap=document.getElementById('demo-wrap');
+    if(!wrap)return;
+    wrap.classList.remove('processing','done');
+    ['demo-title-a','demo-copy-a','demo-price-a','dm-e','dm-c','dm-b'].forEach(function(id){
+      var el=document.getElementById(id);if(el)el.style.opacity='0';
+    });
+    document.querySelectorAll('.demo-ai-badge').forEach(function(b){b.style.opacity='0';b.style.transform='translateY(6px)';});
+    setTimeout(function(){wrap.classList.add('processing');},400);
+    setTimeout(function(){
+      wrap.classList.remove('processing');
+      wrap.classList.add('done');
+      ['demo-title-a','demo-copy-a','demo-price-a','dm-e','dm-c','dm-b'].forEach(function(id){
+        var el=document.getElementById(id);if(el)el.style.opacity='1';
+      });
+    },1800);
+  }
+  window.replayDemo=runDemo;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){runDemo();obs.unobserve(e.target);}});
+  },{threshold:0.3});
+  var wrap=document.getElementById('demo-wrap');
+  if(wrap)obs.observe(wrap);
+})();
+</script>
+
 <!-- WHO I WORK WITH -->
 <section class="who" id="who"><div class="container">
   <div class="sec-label fi">WHO_I_WORK_WITH</div>
@@ -1771,96 +1862,6 @@ Return ONLY valid JSON (no markdown, no backticks):
   </div>
 </div></section>
 
-<style>
-.demo-processing-bar{height:2px;background:linear-gradient(90deg,transparent,var(--cy),transparent);background-size:200% 100%;animation:demo-scan 1.8s ease infinite;margin:0 0 0;opacity:0;transition:opacity .3s;position:absolute;top:0;left:0;right:0}
-.demo-panel-wrap.processing .demo-processing-bar{opacity:1}
-@keyframes demo-scan{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.demo-ai-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--cy);background:var(--cy-d);border:1px solid var(--cy-b);border-radius:4px;padding:3px 9px;margin-bottom:8px;opacity:0;transform:translateY(6px);transition:all .4s .6s}
-.demo-panel-wrap.done .demo-ai-badge{opacity:1;transform:translateY(0)}
-.darr-anim{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
-.darr-chevron{font-family:var(--mono);font-size:18px;color:var(--cy);animation:darr-pulse 1.5s ease infinite}
-@keyframes darr-pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
-.darr-ai-lbl{font-family:var(--mono);font-size:8px;color:var(--txt-g);letter-spacing:.1em;text-transform:uppercase;writing-mode:vertical-rl;opacity:.6}
-.demo-replay-btn{font-family:var(--mono);font-size:10px;color:var(--txt-g);background:none;border:none;cursor:pointer;letter-spacing:.08em;transition:color .2s;display:inline-flex;align-items:center;gap:6px}
-.demo-replay-btn:hover{color:var(--cy)}
-</style>
-<section class="demo"><div class="container">
-  <div class="demo-head"><div class="sec-label fi">CONCEPT</div><h2 class="sec-title fi d1">AI-enhanced product page concept</h2><p class="sec-desc fi d2">How thoughtful UI combined with AI-generated content can transform a generic listing.</p></div>
-  <div class="demo-grid fi d2 demo-panel-wrap" id="demo-wrap" style="position:relative">
-    <div class="demo-processing-bar"></div>
-    <div class="pnl bef" id="demo-before">
-      <div class="pnl-hd"><div class="pdot"></div>BEFORE // GENERIC</div>
-      <div class="pnl-bd">
-        <div class="bf-card">
-          <div class="bf-ico">🧴</div>
-          <div>
-            <h5>Vitamin C Serum 30ml</h5>
-            <p class="desc">A serum with Vitamin C. Good for skin. Apply daily.</p>
-            <div class="price">$34.00</div>
-          </div>
-        </div>
-        <div class="bf-row">
-          <div class="bf-s"><div class="v">LOW</div><div class="l">Engage</div></div>
-          <div class="bf-s"><div class="v">FLAT</div><div class="l">Copy</div></div>
-          <div class="bf-s"><div class="v" style="color:var(--rd)">HIGH</div><div class="l">Bounce</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="darr-anim">
-      <div class="darr-chevron">→</div>
-      <div class="darr-ai-lbl">AI</div>
-    </div>
-    <div class="pnl aft" id="demo-after">
-      <div class="pnl-hd"><div class="pdot"></div>AFTER // AI_ENHANCED</div>
-      <div class="pnl-bd">
-        <div class="af-card">
-          <div class="demo-ai-badge">✦ AI OPTIMIZED</div>
-          <div class="af-badges"><span class="af-badge g">CLEAN</span><span class="af-badge m">BESTSELLER</span></div>
-          <div class="af-img" style="margin-top:8px">🧴✨</div>
-          <h5 id="demo-title-a" style="opacity:0;transition:opacity .5s .4s">Radiance Boost — Vitamin C Serum</h5>
-          <p id="demo-copy-a" style="opacity:0;transition:opacity .5s .6s">20% L-Ascorbic Acid. Lightweight, fast-absorbing. Designed for your morning ritual.</p>
-          <div id="demo-price-a" class="af-pr" style="opacity:0;transition:opacity .4s .8s"><span class="price">$34.00</span><span class="stars">★★★★★ 4.9</span></div>
-          <div class="af-row" style="margin-top:10px">
-            <div class="af-s"><div class="v" id="dm-e" style="opacity:0;transition:opacity .3s 1s">HIGH</div><div class="l">Engage</div></div>
-            <div class="af-s"><div class="v" id="dm-c" style="opacity:0;transition:opacity .3s 1.1s">SMART</div><div class="l">Copy</div></div>
-            <div class="af-s"><div class="v" id="dm-b" style="opacity:0;transition:opacity .3s 1.2s">LOW</div><div class="l">Bounce</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div style="display:flex;align-items:center;gap:16px;margin-top:16px" class="fi d3">
-    <p class="demo-note" style="margin:0">// This is a design concept — not a fabricated case study</p>
-    <button class="demo-replay-btn" onclick="replayDemo()">↺ replay</button>
-  </div>
-</div></section>
-<script>
-;(function(){
-  function runDemo(){
-    const wrap=document.getElementById('demo-wrap');
-    if(!wrap)return;
-    wrap.classList.remove('processing','done');
-    ['demo-title-a','demo-copy-a','demo-price-a','dm-e','dm-c','dm-b'].forEach(function(id){
-      var el=document.getElementById(id);if(el)el.style.opacity='0';
-    });
-    document.querySelectorAll('.demo-ai-badge').forEach(function(b){b.style.opacity='0';b.style.transform='translateY(6px)';});
-    setTimeout(function(){wrap.classList.add('processing');},400);
-    setTimeout(function(){
-      wrap.classList.remove('processing');
-      wrap.classList.add('done');
-      ['demo-title-a','demo-copy-a','demo-price-a','dm-e','dm-c','dm-b'].forEach(function(id){
-        var el=document.getElementById(id);if(el)el.style.opacity='1';
-      });
-    },1800);
-  }
-  window.replayDemo=runDemo;
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){if(e.isIntersecting){runDemo();obs.unobserve(e.target);}});
-  },{threshold:0.3});
-  var wrap=document.getElementById('demo-wrap');
-  if(wrap)obs.observe(wrap);
-})();
-</script>
 
 <style>
 .showcase-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
