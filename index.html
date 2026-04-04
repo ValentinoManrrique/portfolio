@@ -567,6 +567,9 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .brief-block { margin-bottom: 20px; }
 .brief-insight { display: flex; gap: 12px; align-items: flex-start; background: var(--cy-d); border: 1px solid var(--cy-b); border-radius: var(--r); padding: 14px 16px; margin-bottom: 20px; }
 .brief-insight-icon { color: var(--cy); font-family: var(--mono); font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+.brief-ai-approach { border-left: 2px solid var(--cy); background: var(--bg-c); border-radius: 0 var(--r) var(--r) 0; padding: 16px 18px; margin-bottom: 20px; }
+.brief-ai-approach-label { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; color: var(--cy); margin-bottom: 8px; }
+.brief-ai-approach-text { font-size: 13px; line-height: 1.7; color: var(--txt-d); }
 .brief-complexity { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
 .brief-complexity.low { background: rgba(32,224,112,0.12); color: #20E070; }
 .brief-complexity.medium { background: rgba(224,208,96,0.12); color: #E0D060; }
@@ -1447,6 +1450,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       ${timelineStrip}
       ${b.budgetNote ? `<div class="brief-budget-note"><span class="brief-budget-icon">$</span><span>${b.budgetNote}</span></div>` : ''}
       ${b.insight ? `<div class="brief-block brief-insight"><span class="brief-insight-icon">→</span><div class="brief-block-text" style="font-style:italic;color:var(--txt-b)">${b.insight}</div></div>` : ''}
+      ${b.aiApproach ? `<div class="brief-ai-approach"><div class="brief-ai-approach-label">// AI_APPROACH</div><div class="brief-ai-approach-text">${b.aiApproach}</div></div>` : ''}
       ${artifactBlock ? `<div class="brief-block">
         <div class="brief-block-label">Project preview</div>
         ${artifactBlock}
@@ -1544,6 +1548,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         budgetNote: `${a.budget || 'Your budget'} is well-scoped for a focused frontend build — we'll prioritize core delivery first and expand from there if needed.`,
         phaseDurations: ['2 days', '1 week', '4 days', '2 days'],
         insight: `Your challenge isn't just building a frontend — it's making sure what gets built actually matches the vision without endless revision cycles.`,
+        aiApproach: `AI compresses the gap between design and code. Claude generates component scaffolding and copy variants from your Figma specs, cutting boilerplate time in half. The parts that usually slow a build down — placeholder content, state variations, edge case copy — are handled in minutes, not days. You get a faster build without sacrificing quality.`,
         nextStep: 'Hit Start project below, send this brief on LinkedIn, and we\'ll lock in a scoping call within 24 hours — I\'ll come prepared so we don\'t waste your time.',
       }
     }
@@ -1576,6 +1581,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         budgetNote: `${a.budget || 'Your budget'} covers a production-ready workflow with error handling — complex multi-system pipelines may require phased delivery.`,
         phaseDurations: ['2 days', '1 week', '3 days', '2 days'],
         insight: `The real challenge with automation isn't the tooling — it's designing a workflow that won't break the moment real data hits it.`,
+        aiApproach: `Here's the exact mechanism: an n8n trigger watches your data source and fires whenever a new entry arrives. Claude reads it, applies your specific logic — classifying, extracting, summarising, or routing — and the structured result goes directly into your system. What currently takes manual attention every time becomes something you only touch when an exception needs a human call.`,
         nextStep: 'Hit Start project below, send this brief on LinkedIn, and we\'ll scope the workflow together — most pipelines like this are live within 1–2 weeks.',
       }
     }
@@ -1608,6 +1614,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         budgetNote: `${a.budget || 'Your budget'} is workable for a focused AI integration — prompt engineering and a clean API layer within scope.`,
         phaseDurations: ['3 days', '5 days', '1 week', '2 days'],
         insight: `The hard part isn't calling the API — it's designing the right prompt and data flow so the AI output is actually useful in production.`,
+        aiApproach: `Here's the mechanism: your input — whether text, a form submission, a document, or a user action — gets sent to Claude with a prompt engineered specifically for your domain and output format. Claude processes it and returns structured, usable output. That output feeds directly into your product UI or downstream system via n8n. The step that currently requires a human decision every single time becomes instant, consistent, and scalable.`,
         nextStep: 'Hit Start project below, send this brief on LinkedIn, and we\'ll scope the AI layer together — I can have a working prototype in front of you within the first week.',
       }
     }
@@ -1640,6 +1647,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       budgetNote: `${a.budget || 'Your budget'} covers a focused design sprint — full design system work may require scoping after discovery.`,
       phaseDurations: ['3 days', '1 week', '4 days', '2 days'],
       insight: `The real risk in design projects isn't the design itself — it's handing off files that look great but don't survive contact with the development team.`,
+      aiApproach: `AI doesn't design the interface — but it collapses the research and ideation phase. Claude synthesises your user feedback, competitor patterns, and content requirements into a structured design brief before a single frame is opened. The first wireframe iteration is already grounded in real signal, not assumptions. What usually takes a week of back-and-forth alignment happens in a focused half-day session.`,
       nextStep: 'Hit Start project below, send this brief on LinkedIn, and I\'ll have a detailed scope breakdown in your inbox within 24 hours — no commitment needed to start the conversation.',
     }
   }
@@ -1680,6 +1688,7 @@ Return ONLY valid JSON (no markdown, no backticks):
   "timelineEstimate": "Realistic delivery estimate based on their timeline and scope",
   "complexity": "low, medium, or high — based on scope, timeline, and challenge combination",
   "insight": "One sharp sentence naming the real underlying problem behind their stated challenge — the thing they feel but haven't fully articulated. This is the 'he already gets it' moment. Start with 'The real challenge here is...' or similar.",
+  "aiApproach": "2–3 sentences explaining the exact AI mechanism for this specific project. Not 'AI will help' — state precisely: what input Claude or an AI model receives, what it does to it (classifies, generates, extracts, scores, rewrites), what comes out the other end, and what the client never has to do manually again. Make it concrete enough that a non-technical client understands the time or effort saved.",
   "scope": "2–3 sentences describing exactly what will be built. Use the client's own words where possible. Reference their specific goals and challenges directly. It must feel written for them, not from a template.",
   "budgetNote": "One honest sentence on how their budget aligns with the scope — specific, not vague. If it's tight, say so honestly and explain what you'll prioritize.",
   "deliverables": ["Concrete deliverable directly tied to their stated goal", "Second specific deliverable", "Third specific deliverable", "Handoff or post-launch support deliverable"],
