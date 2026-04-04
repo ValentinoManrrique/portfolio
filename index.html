@@ -421,7 +421,16 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .brief-seg:last-child { border-right: none; }
 .brief-seg-l { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--txt-g); transition: all .25s; }
 .brief-seg-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--txt-g); transition: all .25s; opacity: .5; }
-.brief-seg.done .brief-seg-l { color: var(--txt-g); opacity: .4; }
+.brief-seg:nth-child(1).done .brief-seg-l { color: #20E070; opacity: .5; }
+.brief-seg:nth-child(1).done .brief-seg-dot { background: #20E070; opacity: .5; }
+.brief-seg:nth-child(2).done .brief-seg-l { color: #E040A0; opacity: .5; }
+.brief-seg:nth-child(2).done .brief-seg-dot { background: #E040A0; opacity: .5; }
+.brief-seg:nth-child(3).done .brief-seg-l { color: #60A0FF; opacity: .5; }
+.brief-seg:nth-child(3).done .brief-seg-dot { background: #60A0FF; opacity: .5; }
+.brief-seg:nth-child(4).done .brief-seg-l { color: #E0D060; opacity: .5; }
+.brief-seg:nth-child(4).done .brief-seg-dot { background: #E0D060; opacity: .5; }
+.brief-seg:nth-child(5).done .brief-seg-l { color: #FF4060; opacity: .5; }
+.brief-seg:nth-child(5).done .brief-seg-dot { background: #FF4060; opacity: .5; }
 .brief-seg:nth-child(1).active { background: rgba(32,224,112,.04); }
 .brief-seg:nth-child(1).active .brief-seg-l { color: #20E070; text-shadow: 0 0 10px rgba(32,224,112,.5); }
 .brief-seg:nth-child(1).active .brief-seg-dot { background: #20E070; box-shadow: 0 0 5px rgba(32,224,112,.6); opacity: 1; }
