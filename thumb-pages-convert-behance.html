@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pages That Convert — Behance Cover</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1400px;height:933px;overflow:hidden;background:#0A0A0C;font-family:'Outfit',sans-serif;color:#D4D4D8;position:relative}
+body::after{content:'';position:fixed;inset:0;border:1px solid rgba(224,208,96,0.14);pointer-events:none;z-index:1000}
+.bg-glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(ellipse,rgba(224,208,96,0.09) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.ghost{position:absolute;font-family:'Space Mono',monospace;font-size:520px;font-weight:700;color:#E0D060;opacity:0.025;top:-60px;right:-40px;line-height:1;pointer-events:none;user-select:none}
+.ov-top{position:absolute;top:0;left:0;right:0;height:240px;background:linear-gradient(to bottom,rgba(10,10,12,0.88) 0%,transparent 100%);z-index:10;pointer-events:none}
+.ov-bot{position:absolute;bottom:0;left:0;right:0;height:380px;background:linear-gradient(to top,rgba(10,10,12,0.97) 0%,rgba(10,10,12,0.5) 60%,transparent 100%);z-index:10;pointer-events:none}
+.brand{position:absolute;top:44px;left:52px;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;color:#E0D060;z-index:20;letter-spacing:.04em}
+.brand span{color:#2A2A38;font-weight:400}
+.counter{position:absolute;top:44px;right:52px;font-family:'Space Mono',monospace;font-size:10px;color:#2A2A38;letter-spacing:2px;text-transform:uppercase;z-index:20}
+.bottom{position:absolute;bottom:52px;left:52px;right:52px;display:flex;justify-content:space-between;align-items:flex-end;z-index:20}
+.num{font-family:'Space Mono',monospace;font-size:11px;color:#E0D060;letter-spacing:3px;margin-bottom:16px}
+.title{font-size:88px;font-weight:800;color:#F0F0F4;line-height:.92;letter-spacing:-3px}
+.tags{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.tag{font-family:'Space Mono',monospace;font-size:9px;color:#4A4A58;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(255,255,255,0.05);border-radius:4px}
+
+/* Visual */
+.visual{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5}
+.chart-wrap{width:820px;display:flex;flex-direction:column;align-items:center;gap:24px}
+
+/* Grid lines */
+.grid-lines{position:absolute;width:820px;bottom:48px;display:flex;flex-direction:column-reverse;gap:60px;pointer-events:none}
+.grid-line{width:100%;height:1px;background:rgba(255,255,255,0.04)}
+
+/* Bars */
+.bars-area{position:relative;width:820px;height:320px;display:flex;align-items:flex-end;justify-content:center;gap:28px}
+.bar-group{display:flex;flex-direction:column;align-items:center;gap:0;position:relative}
+.bars-pair{display:flex;align-items:flex-end;gap:6px}
+
+/* Before bar (dashed outline) */
+.bar-before{width:38px;border-radius:5px 5px 0 0;border:1.5px dashed rgba(255,255,255,0.12);border-bottom:none;background:rgba(255,255,255,0.03);position:relative}
+
+/* After bar (solid, yellow) */
+.bar-after{width:38px;border-radius:5px 5px 0 0;background:rgba(224,208,96,0.18);border:1px solid rgba(224,208,96,0.3);border-bottom:none;position:relative;transition:none}
+.bar-after.hi{background:rgba(224,208,96,0.28);border-color:rgba(224,208,96,0.55);box-shadow:0 0 20px rgba(224,208,96,0.15)}
+
+/* Baseline */
+.baseline{position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(255,255,255,0.08)}
+
+/* Bar labels */
+.bar-lbl{font-family:'Space Mono',monospace;font-size:8px;color:#3A3A48;letter-spacing:1.5px;text-transform:uppercase;margin-top:14px;text-align:center;white-space:nowrap}
+
+/* Callout */
+.callout{position:absolute;right:-16px;background:rgba(224,208,96,0.1);border:1px solid rgba(224,208,96,0.3);border-radius:6px;padding:6px 12px;font-family:'Space Mono',monospace;font-size:11px;color:#E0D060;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.callout::before{content:'';position:absolute;left:-6px;top:50%;transform:translateY(-50%);border-width:5px 6px 5px 0;border-style:solid;border-color:transparent rgba(224,208,96,0.3) transparent transparent}
+
+/* Legend */
+.legend{display:flex;align-items:center;gap:28px}
+.leg-item{display:flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:9px;color:#3A3A48;letter-spacing:1px;text-transform:uppercase}
+.leg-swatch{width:20px;height:10px;border-radius:2px}
+.leg-before{border:1.5px dashed rgba(255,255,255,0.15);background:rgba(255,255,255,0.03)}
+.leg-after{background:rgba(224,208,96,0.25);border:1px solid rgba(224,208,96,0.4)}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="ghost">03</div>
+<div class="ov-top"></div>
+<div class="ov-bot"></div>
+<div class="brand">VM_<span>studio</span></div>
+<div class="counter">Case Study · 03 / 03</div>
+
+<div class="visual">
+  <div class="chart-wrap">
+    <div class="bars-area">
+      <!-- Grid lines -->
+      <div class="grid-lines">
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+      </div>
+      <div class="baseline"></div>
+
+      <!-- DISCOVER -->
+      <div class="bar-group">
+        <div class="bars-pair">
+          <div class="bar-before" style="height:90px"></div>
+          <div class="bar-after" style="height:130px"></div>
+        </div>
+        <div class="bar-lbl">Discover</div>
+      </div>
+      <!-- LAND -->
+      <div class="bar-group">
+        <div class="bars-pair">
+          <div class="bar-before" style="height:130px"></div>
+          <div class="bar-after" style="height:190px"></div>
+        </div>
+        <div class="bar-lbl">Land</div>
+      </div>
+      <!-- READ -->
+      <div class="bar-group">
+        <div class="bars-pair">
+          <div class="bar-before" style="height:100px"></div>
+          <div class="bar-after" style="height:200px"></div>
+        </div>
+        <div class="bar-lbl">Read</div>
+      </div>
+      <!-- ACT -->
+      <div class="bar-group" style="position:relative">
+        <div class="bars-pair">
+          <div class="bar-before" style="height:60px"></div>
+          <div class="bar-after hi" style="height:265px"></div>
+        </div>
+        <!-- Callout on tallest bar -->
+        <div class="callout" style="bottom:280px">↑ 340%</div>
+        <div class="bar-lbl">Act</div>
+      </div>
+      <!-- CONVERT -->
+      <div class="bar-group">
+        <div class="bars-pair">
+          <div class="bar-before" style="height:40px"></div>
+          <div class="bar-after hi" style="height:280px"></div>
+        </div>
+        <div class="bar-lbl">Convert</div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="leg-item"><div class="leg-swatch leg-before"></div>Before audit</div>
+      <div class="leg-item"><div class="leg-swatch leg-after"></div>After redesign</div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom">
+  <div>
+    <div class="num">// 03</div>
+    <div class="title">Pages That<br>Convert</div>
+  </div>
+  <div class="tags">
+    <div class="tag">UX Audit</div>
+    <div class="tag">Conversion Rate</div>
+    <div class="tag">Landing Pages</div>
+  </div>
+</div>
+</body>
+</html>
