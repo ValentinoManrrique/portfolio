@@ -1193,6 +1193,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   }
 
   function fallback(a) {
+    const goalStr = Array.isArray(a.goal) ? a.goal.join(', ') : (a.goal || '')
     const type = (a.projectType || '').toLowerCase()
     const isFrontend = type.includes('frontend') || type.includes('development')
     const isN8n = type.includes('n8n') || type.includes('automation')
@@ -1220,7 +1221,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         projectName: 'Frontend Build Sprint',
         projectType: a.projectType,
         timelineEstimate,
-        scope: `Build a responsive, production-ready frontend focused on ${(a.goal||'performance and conversion').toLowerCase()}. Clean markup, fast load times, and pixel-perfect implementation — delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
+        scope: `Build a responsive, production-ready frontend focused on ${(goalStr||'performance and conversion').toLowerCase()}. Clean markup, fast load times, and pixel-perfect implementation — delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
         deliverables: [
           'Responsive, cross-browser frontend (HTML/CSS/JS or React/Next.js)',
           'Performance-optimized build — fast load, semantic markup, accessible',
@@ -1251,7 +1252,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         projectName: 'Automation Pipeline Build',
         projectType: a.projectType,
         timelineEstimate,
-        scope: `Build and deploy an n8n automation workflow to ${(a.goal||'automate your core processes').toLowerCase()}. Trigger setup, error handling, and AI integration where needed — live within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
+        scope: `Build and deploy an n8n automation workflow to ${(goalStr||'automate your core processes').toLowerCase()}. Trigger setup, error handling, and AI integration where needed — live within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
         deliverables: [
           'Production n8n workflow deployed to your cloud or self-hosted instance',
           'Webhook/trigger setup with error handling and retry logic',
@@ -1283,7 +1284,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         projectName: 'AI Integration Sprint',
         projectType: a.projectType,
         timelineEstimate,
-        scope: `Design and build a production AI integration to ${(a.goal||'add intelligent automation to your product').toLowerCase()}. Prompt engineering, API connection, and UI — all in one scope, delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
+        scope: `Design and build a production AI integration to ${(goalStr||'add intelligent automation to your product').toLowerCase()}. Prompt engineering, API connection, and UI — all in one scope, delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
         deliverables: [
           'Working AI feature integrated into your product or workflow',
           'Prompt engineering tuned to your specific use case and data',
@@ -1315,7 +1316,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       projectName: 'Design Sprint',
       projectType: a.projectType,
       timelineEstimate,
-      scope: `Design a ${(a.projectType||'digital product').toLowerCase()} focused on ${(a.goal||'user experience and conversion').toLowerCase()}. Research-grounded, Figma-native, and developer-ready — delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
+      scope: `Design a ${(a.projectType||'digital product').toLowerCase()} focused on ${(goalStr||'user experience and conversion').toLowerCase()}. Research-grounded, Figma-native, and developer-ready — delivered within ${(a.timeline||'the agreed timeline').toLowerCase()}.`,
       deliverables: [
         'User flows and annotated wireframes',
         'High-fidelity UI in Figma — desktop and mobile',
