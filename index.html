@@ -511,9 +511,21 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .brief-block { margin-bottom: 20px; }
 .brief-insight { display: flex; gap: 12px; align-items: flex-start; background: var(--cy-d); border: 1px solid var(--cy-b); border-radius: var(--r); padding: 14px 16px; margin-bottom: 20px; }
 .brief-insight-icon { color: var(--cy); font-family: var(--mono); font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+.brief-complexity { font-family: var(--mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+.brief-complexity.low { background: rgba(32,224,112,0.12); color: #20E070; }
+.brief-complexity.medium { background: rgba(224,208,96,0.12); color: #E0D060; }
+.brief-complexity.high { background: rgba(255,64,96,0.12); color: #FF4060; }
+.brief-budget-note { display: flex; gap: 10px; align-items: flex-start; font-size: 12px; color: var(--txt-d); padding: 10px 14px; background: var(--bg-c); border-radius: 8px; border: 1px solid var(--brd); margin-bottom: 20px; }
+.brief-budget-icon { font-family: var(--mono); color: var(--yl); flex-shrink: 0; }
+.brief-challenge-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.brief-challenge-tag { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; padding: 3px 10px; border-radius: 4px; background: rgba(96,160,255,0.08); border: 1px solid rgba(96,160,255,0.2); color: #60A0FF; }
+.brief-phase { display: flex; flex-direction: column; margin-bottom: 10px; font-size: 13px; color: var(--txt); }
+.brief-phase-meta { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 4px; }
+.brief-phase-dur { font-family: var(--mono); font-size: 9px; color: var(--txt-g); margin-top: 2px; }
+.brief-phase-bar-wrap { background: var(--bg-c); border-radius: 3px; height: 3px; width: 100%; }
+.brief-phase-bar { height: 100%; border-radius: 3px; background: var(--cy); opacity: 0.5; }
 .brief-block-label { font-family: var(--mono); font-size: 9px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--txt-g); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--brd); }
 .brief-block-text { font-size: 13px; color: var(--txt); line-height: 1.75; }
-.brief-phase { display: flex; gap: 10px; margin-bottom: 6px; font-size: 13px; color: var(--txt); }
 .brief-phase-num { font-family: var(--mono); font-size: 10px; color: var(--cy); min-width: 22px; margin-top: 1px; }
 .brief-question { font-size: 13px; color: var(--txt); line-height: 1.7; margin-bottom: 8px; padding-left: 12px; border-left: 2px solid var(--cy-d); }
 .brief-result { overflow-y: auto; }
@@ -769,11 +781,12 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         { label: 'Frontend Development',  value: 'Frontend Development' },
         { label: 'n8n Automation',        value: 'n8n Automation' },
         { label: 'AI Integration',        value: 'AI Integration' },
-        { label: 'AI / automation',       value: 'AI or automation workflow' },
+        { label: 'Full-stack product',    value: 'Full-stack product build' },
       ]
     },
     { key: 'goal', letter: 'R', word: 'Result', color: '#E040A0', sub: 'What do you want to achieve?',
-      q: "What's your main goal?", hint: 'Pick the outcome that matters most',
+      q: "What's your main goal?", hint: 'Pick up to 3',
+      multi: true,
       options: [
         { label: 'Generate leads',           value: 'Generate leads and conversions' },
         { label: 'Launch MVP fast',          value: 'Launch an MVP quickly' },
@@ -784,7 +797,19 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       ]
     },
     { key: 'challenge', letter: 'I', word: 'Intent', color: '#60A0FF', sub: "What's blocking or driving you?",
-      q: "What's your biggest challenge?", hint: 'One sentence is enough — be specific', type: 'textarea'
+      q: "What's your biggest challenge?", hint: 'Pick all that apply',
+      multi: true,
+      hasContext: true,
+      options: [
+        { label: 'No in-house team to own it',       value: 'No in-house team to own it' },
+        { label: 'Previous attempts stalled',         value: 'Previous attempts stalled' },
+        { label: 'Need design + dev in one person',   value: 'Need design + dev in one person' },
+        { label: 'Too complex for no-code tools',     value: 'Too complex for no-code tools' },
+        { label: 'Tight deadline',                    value: 'Tight deadline' },
+        { label: "Don't know the right approach",     value: "Don't know the right tech approach" },
+        { label: 'Need speed without losing quality', value: 'Need speed without losing quality' },
+        { label: 'Existing product needs a rethink',  value: 'Existing product needs a rethink' },
+      ]
     },
     { key: 'timeline', letter: 'E', word: 'Execution', color: '#E0D060', sub: 'When do you need it?',
       q: "What's your timeline?", hint: 'Rough estimate is fine',
@@ -879,24 +904,45 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     const wrap = document.getElementById('brief-opts-wrap')
     wrap.innerHTML = ''
 
-    if (s.type === 'textarea') {
-      const ta = document.createElement('textarea')
-      ta.className = 'brief-ta'
-      ta.id = 'brief-ta'
-      ta.rows = 4
-      ta.placeholder = "e.g. We've tried building this before and it stalled. We need someone who can own it end to end..."
-      wrap.appendChild(ta)
-    } else {
-      const grid = document.createElement('div')
-      grid.className = 'brief-opts'
-      s.options.forEach(opt => {
-        const btn = document.createElement('button')
-        btn.className = 'brief-opt' + (answers[s.key] === opt.value ? ' sel' : '')
-        btn.textContent = opt.label
-        btn.onclick = () => { answers[s.key] = opt.value; renderStep() }
-        grid.appendChild(btn)
-      })
-      wrap.appendChild(grid)
+    const grid = document.createElement('div')
+    grid.className = 'brief-opts'
+    s.options.forEach(opt => {
+      const btn = document.createElement('button')
+      const isSel = s.multi
+        ? (Array.isArray(answers[s.key]) && answers[s.key].includes(opt.value))
+        : (answers[s.key] === opt.value)
+      btn.className = 'brief-opt' + (isSel ? ' sel' : '')
+      btn.textContent = opt.label
+      btn.onclick = () => {
+        if (s.multi) {
+          if (!Array.isArray(answers[s.key])) answers[s.key] = []
+          const idx = answers[s.key].indexOf(opt.value)
+          if (idx > -1) answers[s.key].splice(idx, 1)
+          else answers[s.key].push(opt.value)
+        } else {
+          answers[s.key] = opt.value
+        }
+        renderStep()
+      }
+      grid.appendChild(btn)
+    })
+    wrap.appendChild(grid)
+
+    if (s.hasContext) {
+      const ctxWrap = document.createElement('div')
+      ctxWrap.style.marginTop = '12px'
+      const ctxLabel = document.createElement('div')
+      ctxLabel.textContent = 'Add context (optional)'
+      ctxLabel.style.cssText = 'font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--txt-g);margin-bottom:6px'
+      const ctxTa = document.createElement('textarea')
+      ctxTa.className = 'brief-ta'
+      ctxTa.id = 'brief-context-ta'
+      ctxTa.rows = 2
+      ctxTa.placeholder = 'Anything else that helps scope the project...'
+      if (answers.context) ctxTa.value = answers.context
+      ctxWrap.appendChild(ctxLabel)
+      ctxWrap.appendChild(ctxTa)
+      wrap.appendChild(ctxWrap)
     }
 
     // Counter
@@ -908,8 +954,9 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 
     // Next button
     const nextBtn = document.getElementById('brief-next')
-    const isTextStep = s.type === 'textarea'
-    const canProceed = isTextStep ? true : !!answers[s.key]
+    const canProceed = s.multi
+      ? (Array.isArray(answers[s.key]) && answers[s.key].length > 0)
+      : !!answers[s.key]
     nextBtn.disabled = !canProceed
     nextBtn.textContent = step === STEPS.length - 1 ? 'generate brief →' : 'continue →'
   }
@@ -917,9 +964,8 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   function renderSummary() {
     const rows = document.getElementById('brief-summary-rows')
     rows.innerHTML = STEPS.map(s => {
-      const val = s.key === 'challenge'
-        ? (document.getElementById('brief-ta-stored')?.value || answers[s.key] || '—')
-        : (answers[s.key] || '—')
+      const raw = answers[s.key]
+      const val = Array.isArray(raw) ? raw.join(', ') : (raw || '—')
       return `<div class="brief-sum-row">
         <span class="brief-sum-check" style="color:${s.color}">${s.letter}</span>
         <div>
@@ -935,15 +981,11 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
   }
 
   window.briefNext = function() {
+    const ctxTa = document.getElementById('brief-context-ta')
+    if (ctxTa) answers.context = ctxTa.value.trim()
     if (step < STEPS.length - 1) {
       step++; render()
     } else {
-      const taVal = document.getElementById('brief-ta')?.value || 'Not specified'
-      answers.challenge = taVal
-      // store it for summary
-      let stored = document.getElementById('brief-ta-stored')
-      if (!stored) { stored = document.createElement('input'); stored.id = 'brief-ta-stored'; stored.type = 'hidden'; document.body.appendChild(stored) }
-      stored.value = taVal
       generate()
     }
   }
@@ -1054,12 +1096,30 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     }
   }
 
+  function parseDays(str) {
+    if (!str) return 5
+    const m = str.match(/(\d+(?:\.\d+)?)\s*(day|week)/i)
+    if (!m) return 5
+    return parseFloat(m[1]) * (m[2].toLowerCase().startsWith('w') ? 7 : 1)
+  }
+
   function resultHTML(b) {
+    const durations = b.phaseDurations || []
+    const dayVals = durations.map(parseDays)
+    const maxDays = Math.max(...dayVals, 1)
+
     const phases = (b.phases || []).map((p, i) => {
       const [title, ...rest] = p.split(':')
+      const pct = durations[i] ? Math.max(15, Math.round((dayVals[i] / maxDays) * 100)) : 25
       return `<div class="brief-phase">
-        <span class="brief-phase-num">${String(i+1).padStart(2,'0')}</span>
-        <span><strong style="color:#F0F0F4">${title.trim()}</strong>${rest.length ? ': ' + rest.join(':').trim() : ''}</span>
+        <div class="brief-phase-meta">
+          <span class="brief-phase-num">${String(i+1).padStart(2,'0')}</span>
+          <div style="flex:1">
+            <div><strong style="color:#F0F0F4">${title.trim()}</strong>${rest.length ? ': ' + rest.join(':').trim() : ''}</div>
+            ${durations[i] ? `<div class="brief-phase-dur">${durations[i]}</div>` : ''}
+          </div>
+        </div>
+        <div class="brief-phase-bar-wrap"><div class="brief-phase-bar" style="width:${pct}%"></div></div>
       </div>`
     }).join('')
 
@@ -1072,7 +1132,14 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     ).join('')
 
     const timelineStrip = b.timelineEstimate
-      ? `<div class="brief-timeline-strip"><span class="brief-timeline-lbl">Estimated delivery</span><span class="brief-timeline-val">${b.timelineEstimate}</span></div>`
+      ? `<div class="brief-timeline-strip"><span class="brief-timeline-lbl">Estimated delivery</span><span class="brief-timeline-val">${b.timelineEstimate}</span>${b.complexity ? `<span class="brief-complexity ${b.complexity}">${b.complexity}</span>` : ''}</div>`
+      : ''
+
+    const challengeArr = Array.isArray(answers.challenge)
+      ? answers.challenge
+      : (answers.challenge ? answers.challenge.split(', ') : [])
+    const challengeTagsHTML = challengeArr.length
+      ? `<div class="brief-challenge-tags">${challengeArr.map(t => `<span class="brief-challenge-tag">${t}</span>`).join('')}</div>`
       : ''
 
     const sentLabel = email ? `✓ Sent to ${email}` : '✓ Brief sent'
@@ -1080,7 +1147,9 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     return `<div style="flex:1;display:flex;flex-direction:column">
       <div class="brief-res-name">${b.projectName || 'Your Project'}</div>
       <div class="brief-res-type">${b.projectType || ''}</div>
+      ${challengeTagsHTML}
       ${timelineStrip}
+      ${b.budgetNote ? `<div class="brief-budget-note"><span class="brief-budget-icon">$</span><span>${b.budgetNote}</span></div>` : ''}
       ${b.insight ? `<div class="brief-block brief-insight"><span class="brief-insight-icon">→</span><div class="brief-block-text" style="font-style:italic;color:var(--txt-b)">${b.insight}</div></div>` : ''}
       <div class="brief-block">
         <div class="brief-block-label">Scope overview</div>
@@ -1129,6 +1198,14 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     }
     const timelineEstimate = timelineMap[a.timeline] || '3–5 weeks'
 
+    const complexityMap = {
+      'As soon as possible (under 2 weeks)': 'high',
+      '1 month': 'medium',
+      '2–3 months': 'medium',
+      'Flexible — quality over speed': 'low',
+    }
+    const complexity = complexityMap[a.timeline] || 'medium'
+
     if (isFrontend) {
       return {
         projectName: 'Frontend Build Sprint',
@@ -1152,6 +1229,9 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
           'QA & review: Cross-browser testing, performance audit, client feedback rounds',
           'Launch & handoff: Deploy, documentation, 2-week support window',
         ],
+        complexity,
+        budgetNote: `${a.budget || 'Your budget'} is well-scoped for a focused frontend build — we'll prioritize core delivery first and expand from there if needed.`,
+        phaseDurations: ['2 days', '1 week', '4 days', '2 days'],
         insight: `Your challenge isn't just building a frontend — it's making sure what gets built actually matches the vision without endless revision cycles.`,
         nextStep: 'Hit Start project below, send this brief on LinkedIn, and we\'ll lock in a scoping call within 24 hours — I\'ll come prepared so we don\'t waste your time.',
       }
@@ -1181,6 +1261,9 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
           'Test: End-to-end testing with real data, error handling and retry verification',
           'Deploy & handoff: Live deployment, documentation, walkthrough',
         ],
+        complexity,
+        budgetNote: `${a.budget || 'Your budget'} covers a production-ready workflow with error handling — complex multi-system pipelines may require phased delivery.`,
+        phaseDurations: ['2 days', '1 week', '3 days', '2 days'],
         insight: `The real challenge with automation isn't the tooling — it's designing a workflow that won't break the moment real data hits it.`,
         nextStep: 'Hit Start project below, send this brief on LinkedIn, and we\'ll scope the workflow together — most pipelines like this are live within 1–2 weeks.',
       }
@@ -1210,6 +1293,9 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
           'Integration: Connect AI to your frontend, backend, or n8n workflow',
           'Launch & handoff: QA, documentation, deployment',
         ],
+        complexity,
+        budgetNote: `${a.budget || 'Your budget'} is workable for a focused AI integration — prompt engineering and a clean API layer within scope.`,
+        phaseDurations: ['3 days', '5 days', '1 week', '2 days'],
         insight: `The hard part isn't calling the API — it's designing the right prompt and data flow so the AI output is actually useful in production.`,
         nextStep: 'Hit Start project below, send this brief on LinkedIn, and we\'ll scope the AI layer together — I can have a working prototype in front of you within the first week.',
       }
@@ -1239,6 +1325,9 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
         'Review & iteration: Feedback rounds, design QA, final polish',
         'Handoff: Developer specs, component library, asset export',
       ],
+      complexity,
+      budgetNote: `${a.budget || 'Your budget'} covers a focused design sprint — full design system work may require scoping after discovery.`,
+      phaseDurations: ['3 days', '1 week', '4 days', '2 days'],
       insight: `The real risk in design projects isn't the design itself — it's handing off files that look great but don't survive contact with the development team.`,
       nextStep: 'Hit Start project below, send this brief on LinkedIn, and I\'ll have a detailed scope breakdown in your inbox within 24 hours — no commitment needed to start the conversation.',
     }
@@ -1259,33 +1348,39 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     }, 900)
 
     const a = answers
+    const goalStr = Array.isArray(a.goal) ? a.goal.join(', ') : (a.goal || '')
+    const challengeStr = Array.isArray(a.challenge) ? a.challenge.join(', ') : (a.challenge || '')
     const prompt = `You are writing a conversion brief for VM Studio — a one-person design and development studio run by Valentino Manrrique (UI/UX Designer, Frontend Developer, n8n automation expert, AI integration specialist — 6+ years, Upwork Top Rated Plus, $75/hr, 5 stars, $20K+ earned).
 
 Your job is not to summarize — it is to make this specific client feel deeply understood and confident that VM Studio is the right choice for their situation. Mirror their own words back. Be specific, never generic. Every field must speak directly to what this client said.
 
 Client answers:
 - Project type: ${a.projectType}
-- Main goal: ${a.goal}
+- Main goals: ${goalStr}
 - Timeline: ${a.timeline}
 - Budget: ${a.budget}
-- Biggest challenge: ${a.challenge}
+- Challenges: ${challengeStr}
+- Extra context: ${a.context || 'None provided'}
 
 Return ONLY valid JSON (no markdown, no backticks):
 {
   "projectName": "A short, evocative 3–5 word name that captures the essence of their specific goal — not generic",
   "projectType": "${a.projectType}",
   "timelineEstimate": "Realistic delivery estimate based on their timeline and scope",
+  "complexity": "low, medium, or high — based on scope, timeline, and challenge combination",
   "insight": "One sharp sentence naming the real underlying problem behind their stated challenge — the thing they feel but haven't fully articulated. This is the 'he already gets it' moment. Start with 'The real challenge here is...' or similar.",
-  "scope": "2–3 sentences describing exactly what will be built. Use the client's own words where possible. Reference their specific goal and challenge directly. It must feel written for them, not from a template.",
+  "scope": "2–3 sentences describing exactly what will be built. Use the client's own words where possible. Reference their specific goals and challenges directly. It must feel written for them, not from a template.",
+  "budgetNote": "One honest sentence on how their budget aligns with the scope — specific, not vague. If it's tight, say so honestly and explain what you'll prioritize.",
   "deliverables": ["Concrete deliverable directly tied to their stated goal", "Second specific deliverable", "Third specific deliverable", "Handoff or post-launch support deliverable"],
-  "whyMe": ["Restate their challenge, then explain exactly why VM Studio has solved this before — 'Your challenge — [their challenge] — is exactly...'", "Reference their specific goal or timeline with a concrete credential or past result", "A strong trust signal: Upwork Top Rated Plus, 5 stars, $20K+ earned, or a specific relevant outcome"],
+  "whyMe": ["Restate their challenge, then explain exactly why VM Studio has solved this before — 'Your challenge — [challenge] — is exactly...'", "Reference their specific goal or timeline with a concrete credential or past result", "A strong trust signal: Upwork Top Rated Plus, 5 stars, $20K+ earned, or a specific relevant outcome"],
   "phases": ["Phase name: description specific to this project", "Phase name: description", "Phase name: description", "Phase name: handoff and support"],
+  "phaseDurations": ["e.g. 3 days", "e.g. 1 week", "e.g. 4 days", "e.g. 2 days"],
   "nextStep": "One confident, action-oriented sentence. Tell them exactly what to do right now — e.g. 'Hit Start project below, send this brief on LinkedIn, and we will lock in a scoping call within 24 hours.'"
 }`
 
     // ── Level 2: validate body has all required fields before hitting the API ──
     const REQUIRED = ['projectType', 'goal', 'timeline', 'budget', 'challenge']
-    const missing = REQUIRED.filter(k => !a[k] || !String(a[k]).trim())
+    const missing = REQUIRED.filter(k => { const v = a[k]; return !v || (Array.isArray(v) ? v.length === 0 : !String(v).trim()) })
     if (missing.length) {
       clearInterval(loadInterval)
       phase = 'result'
@@ -1307,11 +1402,13 @@ Return ONLY valid JSON (no markdown, no backticks):
         },
         body: JSON.stringify({
           projectType: a.projectType,
-          goal:        a.goal,
+          goal:        goalStr,
           timeline:    a.timeline,
           budget:      a.budget,
-          challenge:   a.challenge,
+          challenge:   challengeStr,
+          context:     a.context || '',
           email:       email,
+          prompt:      prompt,
         })
       })
 
