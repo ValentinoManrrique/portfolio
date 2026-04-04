@@ -299,6 +299,18 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 
 /* WHO I WORK WITH */
 .who{border-top:1px solid var(--brd)}.who-body{max-width:640px;margin-top:32px}.who-body p{font-size:15px;line-height:1.8;color:var(--txt-d);font-weight:300;margin-bottom:16px}
+.why{border-top:1px solid var(--brd)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:32px;align-items:start}
+.why-intro p{font-size:15px;line-height:1.8;color:var(--txt-d);font-weight:300;margin-bottom:16px}
+.why-intro .about-meta{font-family:var(--mono);font-size:10px;color:var(--txt-g);letter-spacing:.06em;margin-top:8px}
+.why-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.why-card{border:1px solid var(--brd);border-radius:var(--r);padding:20px 18px;background:var(--bg-e);transition:border-color .2s}
+.why-card:hover{border-color:var(--cy-b)}
+.why-card-num{font-family:var(--mono);font-size:9px;color:var(--cy);letter-spacing:.12em;margin-bottom:10px}
+.why-card-title{font-size:13px;font-weight:600;color:#F0F0F4;margin-bottom:6px;line-height:1.3}
+.why-card-text{font-size:12px;color:var(--txt-d);line-height:1.65}
+@media(max-width:860px){.why-grid{grid-template-columns:1fr}.why-cards{grid-template-columns:1fr 1fr}}
+@media(max-width:540px){.why-cards{grid-template-columns:1fr}}
 
 /* CASE STUDIES */
 .work{border-top:1px solid var(--brd)}.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
@@ -1828,16 +1840,6 @@ Return ONLY valid JSON (no markdown, no backticks):
 })();
 </script>
 
-<!-- WHO I WORK WITH -->
-<section class="who" id="who"><div class="container">
-  <div class="sec-label fi">WHO_I_WORK_WITH</div>
-  <h2 class="sec-title fi d1">The right fit for the right teams</h2>
-  <div class="who-body fi d2">
-    <p>I work best with startups and growing teams who need design, development, and automation handled by one person — without the agency overhead.</p>
-    <p>Typically: SaaS products, e-commerce brands, and no-code-first companies that move fast and value quality.</p>
-  </div>
-</div></section>
-
 <!-- CASE STUDIES -->
 <section class="work" id="work"><div class="container">
   <div class="sec-label fi">CASE_STUDIES</div>
@@ -2161,6 +2163,42 @@ Return ONLY valid JSON (no markdown, no backticks):
 })();
 </script>
 
+<!-- WHY WORK WITH ME -->
+<section class="why" id="why"><div class="container">
+  <div class="sec-label fi">WHY_WORK_WITH_ME</div>
+  <h2 class="sec-title fi d1">Why teams keep coming back</h2>
+  <div class="why-grid fi d2">
+    <div class="why-intro">
+      <p>I'm Valentino — designer, developer, and automation builder from Argentina. CS background at Universidad Nacional de Córdoba, UX certification from Acámica, and time at Readz in LA shipping real publishing tools. Design and engineering work best when they're inseparable — that's where I live.</p>
+      <p>I work best with startups and growing teams that need design, development, and automation handled by one person — without the agency overhead. SaaS products, e-commerce brands, and no-code-first companies that move fast and value quality.</p>
+      <p>Outside client work: producing in FL Studio, DJing, and exploring game dev in UEFN. The obsession with how things <em>feel</em> — sonically, interactively — is what drives the UX approach.</p>
+      <p class="about-meta">// Based in Argentina · Bilingual ES/EN · Available worldwide</p>
+    </div>
+    <div class="why-cards">
+      <div class="why-card">
+        <div class="why-card-num">01</div>
+        <div class="why-card-title">One person, full stack</div>
+        <div class="why-card-text">Design + code + automation. No handoff friction, no translation layer between what's designed and what gets built.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-num">02</div>
+        <div class="why-card-title">6+ years, 5 stars</div>
+        <div class="why-card-text">$20K+ on Upwork, Top Rated Plus. Long-term clients — not one-off gigs.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-num">03</div>
+        <div class="why-card-title">Feel right, not just look right</div>
+        <div class="why-card-text">Sound design, game dev, real-time systems — a sensory obsession that sharpens every UX decision.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-num">04</div>
+        <div class="why-card-title">Async-first, worldwide</div>
+        <div class="why-card-text">Bilingual ES/EN, fully remote. Clear communication without timezone friction.</div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
 <section class="cta" id="contact"><div class="container">
   <h2 class="fi">Ready to design, build &amp;<br><span class="gl">automate</span>?</h2>
   <p class="cta-desc fi d1">I deliver the full package — the interface your users love, the code that powers it, and the n8n workflows that automate everything behind it. Let's connect on LinkedIn or send your project details on Upwork.</p>
@@ -2173,18 +2211,6 @@ Return ONLY valid JSON (no markdown, no backticks):
   <div class="cta-links fi d4"><a href="https://github.com/ValentinoManrrique/" target="_blank">github</a><a href="https://www.behance.net/valentinomanrrique" target="_blank">behance</a><a href="https://www.instagram.com/ds.missing" target="_blank">instagram</a></div>
 </div></section>
 
-<section id="about"><div class="container">
-  <div class="about-grid fi">
-    <div class="about-text">
-      <div class="sec-tag fi">ABOUT ME</div>
-      <h2 class="fi">Valentino <span class="gl">Manrrique</span></h2>
-      <p>I'm Valentino — a designer, developer, and sound nerd from Argentina. I studied Computer Science at Universidad Nacional de Córdoba, earned a UX certification from Acámica, and spent time at Readz in LA building digital publishing tools that taught me how design and engineering work best when they're inseparable.</p>
-      <p>Outside of client work, I'm deep into audio — producing beats in FL Studio, DJing, and exploring how sound design shapes the way people experience digital products. That obsession with sensory detail is what drives my approach to UX: every interaction should <em>feel</em> right, not just look right.</p>
-      <p>I'm also fascinated by game development — the intersection of real-time systems, interactive design, and storytelling is where I find the most creative inspiration. And if you're wondering about the long-term plan: Japan. Living and working there is the goal I'm building toward, one project at a time.</p>
-      <p class="about-meta">// Based in Argentina · Bilingual ES/EN · Available worldwide</p>
-    </div>
-  </div>
-</div></section>
 
 <canvas id="matrix-rain"></canvas>
 
@@ -2194,7 +2220,7 @@ Return ONLY valid JSON (no markdown, no backticks):
   <button class="wp-item" data-target="work" onclick="wpGo('work')"><span class="wp-label">Work</span><span class="wp-dot"></span></button>
   <button class="wp-item" data-target="stack" onclick="wpGo('stack')"><span class="wp-label">Stack</span><span class="wp-dot"></span></button>
   <button class="wp-item" data-target="contact" onclick="wpGo('contact')"><span class="wp-label">Contact</span><span class="wp-dot"></span></button>
-  <button class="wp-item" data-target="about" onclick="wpGo('about')"><span class="wp-label">About</span><span class="wp-dot"></span></button>
+  <button class="wp-item" data-target="why" onclick="wpGo('why')"><span class="wp-label">Why</span><span class="wp-dot"></span></button>
 </nav>
 
 <footer>
