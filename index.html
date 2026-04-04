@@ -307,7 +307,8 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 .why-card{border:1px solid var(--brd);border-radius:var(--r);padding:20px 18px;background:var(--bg-e);transition:border-color .2s}
 .why-card:hover{border-color:var(--cy-b)}
 .why-card-num{font-family:var(--mono);font-size:9px;color:var(--cy);letter-spacing:.12em;margin-bottom:10px}
-.why-card-title{font-size:13px;font-weight:600;color:#F0F0F4;margin-bottom:6px;line-height:1.3}
+.why-card-title{font-size:13px;font-weight:600;color:#F0F0F4;margin-bottom:5px;line-height:1.3}
+.why-card-stat{font-family:var(--mono);font-size:9px;color:var(--cy);letter-spacing:.06em;margin-bottom:8px;opacity:.8}
 .why-card-text{font-size:12px;color:var(--txt-d);line-height:1.65}
 @media(max-width:860px){.why-grid{grid-template-columns:1fr}.why-cards{grid-template-columns:1fr 1fr}}
 @media(max-width:540px){.why-cards{grid-template-columns:1fr}}
@@ -366,8 +367,8 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
 <nav>
   <div class="nav-left"><a href="#" class="nav-logo">VM_<span>studio</span></a><div class="nav-status">ONLINE</div></div>
   <div class="nav-right">
-    <div class="nav-links" id="nav-links"><a href="#services" data-section="services">brief</a><a href="#work" data-section="work">work</a><a href="#stack" data-section="stack">stack</a><a href="#contact" data-section="contact">contact</a><a href="#about" data-section="about">about</a></div>
-    <a href="#services" class="nav-li" onclick="event.preventDefault();scrollToBrief()">↗ DISCOVER BRIEF</a>
+    <div class="nav-links" id="nav-links"><a href="#services" data-section="services">brief</a><a href="#work" data-section="work">work</a><a href="#contact" data-section="contact">contact</a><a href="#why" data-section="why">why</a></div>
+    <a href="#services" class="nav-li" onclick="event.preventDefault();scrollToBrief()">↗ START A BRIEF</a>
   </div>
 </nav>
 
@@ -1749,102 +1750,11 @@ Return ONLY valid JSON (no markdown, no backticks):
 })()
 </script>
 
-<style>
-.demo-processing-bar{height:2px;background:linear-gradient(90deg,transparent,var(--cy),transparent);background-size:200% 100%;animation:demo-scan 1.8s ease infinite;margin:0 0 0;opacity:0;transition:opacity .3s;position:absolute;top:0;left:0;right:0}
-.demo-panel-wrap.processing .demo-processing-bar{opacity:1}
-@keyframes demo-scan{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.demo-ai-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--cy);background:var(--cy-d);border:1px solid var(--cy-b);border-radius:4px;padding:3px 9px;margin-bottom:8px;opacity:0;transform:translateY(6px);transition:all .4s .6s}
-.demo-panel-wrap.done .demo-ai-badge{opacity:1;transform:translateY(0)}
-.darr-anim{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
-.darr-chevron{font-family:var(--mono);font-size:18px;color:var(--cy);animation:darr-pulse 1.5s ease infinite}
-@keyframes darr-pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
-.darr-ai-lbl{font-family:var(--mono);font-size:8px;color:var(--txt-g);letter-spacing:.1em;text-transform:uppercase;writing-mode:vertical-rl;opacity:.6}
-.demo-replay-btn{font-family:var(--mono);font-size:10px;color:var(--txt-g);background:none;border:none;cursor:pointer;letter-spacing:.08em;transition:color .2s;display:inline-flex;align-items:center;gap:6px}
-.demo-replay-btn:hover{color:var(--cy)}
-</style>
-<section class="demo"><div class="container">
-  <div class="demo-head"><div class="sec-label fi">CONCEPT</div><h2 class="sec-title fi d1">AI-enhanced product page concept</h2><p class="sec-desc fi d2">How thoughtful UI combined with AI-generated content can transform a generic listing.</p></div>
-  <div class="demo-grid fi d2 demo-panel-wrap" id="demo-wrap" style="position:relative">
-    <div class="demo-processing-bar"></div>
-    <div class="pnl bef" id="demo-before">
-      <div class="pnl-hd"><div class="pdot"></div>BEFORE // GENERIC</div>
-      <div class="pnl-bd">
-        <div class="bf-card">
-          <div class="bf-ico">🧴</div>
-          <div>
-            <h5>Vitamin C Serum 30ml</h5>
-            <p class="desc">A serum with Vitamin C. Good for skin. Apply daily.</p>
-            <div class="price">$34.00</div>
-          </div>
-        </div>
-        <div class="bf-row">
-          <div class="bf-s"><div class="v">LOW</div><div class="l">Engage</div></div>
-          <div class="bf-s"><div class="v">FLAT</div><div class="l">Copy</div></div>
-          <div class="bf-s"><div class="v" style="color:var(--rd)">HIGH</div><div class="l">Bounce</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="darr-anim">
-      <div class="darr-chevron">→</div>
-      <div class="darr-ai-lbl">AI</div>
-    </div>
-    <div class="pnl aft" id="demo-after">
-      <div class="pnl-hd"><div class="pdot"></div>AFTER // AI_ENHANCED</div>
-      <div class="pnl-bd">
-        <div class="af-card">
-          <div class="demo-ai-badge">✦ AI OPTIMIZED</div>
-          <div class="af-badges"><span class="af-badge g">CLEAN</span><span class="af-badge m">BESTSELLER</span></div>
-          <div class="af-img" style="margin-top:8px">🧴✨</div>
-          <h5 id="demo-title-a" style="opacity:0;transition:opacity .5s .4s">Radiance Boost — Vitamin C Serum</h5>
-          <p id="demo-copy-a" style="opacity:0;transition:opacity .5s .6s">20% L-Ascorbic Acid. Lightweight, fast-absorbing. Designed for your morning ritual.</p>
-          <div id="demo-price-a" class="af-pr" style="opacity:0;transition:opacity .4s .8s"><span class="price">$34.00</span><span class="stars">★★★★★ 4.9</span></div>
-          <div class="af-row" style="margin-top:10px">
-            <div class="af-s"><div class="v" id="dm-e" style="opacity:0;transition:opacity .3s 1s">HIGH</div><div class="l">Engage</div></div>
-            <div class="af-s"><div class="v" id="dm-c" style="opacity:0;transition:opacity .3s 1.1s">SMART</div><div class="l">Copy</div></div>
-            <div class="af-s"><div class="v" id="dm-b" style="opacity:0;transition:opacity .3s 1.2s">LOW</div><div class="l">Bounce</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div style="display:flex;align-items:center;gap:16px;margin-top:16px" class="fi d3">
-    <p class="demo-note" style="margin:0">// This is a design concept — not a fabricated case study</p>
-    <button class="demo-replay-btn" onclick="replayDemo()">↺ replay</button>
-  </div>
-</div></section>
-<script>
-;(function(){
-  function runDemo(){
-    const wrap=document.getElementById('demo-wrap');
-    if(!wrap)return;
-    wrap.classList.remove('processing','done');
-    ['demo-title-a','demo-copy-a','demo-price-a','dm-e','dm-c','dm-b'].forEach(function(id){
-      var el=document.getElementById(id);if(el)el.style.opacity='0';
-    });
-    document.querySelectorAll('.demo-ai-badge').forEach(function(b){b.style.opacity='0';b.style.transform='translateY(6px)';});
-    setTimeout(function(){wrap.classList.add('processing');},400);
-    setTimeout(function(){
-      wrap.classList.remove('processing');
-      wrap.classList.add('done');
-      ['demo-title-a','demo-copy-a','demo-price-a','dm-e','dm-c','dm-b'].forEach(function(id){
-        var el=document.getElementById(id);if(el)el.style.opacity='1';
-      });
-    },1800);
-  }
-  window.replayDemo=runDemo;
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){if(e.isIntersecting){runDemo();obs.unobserve(e.target);}});
-  },{threshold:0.3});
-  var wrap=document.getElementById('demo-wrap');
-  if(wrap)obs.observe(wrap);
-})();
-</script>
-
 <!-- CASE STUDIES -->
 <section class="work" id="work"><div class="container">
-  <div class="sec-label fi">CASE_STUDIES</div>
-  <h2 class="sec-title fi d1">Selected work</h2>
-  <p class="sec-desc fi d2">Real projects, real outcomes. Long-term engagements with clients who needed a reliable partner.</p>
+  <div class="sec-label fi">WORK</div>
+  <h2 class="sec-title fi d1">Projects that shipped</h2>
+  <p class="sec-desc fi d2">Long-term engagements, real outcomes. Every project on here ran end-to-end — design, build, and delivery.</p>
   <div class="work-grid">
     <a class="case-card fi" href="./work-readz.html" style="text-decoration:none">
       <div class="proof-thumb" style="aspect-ratio:16/9;border-bottom:1px solid rgba(32,224,112,.12);border-radius:var(--r) var(--r) 0 0;background:radial-gradient(ellipse at 65% 45%,rgba(32,224,112,.18) 0%,rgba(32,224,112,.05) 45%,transparent 70%),linear-gradient(135deg,#0d1a12 0%,var(--bg-e) 100%)">
@@ -1913,9 +1823,9 @@ Return ONLY valid JSON (no markdown, no backticks):
 </style>
 <section class="clients" id="clients">
   <div class="container">
-    <div class="sec-label fi">CLIENTS_SAY</div>
-    <h2 class="sec-title fi d1">From the reviews</h2>
-    <p class="sec-desc fi d2">Real quotes from real clients.</p>
+    <div class="sec-label fi">CLIENT_REVIEWS</div>
+    <h2 class="sec-title fi d1">What clients say</h2>
+    <p class="sec-desc fi d2">19 completed jobs, all 5-star rated. These are the words they left behind.</p>
   </div>
   <div class="carousel-wrap fi d2">
     <div class="carousel-track" id="testimonial-track">
@@ -1965,6 +1875,97 @@ Return ONLY valid JSON (no markdown, no backticks):
   Array.from(track.children).forEach(s => track.appendChild(s.cloneNode(true)))
   track.classList.add('running')
 })()
+</script>
+
+<style>
+.demo-processing-bar{height:2px;background:linear-gradient(90deg,transparent,var(--cy),transparent);background-size:200% 100%;animation:demo-scan 1.8s ease infinite;margin:0 0 0;opacity:0;transition:opacity .3s;position:absolute;top:0;left:0;right:0}
+.demo-panel-wrap.processing .demo-processing-bar{opacity:1}
+@keyframes demo-scan{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.demo-ai-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--cy);background:var(--cy-d);border:1px solid var(--cy-b);border-radius:4px;padding:3px 9px;margin-bottom:8px;opacity:0;transform:translateY(6px);transition:all .4s .6s}
+.demo-panel-wrap.done .demo-ai-badge{opacity:1;transform:translateY(0)}
+.darr-anim{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.darr-chevron{font-family:var(--mono);font-size:18px;color:var(--cy);animation:darr-pulse 1.5s ease infinite}
+@keyframes darr-pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
+.darr-ai-lbl{font-family:var(--mono);font-size:8px;color:var(--txt-g);letter-spacing:.1em;text-transform:uppercase;writing-mode:vertical-rl;opacity:.6}
+.demo-replay-btn{font-family:var(--mono);font-size:10px;color:var(--txt-g);background:none;border:none;cursor:pointer;letter-spacing:.08em;transition:color .2s;display:inline-flex;align-items:center;gap:6px}
+.demo-replay-btn:hover{color:var(--cy)}
+</style>
+<section class="demo"><div class="container">
+  <div class="demo-head"><div class="sec-label fi">BUILT_FOR_THIS</div><h2 class="sec-title fi d1">This portfolio is the demo</h2><p class="sec-desc fi d2">The brief generator, the before/after panels, the scroll animations — built with the same stack I use for clients. n8n, Claude API, vanilla JS. No framework.</p></div>
+  <div class="demo-grid fi d2 demo-panel-wrap" id="demo-wrap" style="position:relative">
+    <div class="demo-processing-bar"></div>
+    <div class="pnl bef" id="demo-before">
+      <div class="pnl-hd"><div class="pdot"></div>BEFORE // GENERIC</div>
+      <div class="pnl-bd">
+        <div class="bf-card">
+          <div class="bf-ico">🧴</div>
+          <div>
+            <h5>Vitamin C Serum 30ml</h5>
+            <p class="desc">A serum with Vitamin C. Good for skin. Apply daily.</p>
+            <div class="price">$34.00</div>
+          </div>
+        </div>
+        <div class="bf-row">
+          <div class="bf-s"><div class="v">LOW</div><div class="l">Engage</div></div>
+          <div class="bf-s"><div class="v">FLAT</div><div class="l">Copy</div></div>
+          <div class="bf-s"><div class="v" style="color:var(--rd)">HIGH</div><div class="l">Bounce</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="darr-anim">
+      <div class="darr-chevron">→</div>
+      <div class="darr-ai-lbl">AI</div>
+    </div>
+    <div class="pnl aft" id="demo-after">
+      <div class="pnl-hd"><div class="pdot"></div>AFTER // AI_ENHANCED</div>
+      <div class="pnl-bd">
+        <div class="af-card">
+          <div class="demo-ai-badge">✦ AI OPTIMIZED</div>
+          <div class="af-badges"><span class="af-badge g">CLEAN</span><span class="af-badge m">BESTSELLER</span></div>
+          <div class="af-img" style="margin-top:8px">🧴✨</div>
+          <h5 id="demo-title-a" style="opacity:0;transition:opacity .5s .4s">Radiance Boost — Vitamin C Serum</h5>
+          <p id="demo-copy-a" style="opacity:0;transition:opacity .5s .6s">20% L-Ascorbic Acid. Lightweight, fast-absorbing. Designed for your morning ritual.</p>
+          <div id="demo-price-a" class="af-pr" style="opacity:0;transition:opacity .4s .8s"><span class="price">$34.00</span><span class="stars">★★★★★ 4.9</span></div>
+          <div class="af-row" style="margin-top:10px">
+            <div class="af-s"><div class="v" id="dm-e" style="opacity:0;transition:opacity .3s 1s">HIGH</div><div class="l">Engage</div></div>
+            <div class="af-s"><div class="v" id="dm-c" style="opacity:0;transition:opacity .3s 1.1s">SMART</div><div class="l">Copy</div></div>
+            <div class="af-s"><div class="v" id="dm-b" style="opacity:0;transition:opacity .3s 1.2s">LOW</div><div class="l">Bounce</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;margin-top:16px" class="fi d3">
+    <p class="demo-note" style="margin:0">// Product copy generated by Claude API via n8n — same integration available for your project</p>
+    <button class="demo-replay-btn" onclick="replayDemo()">↺ replay</button>
+  </div>
+</div></section>
+<script>
+;(function(){
+  function runDemo(){
+    const wrap=document.getElementById('demo-wrap');
+    if(!wrap)return;
+    wrap.classList.remove('processing','done');
+    ['demo-title-a','demo-copy-a','demo-price-a','dm-e','dm-c','dm-b'].forEach(function(id){
+      var el=document.getElementById(id);if(el)el.style.opacity='0';
+    });
+    document.querySelectorAll('.demo-ai-badge').forEach(function(b){b.style.opacity='0';b.style.transform='translateY(6px)';});
+    setTimeout(function(){wrap.classList.add('processing');},400);
+    setTimeout(function(){
+      wrap.classList.remove('processing');
+      wrap.classList.add('done');
+      ['demo-title-a','demo-copy-a','demo-price-a','dm-e','dm-c','dm-b'].forEach(function(id){
+        var el=document.getElementById(id);if(el)el.style.opacity='1';
+      });
+    },1800);
+  }
+  window.replayDemo=runDemo;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){runDemo();obs.unobserve(e.target);}});
+  },{threshold:0.3});
+  var wrap=document.getElementById('demo-wrap');
+  if(wrap)obs.observe(wrap);
+})();
 </script>
 
 <style>
@@ -2178,21 +2179,25 @@ Return ONLY valid JSON (no markdown, no backticks):
       <div class="why-card">
         <div class="why-card-num">01</div>
         <div class="why-card-title">One person, full stack</div>
-        <div class="why-card-text">Design + code + automation. No handoff friction, no translation layer between what's designed and what gets built.</div>
+        <div class="why-card-stat">6 disciplines · 0 handoff friction</div>
+        <div class="why-card-text">Design + code + automation. No translation layer between what's designed and what gets built.</div>
       </div>
       <div class="why-card">
         <div class="why-card-num">02</div>
         <div class="why-card-title">6+ years, 5 stars</div>
-        <div class="why-card-text">$20K+ on Upwork, Top Rated Plus. Long-term clients — not one-off gigs.</div>
+        <div class="why-card-stat">$20K+ · 19 jobs · Top Rated Plus</div>
+        <div class="why-card-text">Long-term clients, not one-off gigs. Repeat work because the first project always delivers.</div>
       </div>
       <div class="why-card">
         <div class="why-card-num">03</div>
         <div class="why-card-title">Feel right, not just look right</div>
-        <div class="why-card-text">Sound design, game dev, real-time systems — a sensory obsession that sharpens every UX decision.</div>
+        <div class="why-card-stat">10+ yrs music production · game dev</div>
+        <div class="why-card-text">Sound design and real-time systems teach you how interactions should feel. That instinct drives every UX decision.</div>
       </div>
       <div class="why-card">
         <div class="why-card-num">04</div>
         <div class="why-card-title">Async-first, worldwide</div>
+        <div class="why-card-stat">UTC-3 · Bilingual · Available now</div>
         <div class="why-card-text">Bilingual ES/EN, fully remote. Clear communication without timezone friction.</div>
       </div>
     </div>
