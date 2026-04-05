@@ -1448,9 +1448,7 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       <div class="brief-res-type">${b.projectType || ''}</div>
       ${challengeTagsHTML}
       ${timelineStrip}
-      ${b.budgetNote ? `<div class="brief-budget-note"><span class="brief-budget-icon">$</span><span>${b.budgetNote}</span></div>` : ''}
       ${b.insight ? `<div class="brief-block brief-insight"><span class="brief-insight-icon">→</span><div class="brief-block-text" style="font-style:italic;color:var(--txt-b)">${b.insight}</div></div>` : ''}
-      ${b.aiApproach ? `<div class="brief-ai-approach"><div class="brief-ai-approach-label">// AI_APPROACH</div><div class="brief-ai-approach-text">${b.aiApproach}</div></div>` : ''}
       ${artifactBlock ? `<div class="brief-block">
         <div class="brief-block-label">Project preview</div>
         ${artifactBlock}
@@ -1462,10 +1460,6 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
       ${deliverables ? `<div class="brief-block">
         <div class="brief-block-label">What you'll get</div>
         <div class="brief-deliverables">${deliverables}</div>
-      </div>` : ''}
-      ${whyMe ? `<div class="brief-block">
-        <div class="brief-block-label">Why VM Studio for this</div>
-        <div class="brief-whyme">${whyMe}</div>
       </div>` : ''}
       <div class="brief-block">
         <div class="brief-block-label">Suggested phases</div>
