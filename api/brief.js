@@ -14,7 +14,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const upstream = await fetch(
-      'https://vmstudio.app.n8n.cloud/webhook/bc2a3cb3-4171-45bd-88e9-3e689a0d7c31',
+      'https://vmstudio.app.n8n.cloud/webhook/dae4c7fb-e7bf-4baa-b5a5-2c70a26e5a6e',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
