@@ -1669,35 +1669,6 @@ footer{padding:32px;border-top:1px solid var(--brd);display:flex;justify-content
     const a = answers
     const goalStr = Array.isArray(a.goal) ? a.goal.join(', ') : (a.goal || '')
     const challengeStr = Array.isArray(a.challenge) ? a.challenge.join(', ') : (a.challenge || '')
-    const prompt = `You are writing a conversion brief for VM Studio — a one-person design and development studio run by Valentino Manrrique (UI/UX Designer, Frontend Developer, n8n automation expert, AI integration specialist — 6+ years, Upwork Top Rated Plus, $75/hr, 5 stars, $20K+ earned).
-
-Your job is not to summarize — it is to make this specific client feel deeply understood and confident that VM Studio is the right choice for their situation. Mirror their own words back. Be specific, never generic. Every field must speak directly to what this client said.
-
-Client answers:
-- Project type: ${a.projectType}
-- Main goals: ${goalStr}
-- Timeline: ${a.timeline}
-- Budget: ${a.budget}
-- Challenges: ${challengeStr}
-- Extra context: ${a.context || 'None provided'}
-
-Return ONLY valid JSON (no markdown, no backticks):
-{
-  "projectName": "A short, evocative 3–5 word name that captures the essence of their specific goal — not generic",
-  "projectType": "${a.projectType}",
-  "timelineEstimate": "Realistic delivery estimate based on their timeline and scope",
-  "complexity": "low, medium, or high — based on scope, timeline, and challenge combination",
-  "insight": "One sharp sentence naming the real underlying problem behind their stated challenge — the thing they feel but haven't fully articulated. This is the 'he already gets it' moment. Start with 'The real challenge here is...' or similar.",
-  "aiApproach": "2–3 sentences explaining the exact AI mechanism for this specific project. Not 'AI will help' — state precisely: what input Claude or an AI model receives, what it does to it (classifies, generates, extracts, scores, rewrites), what comes out the other end, and what the client never has to do manually again. Make it concrete enough that a non-technical client understands the time or effort saved.",
-  "scope": "2–3 sentences describing exactly what will be built. Use the client's own words where possible. Reference their specific goals and challenges directly. It must feel written for them, not from a template.",
-  "budgetNote": "One honest sentence on how their budget aligns with the scope — specific, not vague. If it's tight, say so honestly and explain what you'll prioritize.",
-  "deliverables": ["Concrete deliverable directly tied to their stated goal", "Second specific deliverable", "Third specific deliverable", "Handoff or post-launch support deliverable"],
-  "whyMe": ["Restate their challenge, then explain exactly why VM Studio has solved this before — 'Your challenge — [challenge] — is exactly...'", "Reference their specific goal or timeline with a concrete credential or past result", "A strong trust signal: Upwork Top Rated Plus, 5 stars, $20K+ earned, or a specific relevant outcome"],
-  "phases": ["Phase name: description specific to this project", "Phase name: description", "Phase name: description", "Phase name: handoff and support"],
-  "phaseDurations": ["e.g. 3 days", "e.g. 1 week", "e.g. 4 days", "e.g. 2 days"],
-  "nextStep": "One confident, action-oriented sentence. Tell them exactly what to do right now — e.g. 'Hit Start project below, send this brief on LinkedIn, and we will lock in a scoping call within 24 hours.'"
-}`
-
     // ── Level 2: validate body has all required fields before hitting the API ──
     const REQUIRED = ['projectType', 'goal', 'timeline', 'budget', 'challenge']
     const missing = REQUIRED.filter(k => { const v = a[k]; return !v || (Array.isArray(v) ? v.length === 0 : !String(v).trim()) })
